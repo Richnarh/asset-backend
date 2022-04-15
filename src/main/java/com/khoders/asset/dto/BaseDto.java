@@ -7,6 +7,8 @@ public class BaseDto {
     private String refNo;
     private String companyId;
     private String companyName;
+    private String userAccountId;
+    private String userAccountName;
     private LocalDate valueDate;
 
     public String getId() {
@@ -39,6 +41,22 @@ public class BaseDto {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getUserAccountId() {
+        return userAccountId;
+    }
+
+    public void setUserAccountId(String userAccountId) {
+        this.userAccountId = userAccountId;
+    }
+
+    public String getUserAccountName() {
+        return userAccountName;
+    }
+
+    public void setUserAccountName(String userAccountName) {
+        this.userAccountName = userAccountName;
     }
 
     public LocalDate getValueDate() {

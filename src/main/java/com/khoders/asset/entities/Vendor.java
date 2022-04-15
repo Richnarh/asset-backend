@@ -8,8 +8,8 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table(name = "partner")
-public class Partner extends Ref{
+@Table(name = "vendor")
+public class Vendor extends Ref{
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
@@ -17,12 +17,12 @@ public class Partner extends Ref{
     @Type(type = "org.hibernate.type.UUIDCharType")
     private UUID id;
 
-    @Column(name = "partner_type")
+    @Column(name = "vendor_type")
     @Enumerated(EnumType.STRING)
-    private ClientType clientType;
+    private ClientType vendorType;
 
-    @Column(name = "partner_name")
-    private String partnerName;
+    @Column(name = "vendor_name")
+    private String vendorName;
 
     @Column(name = "email_address")
     private String emailAddress;
@@ -40,20 +40,20 @@ public class Partner extends Ref{
         this.id = id;
     }
 
-    public ClientType getClientType() {
-        return clientType;
+    public ClientType getVendorType() {
+        return vendorType;
     }
 
-    public void setClientType(ClientType clientType) {
-        this.clientType = clientType;
+    public void setVendorType(ClientType vendorType) {
+        this.vendorType = vendorType;
     }
 
-    public String getPartnerName() {
-        return partnerName;
+    public String getVendorName() {
+        return vendorName;
     }
 
-    public void setPartnerName(String partnerName) {
-        this.partnerName = partnerName;
+    public void setVendorName(String vendorName) {
+        this.vendorName = vendorName;
     }
 
     public String getEmailAddress() {

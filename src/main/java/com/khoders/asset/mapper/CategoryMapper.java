@@ -2,7 +2,6 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.dto.CategoryDto;
 import com.khoders.asset.entities.Category;
-import com.khoders.asset.services.CategoryService;
 import com.khoders.asset.utils.SpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,8 +27,7 @@ public class CategoryMapper
         return category;
     }
 
-    public CategoryDto toDto(Category category)
-    {
+    public CategoryDto toDto(Category category) {
         CategoryDto dto = new CategoryDto();
         if(category == null){
             return null;

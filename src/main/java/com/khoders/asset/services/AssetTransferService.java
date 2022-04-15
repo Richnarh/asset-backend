@@ -23,26 +23,9 @@ public class AssetTransferService {
     public AssetTransfer saveTransfer(AssetTransfer assetTransfer) {
         return builder.save(assetTransfer);
     }
-
-    public List<AssetTransfer> transferList() {
-        log.info("find all triggered");
-        return builder.findAll(AssetTransfer.class);
-    }
-
+    public List<AssetTransfer> transferList() {return builder.findAll(AssetTransfer.class);}
     public AssetTransfer findById(String id) {
         return builder.findOne(id, AssetTransfer.class);
     }
-
-    public boolean delete(String transferId) {
-        try {
-            AssetTransfer assetTransfer = findById(transferId);
-            if (assetTransfer != null) {
-                builder.session().delete(assetTransfer);
-            }
-            return true;
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
+    public boolean delete(String transferId) {return builder.deleteById(transferId, AssetTransfer.class);}
 }

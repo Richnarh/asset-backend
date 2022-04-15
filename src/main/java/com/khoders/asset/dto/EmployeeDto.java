@@ -1,54 +1,16 @@
-package com.khoders.asset.entities;
+package com.khoders.asset.dto;
 
 import com.khoders.resource.enums.Title;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
-import java.util.UUID;
-
-@Entity
-@Table(name = "employee")
-public class Employee extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
-
-    @Column(name = "title")
-    @Enumerated(EnumType.STRING)
+public class EmployeeDto extends BaseDto {
     private Title title;
-
-    @Column(name = "first_name")
     private String firstName;
-
-    @Column(name = "surname")
     private String surname;
-
-    @Column(name = "other_name")
     private String otherName;
-
-    @Column(name = "email_address")
     private String emailAddress;
-
-    @Column(name = "phone_number")
     private String phoneNumber;
-
-    @JoinColumn(name = "department", referencedColumnName = "id")
-    @ManyToOne
-    private Department department;
-
-    public UUID getId()
-    {
-        return id;
-    }
-
-    public void setId(UUID id)
-    {
-        this.id = id;
-    }
+    private String departmentName;
+    private String departmentId;
 
     public Title getTitle() {
         return title;
@@ -98,11 +60,19 @@ public class Employee extends Ref{
         this.phoneNumber = phoneNumber;
     }
 
-    public Department getDepartment() {
-        return department;
+    public String getDepartmentName() {
+        return departmentName;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
+    }
+
+    public String getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(String departmentId) {
+        this.departmentId = departmentId;
     }
 }

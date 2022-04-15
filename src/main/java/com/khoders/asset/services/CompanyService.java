@@ -32,17 +32,7 @@ public class CompanyService
     public Company findById(String companyId){
         return builder.findOne(companyId, Company.class);
     }
-
     public boolean delete(String companyId){
-        try {
-            Company company = findById(companyId);
-            if(company != null) {
-                builder.session().delete(company);
-            }
-            return true;
-        }catch (HibernateException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return builder.deleteById(companyId, Company.class);
     }
 }

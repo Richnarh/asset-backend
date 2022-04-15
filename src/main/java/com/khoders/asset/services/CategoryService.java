@@ -17,8 +17,7 @@ import java.util.UUID;
 @Transactional
 @Service
 @Repository
-public class CategoryService
-{
+public class CategoryService {
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     @Autowired
     private CrudBuilder builder;
@@ -34,17 +33,7 @@ public class CategoryService
     public Category findById(String id){
         return builder.findOne(id, Category.class);
     }
-    public boolean delete(String categoryId)
-    {
-        try {
-            Category category = findById(categoryId);
-            if(category != null) {
-                builder.session().delete(category);
-            }
-            return true;
-        }catch (HibernateException e) {
-            e.printStackTrace();
-        }
-        return false;
+    public boolean delete(String categoryId) {
+        return builder.deleteById(categoryId, Category.class);
     }
 }

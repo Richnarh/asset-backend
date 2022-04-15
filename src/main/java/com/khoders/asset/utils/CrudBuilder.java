@@ -1,5 +1,6 @@
 package com.khoders.asset.utils;
 
+import com.khoders.asset.entities.AssetDispatchRequest;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -12,6 +13,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,20 +49,31 @@ public class CrudBuilder{
     }
 
     public <T> List<T>  findAll(Class<T> clazz){
-        CriteriaBuilder builder = session().getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
-        Root<T> root = criteriaQuery.from(clazz);
-        criteriaQuery.select(root);
-        Query<?> query = session().createQuery(criteriaQuery);
+        try {
+            CriteriaBuilder builder = session().getCriteriaBuilder();
+            CriteriaQuery<T> criteriaQuery = builder.createQuery(clazz);
+            Root<T> root = criteriaQuery.from(clazz);
+            criteriaQuery.select(root);
+            Query<?> query = session().createQuery(criteriaQuery);
 
-        return (List<T>) query.getResultList();
+            return (List<T>) query.getResultList();
+        }catch (Exception e){
+            e.printStackTrace();
+            return Collections.emptyList();
+        }
     }
 
-    public <T> CrudBuilder T (Class<T> clazz){
-        CriteriaBuilder criteriaBuilder =	session().getCriteriaBuilder();
-        CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(clazz);
-        Root<T> root = criteriaQuery.from(clazz);
-        return this;
+    public <T> boolean deleteById(String id, Class<T> clazz) {
+        try {
+            Object obj = findOne(id, clazz);
+            if (obj != null) {
+                session().delete(obj);
+            }
+            return true;
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public Session session(){
