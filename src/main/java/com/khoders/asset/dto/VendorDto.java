@@ -1,7 +1,5 @@
 package com.khoders.asset.dto;
 
-import com.khoders.resource.enums.ClientType;
-
 public class VendorDto extends BaseDto {
     private String vendorType;
     private String vendorName;
