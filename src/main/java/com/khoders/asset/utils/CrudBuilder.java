@@ -115,7 +115,6 @@ public class CrudBuilder {
         try {
             if (id == null) return false;
             Object obj = session().find(clazz, id);
-            log.debug("Object Log: {} ", SpringUtils.KJson().toJson(obj));
             if (obj != null) {
                 session().delete(obj);
                 return true;

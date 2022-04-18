@@ -1,9 +1,7 @@
 package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.CategoryDto;
-import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.Category;
-import com.khoders.asset.entities.Location;
 import com.khoders.asset.mapper.CategoryMapper;
 import com.khoders.asset.services.CategoryService;
 import com.khoders.asset.utils.ApiResponse;

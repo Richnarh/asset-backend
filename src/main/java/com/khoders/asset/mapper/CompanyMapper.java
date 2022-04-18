@@ -8,7 +8,6 @@ import com.khoders.asset.utils.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.NotFoundException;
 import java.time.LocalDateTime;
 
 @Component

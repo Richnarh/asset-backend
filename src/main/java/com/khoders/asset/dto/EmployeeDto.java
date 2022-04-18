@@ -1,7 +1,5 @@
 package com.khoders.asset.dto;
 
-import com.khoders.resource.enums.Title;
-
 public class EmployeeDto extends BaseDto {
     private String title;
     private String firstName;
