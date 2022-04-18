@@ -11,49 +11,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("api/v1/auth")
 public class AuthController {
-    @Autowired private AuthService authService;
-    @Autowired private UserMapper mapper;
+    @Autowired
+    private AuthService authService;
+    @Autowired
+    private UserMapper mapper;
 
     @PostMapping(value = "/register")
-    public ResponseEntity<UserAccount> saveUserAccount(@RequestBody UserAccountDto dto){
-        try
-        {
+    public ResponseEntity<UserAccount> saveUserAccount(@RequestBody UserAccountDto dto) {
+        try {
             UserAccount entity = mapper.toEntity(dto);
             UserAccount user = authService.saveUser(entity);
 
-            if(user == null)
-            {
+            if (user == null) {
                 return ApiResponse.error(Msg.setMsg("Unknown Error"), null);
             }
             return ApiResponse.created(Msg.setMsg("customer created successfully"), mapper.toDto(user));
-        }catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), null);
         }
     }
 
     @GetMapping(value = "/login")
-    public ResponseEntity<UserAccount> login(@RequestBody LoginDto dto)
-    {
+    public ResponseEntity<UserAccount> login(@RequestBody LoginDto dto) {
         UserAccount userAccount = authService.doLogin(dto);
         return ApiResponse.ok(Msg.setMsg("Login success"), mapper.toDto(userAccount));
     }
 
     @GetMapping(value = "/{userId}")
-    public ResponseEntity<UserAccount> findUser(@PathVariable(value = "userId") String userId){
+    public ResponseEntity<UserAccount> findUser(@PathVariable(value = "userId") String userId) {
         try {
             UserAccount user = authService.findById(userId);
-            if(user == null) {
+            if (user == null) {
                 return ApiResponse.notFound(Msg.setMsg("No User Found"), null);
             }
-             return ApiResponse.ok(Msg.setMsg("User Found"), mapper.toDto(user));
-        }catch (Exception e){
+            return ApiResponse.ok(Msg.setMsg("User Found"), mapper.toDto(user));
+        } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), null);
         }

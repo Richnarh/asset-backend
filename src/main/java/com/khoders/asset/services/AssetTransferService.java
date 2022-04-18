@@ -2,7 +2,6 @@ package com.khoders.asset.services;
 
 import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.utils.CrudBuilder;
-import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ public class AssetTransferService {
     }
 
     public List<AssetTransfer> transferList() {
-        log.info("find all triggered");
         return builder.findAll(AssetTransfer.class);
     }
 
@@ -34,15 +32,6 @@ public class AssetTransferService {
     }
 
     public boolean delete(String transferId) {
-        try {
-            AssetTransfer assetTransfer = findById(transferId);
-            if (assetTransfer != null) {
-                builder.session().delete(assetTransfer);
-            }
-            return true;
-        } catch (HibernateException e) {
-            e.printStackTrace();
-        }
-        return false;
+        return builder.deleteById(transferId, AssetTransfer.class);
     }
 }

@@ -1,37 +1,24 @@
 package com.khoders.asset.entities;
 
-import com.khoders.resource.jpa.EntityModel;
-import com.khoders.resource.utilities.SystemUtils;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import com.khoders.resource.spring.SpringBaseModel;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
-import java.util.UUID;
 
 @MappedSuperclass
-public class Ref extends EntityModel {
+public class Ref extends SpringBaseModel {
 
-    @Column(name = "ref_no")
-    private String refNo;
-    public String getRefNo() {
-        return refNo;
+    @JoinColumn(name = "company")
+    @ManyToOne
+    private Company company;
+
+    public Company getCompany() {
+        return company;
     }
 
-    public void setRefNo(String refNo) {
-        this.refNo = refNo;
+    public void setCompany(Company company) {
+        this.company = company;
     }
 
-    public void genRef()
-    {
-        if (getRefNo() != null)
-        {
-            setRefNo(getRefNo());
-        } else
-        {
-            setRefNo(SystemUtils.generateRefNo());
-        }
-    }
 }

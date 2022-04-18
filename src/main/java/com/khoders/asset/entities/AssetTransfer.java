@@ -1,41 +1,26 @@
 package com.khoders.asset.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.util.UUID;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "asset_transfer")
-public class AssetTransfer extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class AssetTransfer extends Ref {
 
-    @Column(name = "transfer_from")
+    @JoinColumn(name = "transfer_from", referencedColumnName = "id")
+    @ManyToOne
     private Location transferFrom;
 
-    @Column(name = "transfer_to")
+    @JoinColumn(name = "transfer_to", referencedColumnName = "id")
+    @ManyToOne
     private Location transferTo;
 
     @Column(name = "transfer_date")
-    private Location transferDate;
+    private LocalDate transferDate;
 
     @Column(name = "description")
     @Lob
-    private Location description;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
+    private String description;
 
     public Location getTransferFrom() {
         return transferFrom;
@@ -53,19 +38,19 @@ public class AssetTransfer extends Ref{
         this.transferTo = transferTo;
     }
 
-    public Location getTransferDate() {
+    public LocalDate getTransferDate() {
         return transferDate;
     }
 
-    public void setTransferDate(Location transferDate) {
+    public void setTransferDate(LocalDate transferDate) {
         this.transferDate = transferDate;
     }
 
-    public Location getDescription() {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Location description) {
+    public void setDescription(String description) {
         this.description = description;
     }
 }

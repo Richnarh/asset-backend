@@ -1,20 +1,12 @@
 package com.khoders.asset.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "user_account")
 public class UserAccount extends Ref {
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
 
     @Column(name = "email_address")
     private String emailAddress;
@@ -27,14 +19,6 @@ public class UserAccount extends Ref {
 
     @Column(name = "password")
     private String password;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getEmailAddress() {
         return emailAddress;

@@ -1,51 +1,58 @@
 package com.khoders.asset.dto;
 
-import com.khoders.asset.entities.Location;
+public class AssetTransferDto extends BaseDto {
+    private String transferFrom;
+    private String transferFromId;
+    private String transferTo;
+    private String transferToId;
+    private String transferDate;
+    private String description;
 
-public class AssetTransferDto extends BaseDto
-{
-    private Location transferFrom;
-    private Location transferTo;
-    private Location transferDate;
-    private Location description;
-
-    public Location getTransferFrom()
-    {
+    public String getTransferFrom() {
         return transferFrom;
     }
 
-    public void setTransferFrom(Location transferFrom)
-    {
+    public void setTransferFrom(String transferFrom) {
         this.transferFrom = transferFrom;
     }
 
-    public Location getTransferTo()
-    {
+    public String getTransferFromId() {
+        return transferFromId;
+    }
+
+    public void setTransferFromId(String transferFromId) {
+        this.transferFromId = transferFromId;
+    }
+
+    public String getTransferTo() {
         return transferTo;
     }
 
-    public void setTransferTo(Location transferTo)
-    {
+    public void setTransferTo(String transferTo) {
         this.transferTo = transferTo;
     }
 
-    public Location getTransferDate()
-    {
+    public String getTransferToId() {
+        return transferToId;
+    }
+
+    public void setTransferToId(String transferToId) {
+        this.transferToId = transferToId;
+    }
+
+    public String getTransferDate() {
         return transferDate;
     }
 
-    public void setTransferDate(Location transferDate)
-    {
+    public void setTransferDate(String transferDate) {
         this.transferDate = transferDate;
     }
 
-    public Location getDescription()
-    {
+    public String getDescription() {
         return description;
     }
 
-    public void setDescription(Location description)
-    {
+    public void setDescription(String description) {
         this.description = description;
     }
 }

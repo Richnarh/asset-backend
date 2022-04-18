@@ -7,15 +7,18 @@ import java.util.UUID;
 
 public class SpringUtils {
 
-    public static UUID stringToUUID(String stringName){
+    public static UUID stringToUUID(String stringName) {
         return UUID.fromString(stringName);
     }
-    public static String UUIDtoString(UUID uuid){
+
+    public static String UUIDtoString(UUID uuid) {
         return uuid.toString();
     }
 
-    public static Gson KJson(){
+    public static Gson KJson() {
         GsonBuilder builder = new GsonBuilder();
         return builder.setPrettyPrinting().create();
     }
+
+
 }

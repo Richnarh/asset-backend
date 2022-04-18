@@ -1,36 +1,18 @@
 package com.khoders.asset.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import java.util.UUID;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "category")
-public class Category extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class Category extends Ref {
 
     @Column(name = "category_name")
     private String categoryName;
 
     @Column(name = "description")
     private String description;
-
-    public UUID getId()
-    {
-        return id;
-    }
-
-    public void setId(UUID id)
-    {
-        this.id = id;
-    }
 
     public String getCategoryName() {
         return categoryName;

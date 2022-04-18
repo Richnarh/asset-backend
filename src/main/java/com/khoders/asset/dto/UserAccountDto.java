@@ -1,5 +1,6 @@
 package com.khoders.asset.dto;
-public class UserAccountDto extends BaseDto{
+
+public class UserAccountDto extends BaseDto {
     private String emailAddress;
     private String primaryNumber;
     private String secondNumber;
