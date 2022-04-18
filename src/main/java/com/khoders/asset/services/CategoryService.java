@@ -2,8 +2,6 @@ package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Category;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.asset.utils.SpringUtils;
-import org.hibernate.HibernateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.UUID;
 
 @Transactional
 @Service
@@ -22,17 +19,18 @@ public class CategoryService {
     @Autowired
     private CrudBuilder builder;
 
-    public Category saveCategory(Category category)
-    {
+    public Category saveCategory(Category category) {
         return builder.save(category);
     }
-    public List<Category> categoryList()
-    {
+
+    public List<Category> categoryList() {
         return builder.findAll(Category.class);
     }
-    public Category findById(String id){
-        return builder.findOne(id, Category.class);
+
+    public Category findById(String id) {
+        return builder.simpleFind(Category.class, id);
     }
+
     public boolean delete(String categoryId) {
         return builder.deleteById(categoryId, Category.class);
     }

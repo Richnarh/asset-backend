@@ -1,6 +1,6 @@
 package com.khoders.asset.dto;
 
-public class DepartmentDto extends BaseDto{
+public class DepartmentDto extends BaseDto {
     private String departmentCode;
     private String departmentName;
 

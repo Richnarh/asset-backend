@@ -21,7 +21,13 @@
         <mapping class="com.khoders.asset.entities.Category"/>
         <mapping class="com.khoders.asset.entities.Company"/>
         <mapping class="com.khoders.asset.entities.Employee"/>
-        <mapping class="com.khoders.asset.entities.Partner"/>
+        <mapping class="com.khoders.asset.entities.Vendor"/>
+        <mapping class="com.khoders.asset.entities.Department"/>
+        <mapping class="com.khoders.asset.entities.AssetRequestApproval"/>
+        <mapping class="com.khoders.asset.entities.Inventory"/>
+        <mapping class="com.khoders.asset.entities.InventoryItem"/>
+        <mapping class="com.khoders.asset.entities.AssetRegister"/>
+        <mapping class="com.khoders.asset.entities.AssetDispatchRequest"/>
         <mapping class="com.khoders.asset.entities.accounting.Account"/>
     </session-factory>
 

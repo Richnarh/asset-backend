@@ -1,20 +1,10 @@
 package com.khoders.asset.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "inventory_item")
-public class InventoryItem extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class InventoryItem extends Ref {
 
     @Column(name = "product_name")
     private String productName;
@@ -35,14 +25,6 @@ public class InventoryItem extends Ref{
 
     @Column(name = "total_amount")
     private double totalAmount;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getProductName() {
         return productName;
@@ -94,6 +76,6 @@ public class InventoryItem extends Ref{
 
     @Override
     public String toString() {
-        return productName + " "+ serialNumber ;
+        return productName + " " + serialNumber;
     }
 }

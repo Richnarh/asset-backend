@@ -1,21 +1,11 @@
 package com.khoders.asset.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "inventory")
-public class Inventory extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class Inventory extends Ref {
 
     @Column(name = "receipt_no")
     private String receiptNo;
@@ -23,11 +13,11 @@ public class Inventory extends Ref{
     @Column(name = "received_date")
     private LocalDate receivedDate;
 
-    @JoinColumn(name = "received_by")
+    @JoinColumn(name = "employee", referencedColumnName = "id")
     @ManyToOne
     private Employee receivedBy;
 
-    @JoinColumn(name = "received_at")
+    @JoinColumn(name = "location", referencedColumnName = "id")
     @ManyToOne
     private Location receivedAt;
 
@@ -37,14 +27,6 @@ public class Inventory extends Ref{
 
     @Column(name = "total_payable")
     private double totalPayable;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getReceiptNo() {
         return receiptNo;

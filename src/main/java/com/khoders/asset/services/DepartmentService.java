@@ -13,18 +13,22 @@ import java.util.List;
 @Repository
 @Service
 public class DepartmentService {
-    @Autowired private CrudBuilder builder;
+    @Autowired
+    private CrudBuilder builder;
 
-    public Department save(Department department){
+    public Department save(Department department) {
         return builder.save(department);
     }
-    public List<Department> departments(){
+
+    public List<Department> departments() {
         return builder.findAll(Department.class);
     }
-    public Department findById(String departmentId){
-        return builder.findOne(departmentId,Department.class);
+
+    public Department findById(String departmentId) {
+        return builder.findOne(departmentId, Department.class);
     }
-    public boolean delete(String departmentId){
-        return builder.deleteById(departmentId,Department.class);
+
+    public boolean delete(String departmentId) {
+        return builder.deleteById(departmentId, Department.class);
     }
 }

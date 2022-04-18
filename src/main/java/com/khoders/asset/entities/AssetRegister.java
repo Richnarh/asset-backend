@@ -1,22 +1,13 @@
 package com.khoders.asset.entities;
 
 import com.khoders.asset.entities.constants.AssetStatus;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "asset_register")
-public class AssetRegister extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class AssetRegister extends Ref {
 
     @Column(name = "asset_code")
     private String assetCode;
@@ -38,14 +29,6 @@ public class AssetRegister extends Ref{
     @Column(name = "description")
     @Lob
     private String description;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public String getAssetCode() {
         return assetCode;

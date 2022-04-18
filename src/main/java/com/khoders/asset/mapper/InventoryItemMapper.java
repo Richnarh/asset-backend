@@ -5,7 +5,6 @@ import com.khoders.asset.entities.Category;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.InventoryItem;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.asset.utils.SpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class InventoryItemMapper {
     public InventoryItem toEntity(InventoryItemDto dto) throws Exception {
         InventoryItem inventoryItem = new InventoryItem();
         if (dto.getId() != null) {
-            inventoryItem.setId(SpringUtils.stringToUUID(dto.getId()));
+            inventoryItem.setId(dto.getId());
         }
         inventoryItem.setRefNo(inventoryItem.getRefNo());
         inventoryItem.setProductName(dto.getProductName());
@@ -49,19 +48,17 @@ public class InventoryItemMapper {
 
     public InventoryItemDto toDto(InventoryItem inventoryItem) {
         InventoryItemDto dto = new InventoryItemDto();
-        if (inventoryItem.getId() == null) {
-            return null;
-        }
-        dto.setId(SpringUtils.UUIDtoString(inventoryItem.getId()));
+        if (inventoryItem.getId() == null) return null;
+        dto.setId(inventoryItem.getId());
         dto.setQuantity(inventoryItem.getQuantity());
         dto.setSerialNumber(inventoryItem.getSerialNumber());
         dto.setProductName(inventoryItem.getProductName());
         dto.setTotalAmount(inventoryItem.getTotalAmount());
         if (inventoryItem.getInventory() != null) {
-            dto.setInventoryId(SpringUtils.UUIDtoString(inventoryItem.getInventory().getId()));
+            dto.setInventoryId(inventoryItem.getInventory().getId());
         }
         if (inventoryItem.getProductCategory() != null) {
-            dto.setProductCategoryId(SpringUtils.UUIDtoString(inventoryItem.getProductCategory().getId()));
+            dto.setProductCategoryId(inventoryItem.getProductCategory().getId());
             dto.setProductCategoryName(inventoryItem.getProductCategory().getCategoryName());
         }
         return dto;

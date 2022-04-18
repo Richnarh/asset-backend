@@ -3,16 +3,16 @@ package com.khoders.asset.entities.constants;
 import com.khoders.resource.utilities.MsgResolver;
 
 public enum ApprovalStatus implements MsgResolver {
-    PENDING("PENDING", "Pending"),
-    ACCEPTED("ACCEPTED", "Accepted"),
-    REJECTED("REJECTED", "Rejected");
+    PENDING("PENDING", "Pending"), ACCEPTED("ACCEPTED", "Accepted"), REJECTED("REJECTED", "Rejected");
 
     private final String code;
     private final String label;
-    private ApprovalStatus(String code, String label){
-        this.code=code;
-        this.label=label;
+
+    private ApprovalStatus(String code, String label) {
+        this.code = code;
+        this.label = label;
     }
+
     @Override
     public String getCode() {
         return code;

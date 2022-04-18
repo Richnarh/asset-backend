@@ -1,6 +1,6 @@
 package com.khoders.asset.dto;
 
-public class LocationDto extends BaseDto{
+public class LocationDto extends BaseDto {
     private String locationName;
     private String address;
 

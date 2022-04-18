@@ -6,7 +6,6 @@ import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.Location;
 import com.khoders.asset.entities.Vendor;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.asset.utils.SpringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ public class InventoryMapper {
     public Inventory toEntity(InventoryDto dto) throws Exception {
         Inventory inventory = new Inventory();
         if (dto.getId() != null) {
-            inventory.setId(SpringUtils.stringToUUID(dto.getId()));
+            inventory.setId(dto.getId());
         }
         inventory.setRefNo(inventory.getRefNo());
         inventory.setReceiptNo(dto.getReceiptNo());

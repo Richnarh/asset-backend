@@ -13,18 +13,22 @@ import java.util.List;
 @Repository
 @Service
 public class VendorService {
-    @Autowired private CrudBuilder builder;
+    @Autowired
+    private CrudBuilder builder;
 
-    public Vendor save(Vendor vendor){
+    public Vendor save(Vendor vendor) {
         return builder.save(vendor);
     }
-    public List<Vendor> vendors(){
+
+    public List<Vendor> vendors() {
         return builder.findAll(Vendor.class);
     }
-    public Vendor findById(String vendorId){
-        return builder.findOne(vendorId,Vendor.class);
+
+    public Vendor findById(String vendorId) {
+        return builder.findOne(vendorId, Vendor.class);
     }
-    public boolean delete(String vendorId){
-        return builder.deleteById(vendorId,Vendor.class);
+
+    public boolean delete(String vendorId) {
+        return builder.deleteById(vendorId, Vendor.class);
     }
 }

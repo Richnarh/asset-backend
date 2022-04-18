@@ -2,7 +2,7 @@ package com.khoders.asset.dto;
 
 import com.khoders.asset.entities.constants.ApprovalStatus;
 
-public class AssetDispatchRequestDto extends BaseDto{
+public class AssetDispatchRequestDto extends BaseDto {
     private String departmentName;
     private String departmentId;
     private String receivedBy;

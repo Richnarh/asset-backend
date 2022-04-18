@@ -1,21 +1,11 @@
 package com.khoders.asset.entities;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.UUID;
 
 @Entity
 @Table(name = "asset_request_approval")
-public class AssetRequestApproval extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class AssetRequestApproval extends Ref {
 
     @JoinColumn(name = "approved_by", referencedColumnName = "id")
     @ManyToOne
@@ -31,14 +21,6 @@ public class AssetRequestApproval extends Ref{
     @Column(name = "description")
     @Lob
     private String description;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public Employee getApprovedBy() {
         return approvedBy;

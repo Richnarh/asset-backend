@@ -3,7 +3,7 @@ package com.khoders.asset.dto;
 import com.khoders.resource.enums.Title;
 
 public class EmployeeDto extends BaseDto {
-    private Title title;
+    private String title;
     private String firstName;
     private String surname;
     private String otherName;
@@ -12,11 +12,11 @@ public class EmployeeDto extends BaseDto {
     private String departmentName;
     private String departmentId;
 
-    public Title getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(Title title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 

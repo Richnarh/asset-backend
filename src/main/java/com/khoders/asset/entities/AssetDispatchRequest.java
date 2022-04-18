@@ -1,22 +1,12 @@
 package com.khoders.asset.entities;
 
 import com.khoders.asset.entities.constants.ApprovalStatus;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "asset_dispatch_request")
-public class AssetDispatchRequest extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
-
+public class AssetDispatchRequest extends Ref {
     @JoinColumn(name = "department", referencedColumnName = "id")
     @ManyToOne
     private Department department;
@@ -39,14 +29,6 @@ public class AssetDispatchRequest extends Ref{
     @Column(name = "description")
     @Lob
     private String description;
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public Department getDepartment() {
         return department;

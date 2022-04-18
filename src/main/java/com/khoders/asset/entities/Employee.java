@@ -1,21 +1,12 @@
 package com.khoders.asset.entities;
 
 import com.khoders.resource.enums.Title;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "employee")
-public class Employee extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class Employee extends Ref {
 
     @Column(name = "title")
     @Enumerated(EnumType.STRING)
@@ -39,16 +30,6 @@ public class Employee extends Ref{
     @JoinColumn(name = "department", referencedColumnName = "id")
     @ManyToOne
     private Department department;
-
-    public UUID getId()
-    {
-        return id;
-    }
-
-    public void setId(UUID id)
-    {
-        this.id = id;
-    }
 
     public Title getTitle() {
         return title;

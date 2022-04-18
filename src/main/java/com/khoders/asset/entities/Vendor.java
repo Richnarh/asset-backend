@@ -1,21 +1,12 @@
 package com.khoders.asset.entities;
 
 import com.khoders.resource.enums.ClientType;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Table(name = "vendor")
-public class Vendor extends Ref{
-    @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", columnDefinition = "varchar(255)")
-    @Type(type = "org.hibernate.type.UUIDCharType")
-    private UUID id;
+public class Vendor extends Ref {
 
     @Column(name = "vendor_type")
     @Enumerated(EnumType.STRING)
@@ -29,16 +20,6 @@ public class Vendor extends Ref{
 
     @Column(name = "phone_number")
     private String phoneNumber;
-
-    public UUID getId()
-    {
-        return id;
-    }
-
-    public void setId(UUID id)
-    {
-        this.id = id;
-    }
 
     public ClientType getVendorType() {
         return vendorType;

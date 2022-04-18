@@ -1,7 +1,6 @@
 package com.khoders.asset.dto;
 
-public class CompanyDto
-{
+public class CompanyDto {
     private String id;
     private String companyName;
     private String telephone;
@@ -11,83 +10,67 @@ public class CompanyDto
     private String userAccountName;
     private String userAccountId;
 
-    public String getId()
-    {
+    public String getId() {
         return id;
     }
 
-    public void setId(String id)
-    {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getCompanyName()
-    {
+    public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(String companyName)
-    {
+    public void setCompanyName(String companyName) {
         this.companyName = companyName;
     }
 
-    public String getTelephone()
-    {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(String telephone)
-    {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 
-    public String getEmailAddress()
-    {
+    public String getEmailAddress() {
         return emailAddress;
     }
 
-    public void setEmailAddress(String emailAddress)
-    {
+    public void setEmailAddress(String emailAddress) {
         this.emailAddress = emailAddress;
     }
 
-    public String getWebsite()
-    {
+    public String getWebsite() {
         return website;
     }
 
-    public void setWebsite(String website)
-    {
+    public void setWebsite(String website) {
         this.website = website;
     }
 
-    public String getCompanyAddress()
-    {
+    public String getCompanyAddress() {
         return companyAddress;
     }
 
-    public void setCompanyAddress(String companyAddress)
-    {
+    public void setCompanyAddress(String companyAddress) {
         this.companyAddress = companyAddress;
     }
 
-    public String getUserAccountName()
-    {
+    public String getUserAccountName() {
         return userAccountName;
     }
 
-    public void setUserAccountName(String userAccountName)
-    {
+    public void setUserAccountName(String userAccountName) {
         this.userAccountName = userAccountName;
     }
 
-    public String getUserAccountId()
-    {
+    public String getUserAccountId() {
         return userAccountId;
     }
 
-    public void setUserAccountId(String userAccountId)
-    {
+    public void setUserAccountId(String userAccountId) {
         this.userAccountId = userAccountId;
     }
 }

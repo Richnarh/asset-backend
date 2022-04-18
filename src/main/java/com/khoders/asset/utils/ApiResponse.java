@@ -7,8 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ApiResponse {
-    public static <T> ResponseEntity<T> ok(String message, Object responseObj)
-    {
+    public static <T> ResponseEntity<T> ok(String message, Object responseObj) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("message", message);
         map.put("success", true);
@@ -17,8 +16,7 @@ public class ApiResponse {
         return new ResponseEntity<>((T) map, HttpStatus.OK);
     }
 
-    public static <T> ResponseEntity<T> created(String message, Object responseObj)
-    {
+    public static <T> ResponseEntity<T> created(String message, Object responseObj) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("message", message);
         map.put("success", true);
@@ -27,8 +25,7 @@ public class ApiResponse {
         return new ResponseEntity<>((T) map, HttpStatus.CREATED);
     }
 
-    public static <T> ResponseEntity<T> notFound(String message, Object responseObj)
-    {
+    public static <T> ResponseEntity<T> notFound(String message, Object responseObj) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("message", message);
         map.put("success", false);
