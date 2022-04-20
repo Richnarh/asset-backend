@@ -19,7 +19,7 @@ public class AssetDispatchRequestService {
     @Autowired
     private CrudBuilder builder;
 
-    public AssetDispatchRequest saveDispatchRequest(AssetDispatchRequest dispatchRequest) {
+    public AssetDispatchRequest save(AssetDispatchRequest dispatchRequest) {
         return builder.save(dispatchRequest);
     }
 
@@ -28,7 +28,7 @@ public class AssetDispatchRequestService {
     }
 
     public AssetDispatchRequest findById(String dispatchRequestId) {
-        return builder.findOne(dispatchRequestId, AssetDispatchRequest.class);
+        return builder.simpleFind(AssetDispatchRequest.class,dispatchRequestId);
     }
 
     public boolean delete(String dispatchRequestId) {

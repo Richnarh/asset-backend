@@ -5,6 +5,8 @@ import com.khoders.asset.entities.AssetDispatchRequest;
 import com.khoders.asset.entities.Department;
 import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.InventoryItem;
+import com.khoders.asset.entities.constants.ApprovalStatus;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,32 +19,34 @@ public class AssetDispatchRequestMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public AssetDispatchRequest toEntity(AssetDispatchRequestDto dto) throws Exception {
+    public AssetDispatchRequest toEntity(AssetDispatchRequestDto dto){
         AssetDispatchRequest dispatchRequest = new AssetDispatchRequest();
         if (dto.getId() != null) {
             dispatchRequest.setId(dto.getId());
         }
         dispatchRequest.setRefNo(dispatchRequest.getRefNo());
         dispatchRequest.setQuantity(dto.getQuantity());
-        dispatchRequest.setApprovalStatus(dto.getApprovalStatus());
+        try {
+            dispatchRequest.setApprovalStatus(ApprovalStatus.valueOf(dto.getApprovalStatus()));
+        }catch (Exception ignored){}
         if (dto.getDepartmentId() == null) {
-            throw new Exception("Please Specify Valid DepartmentId");
+            throw new DataNotFoundException("Please Specify Valid DepartmentId");
         }
         if (dto.getReceivedById() == null) {
-            throw new Exception("Please Specify Valid ReceivedById (employeeId)");
+            throw new DataNotFoundException("Please Specify Valid ReceivedById (employeeId)");
         }
         if (dto.getInventoryItemId() == null) {
-            throw new Exception("Please Specify Valid InventoryItemId");
+            throw new DataNotFoundException("Please Specify Valid InventoryItemId");
         }
-        Department department = builder.findOne(dto.getDepartmentId(), Department.class);
+        Department department = builder.simpleFind(Department.class,dto.getDepartmentId());
         if (department != null) {
             dispatchRequest.setDepartment(department);
         }
-        Employee employee = builder.findOne(dto.getReceivedById(), Employee.class);
+        Employee employee = builder.simpleFind(Employee.class,dto.getReceivedById());
         if (employee != null) {
             dispatchRequest.setReceivedBy(employee);
         }
-        InventoryItem inventoryItem = builder.findOne(dto.getInventoryItemId(), InventoryItem.class);
+        InventoryItem inventoryItem = builder.simpleFind(InventoryItem.class,dto.getInventoryItemId());
         if (inventoryItem != null) {
             dispatchRequest.setInventoryItem(inventoryItem);
         }
@@ -56,7 +60,9 @@ public class AssetDispatchRequestMapper {
         }
         dto.setId(dispatchRequest.getId());
         dto.setQuantity(dto.getQuantity());
-        dto.setApprovalStatus(dispatchRequest.getApprovalStatus());
+        try {
+            dto.setApprovalStatus(dispatchRequest.getApprovalStatus().getLabel());
+        }catch (Exception ignored){}
         if (dispatchRequest.getReceivedBy() != null) {
             String fullName = dispatchRequest.getReceivedBy().getFirstName() + " " + dispatchRequest.getReceivedBy().getSurname() + " " + dispatchRequest.getReceivedBy().getOtherName();
             dto.setReceivedBy(fullName);

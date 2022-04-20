@@ -10,7 +10,7 @@ public class AssetDispatchRequestDto extends BaseDto {
     private double quantity;
     private String inventoryItem;
     private String inventoryItemId;
-    private ApprovalStatus approvalStatus;
+    private String approvalStatus;
 
     public String getDepartmentName() {
         return departmentName;
@@ -52,11 +52,11 @@ public class AssetDispatchRequestDto extends BaseDto {
         this.inventoryItemId = inventoryItemId;
     }
 
-    public ApprovalStatus getApprovalStatus() {
+    public String getApprovalStatus() {
         return approvalStatus;
     }
 
-    public void setApprovalStatus(ApprovalStatus approvalStatus) {
+    public void setApprovalStatus(String approvalStatus) {
         this.approvalStatus = approvalStatus;
     }
 
