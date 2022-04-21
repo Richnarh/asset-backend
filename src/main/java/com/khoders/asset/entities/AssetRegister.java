@@ -12,6 +12,9 @@ public class AssetRegister extends Ref {
     @Column(name = "asset_code")
     private String assetCode;
 
+    @Column(name = "manufacture")
+    private String manufacture;
+
     @Column(name = "registration_date")
     private LocalDate registrationDate;
 
@@ -36,6 +39,14 @@ public class AssetRegister extends Ref {
 
     public void setAssetCode(String assetCode) {
         this.assetCode = assetCode;
+    }
+
+    public String getManufacture() {
+        return manufacture;
+    }
+
+    public void setManufacture(String manufacture) {
+        this.manufacture = manufacture;
     }
 
     public LocalDate getRegistrationDate() {
