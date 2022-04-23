@@ -26,9 +26,15 @@
         <mapping class="com.khoders.asset.entities.AssetRequestApproval"/>
         <mapping class="com.khoders.asset.entities.Inventory"/>
         <mapping class="com.khoders.asset.entities.InventoryItem"/>
-        <mapping class="com.khoders.asset.entities.AssetRegister"/>
+        <mapping class="com.khoders.asset.entities.Asset"/>
         <mapping class="com.khoders.asset.entities.AssetDispatchRequest"/>
-        <mapping class="com.khoders.asset.entities.accounting.Account"/>
+        <mapping class="com.khoders.asset.entities.maintenance.Occurrence"/>
+        <mapping class="com.khoders.asset.entities.maintenance.InstructionSet"/>
+        <mapping class="com.khoders.asset.entities.maintenance.RequestType"/>
+        <mapping class="com.khoders.asset.entities.maintenance.MaintenanceTask"/>
+        <mapping class="com.khoders.asset.entities.maintenance.MaintenanceRequest"/>
+        <mapping class="com.khoders.asset.entities.maintenance.StartWork"/>
+        <mapping class="com.khoders.asset.entities.accounts.ChartOfAccount"/>
     </session-factory>
 
 </hibernate-configuration>

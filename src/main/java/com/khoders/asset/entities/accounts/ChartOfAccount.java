@@ -1,10 +1,14 @@
-package com.khoders.asset.entities.accounting;
+package com.khoders.asset.entities.accounts;
 
 import com.khoders.asset.entities.Ref;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-public class Account extends Ref {
+@Entity
+@Table(name = "chart_of_account")
+public class ChartOfAccount extends Ref {
     @Column(name = "account_name")
     private String accountName;
 

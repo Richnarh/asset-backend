@@ -61,7 +61,7 @@ public class AssetDispatchRequestMapper {
         dto.setId(dispatchRequest.getId());
         dto.setQuantity(dto.getQuantity());
         try {
-            dto.setApprovalStatus(dispatchRequest.getApprovalStatus().getLabel());
+            dto.setApprovalStatus(dispatchRequest.getApprovalStatus().getValue());
         }catch (Exception ignored){}
         if (dispatchRequest.getReceivedBy() != null) {
             String fullName = dispatchRequest.getReceivedBy().getFirstName() + " " + dispatchRequest.getReceivedBy().getSurname() + " " + dispatchRequest.getReceivedBy().getOtherName();
@@ -76,7 +76,6 @@ public class AssetDispatchRequestMapper {
             dto.setInventoryItemId(dispatchRequest.getInventoryItem().getId());
             dto.setInventoryItem(dispatchRequest.getInventoryItem().getProductName());
         }
-
         return dto;
     }
 }

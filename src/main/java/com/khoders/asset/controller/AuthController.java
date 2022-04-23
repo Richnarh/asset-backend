@@ -26,9 +26,9 @@ public class AuthController {
             UserAccount user = authService.saveUser(entity);
 
             if (user == null) {
-                return ApiResponse.error(Msg.setMsg("Unknown Error"), null);
+                return ApiResponse.error("Unknown Error", null);
             }
-            return ApiResponse.created(Msg.setMsg("customer created successfully"), mapper.toDto(user));
+            return ApiResponse.created("customer created successfully", mapper.toDto(user));
         } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), null);
@@ -38,7 +38,7 @@ public class AuthController {
     @GetMapping(value = "/login")
     public ResponseEntity<UserAccount> login(@RequestBody LoginDto dto) {
         UserAccount userAccount = authService.doLogin(dto);
-        return ApiResponse.ok(Msg.setMsg("Login success"), mapper.toDto(userAccount));
+        return ApiResponse.ok("Login success", mapper.toDto(userAccount));
     }
 
     @GetMapping(value = "/{userId}")
@@ -46,9 +46,9 @@ public class AuthController {
         try {
             UserAccount user = authService.findById(userId);
             if (user == null) {
-                return ApiResponse.notFound(Msg.setMsg("No User Found"), null);
+                return ApiResponse.notFound("No User Found", null);
             }
-            return ApiResponse.ok(Msg.setMsg("User Found"), mapper.toDto(user));
+            return ApiResponse.ok("User Found", mapper.toDto(user));
         } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), null);
