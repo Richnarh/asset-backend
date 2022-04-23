@@ -1,6 +1,6 @@
 package com.khoders.asset.services;
 
-import com.khoders.asset.entities.AssetRegister;
+import com.khoders.asset.entities.Asset;
 import com.khoders.asset.utils.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,19 +16,19 @@ public class AssetRegisterService {
     @Autowired
     private CrudBuilder builder;
 
-    public AssetRegister save(AssetRegister assetRegister) {
-        return builder.save(assetRegister);
+    public Asset save(Asset asset) {
+        return builder.save(asset);
     }
 
-    public List<AssetRegister> registers() {
-        return builder.findAll(AssetRegister.class);
+    public List<Asset> registers() {
+        return builder.findAll(Asset.class);
     }
 
-    public AssetRegister findById(String assetRegisterId) {
-        return builder.findOne(assetRegisterId, AssetRegister.class);
+    public Asset findById(String assetId) {
+        return builder.findOne(assetId, Asset.class);
     }
 
-    public boolean delete(String assetRegisterId) {
-        return builder.deleteById(assetRegisterId, AssetRegister.class);
+    public boolean delete(String assetId) {
+        return builder.deleteById(assetId, Asset.class);
     }
 }

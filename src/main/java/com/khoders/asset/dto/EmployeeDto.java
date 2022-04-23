@@ -1,10 +1,13 @@
 package com.khoders.asset.dto;
 
+import javax.validation.constraints.Email;
+
 public class EmployeeDto extends BaseDto {
     private String title;
     private String firstName;
     private String surname;
     private String otherName;
+    @Email(message = "Invalid Email Address")
     private String emailAddress;
     private String phoneNumber;
     private String departmentName;

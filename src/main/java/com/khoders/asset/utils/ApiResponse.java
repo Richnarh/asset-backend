@@ -31,7 +31,7 @@ public class ApiResponse {
         map.put("success", false);
         map.put("data", responseObj);
 
-        return new ResponseEntity<>((T) map, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>((T) map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     public static <T> ResponseEntity<T> error(String message, Object responseObj) {

@@ -1,5 +1,4 @@
 package com.khoders.asset.entities;
-
 import javax.persistence.*;
 
 @Entity

@@ -3,6 +3,7 @@ package com.khoders.asset.entities;
 import com.khoders.resource.enums.Title;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "employee")

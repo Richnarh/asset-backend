@@ -7,20 +7,26 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "asset_register")
-public class AssetRegister extends Ref {
+public class Asset extends Ref {
 
     @Column(name = "asset_code")
     private String assetCode;
 
-    @Column(name = "registration_date")
-    private LocalDate registrationDate;
+    @Column(name = "manufacture")
+    private String manufacture;
+
+    @Column(name = "install_date")
+    private LocalDate installDate;
+
+    @Column(name = "model_number")
+    private LocalDate modelNumber;
 
     @Column(name = "asset_status")
     @Enumerated(EnumType.STRING)
     private AssetStatus assetStatus;
 
-    @Column(name = "lifespan")
-    private String lifeSpan;
+    @Column(name = "website")
+    private String website;
 
     @JoinColumn(name = "inventory_item", referencedColumnName = "id")
     @ManyToOne
@@ -38,12 +44,12 @@ public class AssetRegister extends Ref {
         this.assetCode = assetCode;
     }
 
-    public LocalDate getRegistrationDate() {
-        return registrationDate;
+    public String getManufacture() {
+        return manufacture;
     }
 
-    public void setRegistrationDate(LocalDate registrationDate) {
-        this.registrationDate = registrationDate;
+    public void setManufacture(String manufacture) {
+        this.manufacture = manufacture;
     }
 
     public AssetStatus getAssetStatus() {
@@ -54,12 +60,28 @@ public class AssetRegister extends Ref {
         this.assetStatus = assetStatus;
     }
 
-    public String getLifeSpan() {
-        return lifeSpan;
+    public LocalDate getInstallDate() {
+        return installDate;
     }
 
-    public void setLifeSpan(String lifeSpan) {
-        this.lifeSpan = lifeSpan;
+    public void setInstallDate(LocalDate installDate) {
+        this.installDate = installDate;
+    }
+
+    public LocalDate getModelNumber() {
+        return modelNumber;
+    }
+
+    public void setModelNumber(LocalDate modelNumber) {
+        this.modelNumber = modelNumber;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 
     public InventoryItem getInventoryItem() {

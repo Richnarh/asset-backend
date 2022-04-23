@@ -27,7 +27,7 @@ public class AssetTransferController {
             AssetTransfer entity = mapper.toEntity(dto);
             AssetTransfer assetTransfer = transferService.saveTransfer(entity);
             if (assetTransfer == null) {
-                return ApiResponse.error(Msg.setMsg("Unknown Error"), null);
+                return ApiResponse.error("Unknown Error", null);
             }
             return ApiResponse.ok("Asset Transfer Created Successfully", mapper.toDto(assetTransfer));
         } catch (Exception e) {
@@ -36,12 +36,12 @@ public class AssetTransferController {
         }
     }
 
-    @PutMapping("/update")
+    @PutMapping
     public ResponseEntity<AssetTransfer> updateTransfer(@RequestBody AssetTransferDto dto) {
         try {
             AssetTransfer transfer = transferService.findById(dto.getId());
             if (transfer == null) {
-                return ApiResponse.notFound(Msg.setMsg("No Transfer Found"), null);
+                return ApiResponse.notFound("No Transfer Found", null);
             }
             AssetTransfer assetTransfer = transferService.saveTransfer(transfer);
             if (assetTransfer == null) {
@@ -54,7 +54,7 @@ public class AssetTransferController {
         }
     }
 
-    @GetMapping("/find/{transferId}")
+    @GetMapping("/{transferId}")
     public ResponseEntity<AssetTransfer> findTransfer(@PathVariable(value = "transferId") String transferId) {
         try {
             AssetTransfer transfer = transferService.findById(transferId);
@@ -82,7 +82,7 @@ public class AssetTransferController {
     }
 
     @DeleteMapping("/delete/{transferId}")
-    public ResponseEntity<Object> deleteAssetTransfer(@PathVariable(value = "transferId") String transferId) {
+    public ResponseEntity<Object> delete(@PathVariable(value = "transferId") String transferId) {
         try {
             if (transferService.delete(transferId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {

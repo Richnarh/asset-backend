@@ -52,4 +52,28 @@ public class InventoryMapper {
 
         return inventory;
     }
+
+    public InventoryDto toDto(Inventory inventory){
+        if (inventory.getId() == null){
+            return null;
+        }
+        InventoryDto dto = new InventoryDto();
+        dto.setId(inventory.getId());
+        dto.setReceiptNo(inventory.getReceiptNo());
+        if (inventory.getReceivedAt() != null){
+            dto.setReceivedAtId(inventory.getReceivedAt().getId());
+            dto.setReceivedAt(inventory.getReceivedAt().getLocationName());
+        }
+        if(inventory.getReceivedBy() != null){
+            dto.setReceivedById(inventory.getReceivedBy().getId());
+            dto.setReceivedByName(inventory.getReceivedBy().getEmailAddress());
+        }
+        if (inventory.getVendor() != null){
+            dto.setVendorId(inventory.getVendor().getId());
+            dto.setVendorName(inventory.getVendor().getVendorName());
+        }
+        dto.setReceivedDate(inventory.getReceivedDate());
+        dto.setTotalPayable(inventory.getTotalPayable());
+        return dto;
+    }
 }
