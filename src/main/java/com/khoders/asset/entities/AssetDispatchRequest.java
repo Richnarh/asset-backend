@@ -23,7 +23,7 @@ public class AssetDispatchRequest extends Ref {
     private InventoryItem inventoryItem;
 
     @Column(name = "approval_status")
-    @Convert(converter = ApprovalStatus.Converter.class)
+    @Enumerated(EnumType.STRING)
     private ApprovalStatus approvalStatus;
 
     @Column(name = "description")
