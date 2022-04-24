@@ -26,10 +26,7 @@ public class AssetTransferMapper {
         assetTransfer.setRefNo(assetTransfer.getRefNo());
         assetTransfer.setTransferDate(DateUtil.parseLocalDate(dto.getTransferDate(), Pattern._yyyyMMdd));
         assetTransfer.setDescription(dto.getDescription());
-        if (dto.getValueDate() == null) {
-            assetTransfer.setValueDate(LocalDate.now());
-            assetTransfer.setLastModifiedDate(LocalDateTime.now());
-        }
+
         if (dto.getTransferFromId() == null) {
             throw new DataNotFoundException("Please Specify Valid TransferFromId");
         }

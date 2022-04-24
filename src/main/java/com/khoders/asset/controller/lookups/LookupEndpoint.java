@@ -5,6 +5,7 @@ import com.khoders.asset.entities.constants.AssetStatus;
 import com.khoders.asset.entities.constants.Status;
 import com.khoders.asset.entities.constants.TaskPriority;
 import com.khoders.asset.utils.ApiResponse;
+import com.khoders.resource.enums.Title;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,5 +32,9 @@ public class LookupEndpoint {
     @GetMapping("/task-priority")
     public ResponseEntity<List<TaskPriority>> taskPriority() {
         return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(TaskPriority.values()));
+    }
+    @GetMapping("/title")
+    public ResponseEntity<List<Title>> title() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(Title.values()));
     }
 }
