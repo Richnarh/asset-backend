@@ -41,12 +41,8 @@ public class EmployeeMapper {
         if (dto.getDepartmentId() == null) {
             throw new DataNotFoundException("Specify Valid DepartmentId");
         }
-        if (dto.getValueDate() == null) {
-            employee.setValueDate(LocalDate.now());
-        } else {
-            employee.setValueDate(DateUtil.parseLocalDate(dto.getValueDate(), Pattern._yyyyMMdd));
-        }
-        Department department = builder.findOne(dto.getDepartmentId(), Department.class);
+
+        Department department = builder.simpleFind(Department.class,dto.getDepartmentId());
         if (department != null) {
             employee.setDepartment(department);
         }
