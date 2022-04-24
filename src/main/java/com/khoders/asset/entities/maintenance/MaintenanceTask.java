@@ -2,7 +2,7 @@ package com.khoders.asset.entities.maintenance;
 
 import com.khoders.asset.entities.Ref;
 import com.khoders.asset.entities.constants.Status;
-import com.khoders.asset.entities.constants.TastPriority;
+import com.khoders.asset.entities.constants.TaskPriority;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -19,7 +19,7 @@ public class MaintenanceTask extends Ref {
 
     @Column(name = "task_priority")
     @Enumerated(EnumType.STRING)
-    private TastPriority priority;
+    private TaskPriority priority;
 
     @Column(name = "task_status")
     @Enumerated(EnumType.STRING)
@@ -50,5 +50,21 @@ public class MaintenanceTask extends Ref {
 
     public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
+    }
+
+    public TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(TaskPriority priority) {
+        this.priority = priority;
+    }
+
+    public Status getTaskStatus() {
+        return taskStatus;
+    }
+
+    public void setTaskStatus(Status taskStatus) {
+        this.taskStatus = taskStatus;
     }
 }

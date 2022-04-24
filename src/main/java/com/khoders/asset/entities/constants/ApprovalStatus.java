@@ -1,8 +1,8 @@
 package com.khoders.asset.entities.constants;
 
-import com.khoders.asset.utils.EnumConverter;
+import com.khoders.resource.utilities.MsgResolver;
 
-public enum ApprovalStatus implements Enums<String> {
+public enum ApprovalStatus implements MsgResolver {
     PENDING("PENDING", "Pending"), ACCEPTED("ACCEPTED", "Accepted"), REJECTED("REJECTED", "Rejected");
 
     private final String code;
@@ -12,14 +12,17 @@ public enum ApprovalStatus implements Enums<String> {
         this.code = code;
         this.label = label;
     }
-
     @Override
-    public String getValue() {
+    public String toString() {
         return label;
     }
-    public static class Converter extends EnumConverter<ApprovalStatus, String> {
-        public Converter() {
-            super(ApprovalStatus.class);
-        }
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    @Override
+    public String getLabel() {
+        return label;
     }
 }

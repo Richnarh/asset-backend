@@ -61,7 +61,7 @@ public class AssetDispatchRequestMapper {
         dto.setId(dispatchRequest.getId());
         dto.setQuantity(dto.getQuantity());
         try {
-            dto.setApprovalStatus(dispatchRequest.getApprovalStatus().getValue());
+            dto.setApprovalStatus(dispatchRequest.getApprovalStatus().getLabel());
         }catch (Exception ignored){}
         if (dispatchRequest.getReceivedBy() != null) {
             String fullName = dispatchRequest.getReceivedBy().getFirstName() + " " + dispatchRequest.getReceivedBy().getSurname() + " " + dispatchRequest.getReceivedBy().getOtherName();
