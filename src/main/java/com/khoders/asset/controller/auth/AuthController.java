@@ -55,6 +55,7 @@ public class AuthController {
             return ApiResponse.error(e.getMessage(), null);
         }
     }
+    
     public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest refreshRequest){
         String requestRefreshToken = refreshRequest.getRefreshToken();
         return refreshTokenService.findByToken(requestRefreshToken)
