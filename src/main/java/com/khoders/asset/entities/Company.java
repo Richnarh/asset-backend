@@ -1,5 +1,7 @@
 package com.khoders.asset.entities;
 
+import com.khoders.asset.entities.auth.UserAccount;
+
 import javax.persistence.*;
 
 @Entity

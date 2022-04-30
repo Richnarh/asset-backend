@@ -2,7 +2,7 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.entities.Company;
-import com.khoders.asset.entities.UserAccount;
+import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;

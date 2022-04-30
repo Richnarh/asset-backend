@@ -1,9 +1,6 @@
 package com.khoders.asset.controller.lookups;
 
-import com.khoders.asset.entities.constants.ApprovalStatus;
-import com.khoders.asset.entities.constants.AssetStatus;
-import com.khoders.asset.entities.constants.Status;
-import com.khoders.asset.entities.constants.TaskPriority;
+import com.khoders.asset.entities.constants.*;
 import com.khoders.asset.utils.ApiResponse;
 import com.khoders.resource.enums.Title;
 import com.khoders.resource.utilities.Msg;
@@ -36,5 +33,9 @@ public class LookupEndpoint {
     @GetMapping("/title")
     public ResponseEntity<List<Title>> title() {
         return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(Title.values()));
+    }
+    @GetMapping("/roles")
+    public ResponseEntity<List<UserRole>> userRoles() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(UserRole.values()));
     }
 }
