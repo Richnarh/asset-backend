@@ -17,6 +17,7 @@
 
         <mapping class="com.khoders.asset.entities.auth.UserAccount"/>
         <mapping class="com.khoders.asset.entities.auth.Role"/>
+        <mapping class="com.khoders.asset.entities.auth.RefreshToken"/>
         <mapping class="com.khoders.asset.entities.Location"/>
         <mapping class="com.khoders.asset.entities.AssetTransfer"/>
         <mapping class="com.khoders.asset.entities.Category"/>
