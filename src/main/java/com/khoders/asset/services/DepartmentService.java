@@ -1,7 +1,7 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Department;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.spring.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;

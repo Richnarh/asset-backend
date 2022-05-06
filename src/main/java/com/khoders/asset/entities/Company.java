@@ -20,6 +20,9 @@ public class Company extends Ref {
     @Column(name = "website")
     private String website;
 
+    @Column(name = "zipcode")
+    private String zipCode;
+
     @Column(name = "company_address")
     private String companyAddress;
 

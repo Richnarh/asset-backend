@@ -1,7 +1,7 @@
 package com.khoders.asset.services.auth;
 
 import com.khoders.asset.entities.auth.Role;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.spring.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -28,7 +28,7 @@ public class RoleService {
         return builder.simpleFind(Role.class, roleId);
     }
 
-    public boolean delete(String roleId) {
+    public boolean delete(String roleId) throws Exception {
         return builder.deleteById(roleId, Role.class);
     }
 }

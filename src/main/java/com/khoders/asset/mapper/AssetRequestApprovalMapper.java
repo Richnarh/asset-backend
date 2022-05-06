@@ -3,7 +3,8 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.AssetRequestApprovalDto;
 import com.khoders.asset.entities.AssetRequestApproval;
 import com.khoders.asset.entities.Employee;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.spring.CrudBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,15 @@ public class AssetRequestApprovalMapper {
             requestApproval.setId(dto.getId());
         }
         requestApproval.setApprovalDate(dto.getApprovalDate());
+        if (dto.getApprovedById() == null || dto.getApprovedById().equals("")){
+            throw new DataNotFoundException("Specify Valid ApprovedById - (employeeId)");
+        }
         Employee employee = builder.findOne(dto.getApprovedById(), Employee.class);
         if (employee != null) {
             requestApproval.setApprovedBy(employee);
         }
         requestApproval.setDescription(dto.getDescription());
         requestApproval.setRefNo(requestApproval.getRefNo());
-        requestApproval.setLastModifiedDate(LocalDateTime.now());
         return requestApproval;
     }
 

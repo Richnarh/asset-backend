@@ -8,7 +8,7 @@ import com.khoders.asset.jwt.JwtService;
 import com.khoders.asset.mapper.AuthMapper;
 import com.khoders.asset.services.auth.AuthService;
 import com.khoders.asset.services.auth.RefreshTokenService;
-import com.khoders.asset.utils.ApiResponse;
+import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

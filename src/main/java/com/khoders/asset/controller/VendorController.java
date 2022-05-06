@@ -4,7 +4,7 @@ import com.khoders.asset.dto.VendorDto;
 import com.khoders.asset.entities.Vendor;
 import com.khoders.asset.mapper.VendorMapper;
 import com.khoders.asset.services.VendorService;
-import com.khoders.asset.utils.ApiResponse;
+import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

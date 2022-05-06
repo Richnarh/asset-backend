@@ -2,7 +2,7 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.Location;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.spring.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;
@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Component
 public class LocationMapper {
@@ -27,7 +26,6 @@ public class LocationMapper {
         location.setLocationName(dto.getLocationName());
         location.setAddress(dto.getAddress());
         location.setRefNo(location.getRefNo());
-        location.setLastModifiedDate(LocalDateTime.now());
         if (dto.getValueDate() == null) {
             location.setValueDate(LocalDate.now());
         } else {
@@ -44,7 +42,7 @@ public class LocationMapper {
         dto.setId(location.getId());
         dto.setLocationName(location.getLocationName());
         dto.setAddress(location.getAddress());
-        dto.setValueDate(DateUtil.parseLocalDateString(location.getValueDate(), "dd/MM/yyyy"));
+        dto.setValueDate(DateUtil.parseLocalDateString(location.getValueDate(), Pattern.ddMMyyyy));
         return dto;
     }
 }

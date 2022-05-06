@@ -3,12 +3,10 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.entities.Company;
 import com.khoders.asset.entities.auth.UserAccount;
-import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.spring.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 public class CompanyMapper {
@@ -25,7 +23,6 @@ public class CompanyMapper {
         company.setCompanyAddress(dto.getCompanyAddress());
         company.setTelephone(dto.getTelephone());
         company.setWebsite(dto.getWebsite());
-        company.setLastModifiedDate(LocalDateTime.now());
 
         if (dto.getUserAccountId() == null) {
             throw new DataNotFoundException("Specify Valid User AccountId");

@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class InventoryDto extends BaseDto {
     private String receiptNo;
-    private LocalDate receivedDate;
+    private String receivedDate;
     private String receivedByName; // employeeName
     private String receivedById; // employeeId
     private String receivedAt; // locationName
@@ -21,11 +21,11 @@ public class InventoryDto extends BaseDto {
         this.receiptNo = receiptNo;
     }
 
-    public LocalDate getReceivedDate() {
+    public String getReceivedDate() {
         return receivedDate;
     }
 
-    public void setReceivedDate(LocalDate receivedDate) {
+    public void setReceivedDate(String receivedDate) {
         this.receivedDate = receivedDate;
     }
 

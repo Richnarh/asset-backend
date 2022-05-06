@@ -3,7 +3,7 @@ package com.khoders.asset.services.auth;
 import com.khoders.asset.Repository.UserRepository;
 import com.khoders.asset.dto.authpayload.LoginRequest;
 import com.khoders.asset.entities.auth.UserAccount;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.spring.CrudBuilder;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;

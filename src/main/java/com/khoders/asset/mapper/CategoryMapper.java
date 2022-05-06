@@ -23,12 +23,7 @@ public class CategoryMapper {
         category.setCategoryName(dto.getCategoryName());
         category.setDescription(dto.getDescription());
         category.setRefNo(category.getRefNo());
-        category.setLastModifiedDate(LocalDateTime.now());
-        if (dto.getValueDate() == null) {
-            category.setValueDate(LocalDate.now());
-        } else {
-            category.setValueDate(DateUtil.parseLocalDate(dto.getValueDate(), Pattern._yyyyMMdd));
-        }
+
         return category;
     }
 

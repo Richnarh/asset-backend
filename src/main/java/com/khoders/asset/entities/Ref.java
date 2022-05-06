@@ -1,5 +1,6 @@
 package com.khoders.asset.entities;
 
+import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.JoinColumn;
@@ -13,6 +14,10 @@ public class Ref extends SpringBaseModel {
     @ManyToOne
     private Company company;
 
+    @JoinColumn(name = "user_account")
+    @ManyToOne
+    private UserAccount userAccount;
+
     public Company getCompany() {
         return company;
     }
@@ -21,4 +26,11 @@ public class Ref extends SpringBaseModel {
         this.company = company;
     }
 
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
 }

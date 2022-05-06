@@ -4,7 +4,7 @@ import com.khoders.asset.dto.CategoryDto;
 import com.khoders.asset.entities.Category;
 import com.khoders.asset.mapper.CategoryMapper;
 import com.khoders.asset.services.CategoryService;
-import com.khoders.asset.utils.ApiResponse;
+import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

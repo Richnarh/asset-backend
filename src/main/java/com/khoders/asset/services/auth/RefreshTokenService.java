@@ -5,7 +5,7 @@ import com.khoders.asset.Repository.UserRepository;
 import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.exceptions.TokenRefreshException;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.spring.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

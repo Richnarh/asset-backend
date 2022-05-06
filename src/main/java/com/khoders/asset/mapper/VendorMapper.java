@@ -2,8 +2,8 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.dto.VendorDto;
 import com.khoders.asset.entities.Vendor;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.enums.ClientType;
+import com.khoders.resource.spring.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;

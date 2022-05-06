@@ -4,7 +4,7 @@ import com.khoders.asset.dto.DepartmentDto;
 import com.khoders.asset.entities.Department;
 import com.khoders.asset.mapper.DepartmentMapper;
 import com.khoders.asset.services.DepartmentService;
-import com.khoders.asset.utils.ApiResponse;
+import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

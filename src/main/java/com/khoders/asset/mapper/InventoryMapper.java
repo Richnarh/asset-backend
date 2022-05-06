@@ -5,7 +5,10 @@ import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.Location;
 import com.khoders.asset.entities.Vendor;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.spring.CrudBuilder;
+import com.khoders.resource.utilities.DateUtil;
+import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,22 +22,22 @@ public class InventoryMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public Inventory toEntity(InventoryDto dto) throws Exception {
+    public Inventory toEntity(InventoryDto dto){
         Inventory inventory = new Inventory();
         if (dto.getId() != null) {
             inventory.setId(dto.getId());
         }
         inventory.setRefNo(inventory.getRefNo());
         inventory.setReceiptNo(dto.getReceiptNo());
-        inventory.setReceivedDate(dto.getReceivedDate());
+        inventory.setReceivedDate(DateUtil.parseLocalDate(dto.getReceivedDate(), Pattern._yyyyMMdd));
         if (dto.getReceivedAtId() == null) {
-            throw new Exception("Please Specify Valid ReceivedAtId (locationId)");
+            throw new DataNotFoundException("Please Specify Valid ReceivedAtId (locationId)");
         }
         if (dto.getReceivedById() == null) {
-            throw new Exception("Please Specify Valid ReceivedById (employeeId)");
+            throw new DataNotFoundException("Please Specify Valid ReceivedById (employeeId)");
         }
         if (dto.getVendorId() == null) {
-            throw new Exception("Please Specify Valid VendorId");
+            throw new DataNotFoundException("Please Specify Valid VendorId");
         }
         Location location = builder.findOne(dto.getReceivedAtId(), Location.class);
         if (location != null) {
@@ -72,7 +75,7 @@ public class InventoryMapper {
             dto.setVendorId(inventory.getVendor().getId());
             dto.setVendorName(inventory.getVendor().getVendorName());
         }
-        dto.setReceivedDate(inventory.getReceivedDate());
+        dto.setReceivedDate(DateUtil.parseLocalDateString(inventory.getReceivedDate(), Pattern.ddMMyyyy));
         dto.setTotalPayable(inventory.getTotalPayable());
         return dto;
     }
