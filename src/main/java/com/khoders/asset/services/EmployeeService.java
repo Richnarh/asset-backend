@@ -19,10 +19,15 @@ public class EmployeeService {
     public Employee save(Employee department) {
         return builder.save(department);
     }
-    public List<Employee> employees() {return builder.findAll(Employee.class);}
+
+    public List<Employee> employees() {
+        return builder.findAll(Employee.class);
+    }
+
     public Employee findById(String employeeId) {
         return builder.findOne(employeeId, Employee.class);
     }
+
     public boolean delete(String employeeId) {
         return builder.deleteById(employeeId, Employee.class);
     }

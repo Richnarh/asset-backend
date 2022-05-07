@@ -4,27 +4,19 @@ import com.khoders.asset.entities.Ref;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Table(name = "refreshtoken")
 public class RefreshToken extends Ref {
-    @JoinColumn(name = "user_account", referencedColumnName = "id")
-    @OneToOne
-    private UserAccount userAccount;
-
     @Column(nullable = false, unique = true)
     private String token;
 
-    @Column(nullable = false)
-    private Instant expiryDate;
+    @Column(nullable = false, name = "issued_at")
+    private Date issuedAt;
 
-    public UserAccount getUserAccount() {
-        return userAccount;
-    }
-
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
-    }
+    @Column(nullable = false, name = "expiry_date")
+    private Date expiryDate;
 
     public String getToken() {
         return token;
@@ -34,11 +26,19 @@ public class RefreshToken extends Ref {
         this.token = token;
     }
 
-    public Instant getExpiryDate() {
+    public Date getIssuedAt() {
+        return issuedAt;
+    }
+
+    public void setIssuedAt(Date issuedAt) {
+        this.issuedAt = issuedAt;
+    }
+
+    public Date getExpiryDate() {
         return expiryDate;
     }
 
-    public void setExpiryDate(Instant expiryDate) {
+    public void setExpiryDate(Date expiryDate) {
         this.expiryDate = expiryDate;
     }
 }

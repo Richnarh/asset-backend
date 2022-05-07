@@ -28,10 +28,10 @@ public class AssetDispatchRequestService {
     }
 
     public AssetDispatchRequest findById(String dispatchRequestId) {
-        return builder.simpleFind(AssetDispatchRequest.class,dispatchRequestId);
+        return builder.simpleFind(AssetDispatchRequest.class, dispatchRequestId);
     }
 
-    public boolean delete(String dispatchRequestId) {
+    public boolean delete(String dispatchRequestId) throws Exception {
         return builder.deleteById(dispatchRequestId, AssetDispatchRequest.class);
     }
 }

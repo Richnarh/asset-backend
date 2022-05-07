@@ -10,10 +10,10 @@ import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.Role;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.entities.constants.UserRole;
-import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.jwt.JwtService;
 import com.khoders.asset.services.auth.AuthService;
 import com.khoders.asset.services.auth.RefreshTokenService;
+import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import com.khoders.resource.utilities.SystemUtils;
@@ -121,7 +121,7 @@ public class AuthMapper {
             dto.setRoleName(item.getRoleName().name());
             roles.add(dto);
         });
-        System.out.println("\n roles  --- "+SystemUtils.KJson().toJson(roles));
+
         String jwtToken = jwtService.generateToken(userDetails.getUsername());
 
         jwtResponse.setAccessToken(jwtToken);
@@ -129,9 +129,10 @@ public class AuthMapper {
         jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
         jwtResponse.setRoleList(roles);
 
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
-
-        jwtResponse.setRefreshToken(refreshToken.getToken());
+//        Todo: to ne reviewed and error fixed
+//        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
+//        jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
+//        jwtResponse.setRefreshToken(refreshToken.getToken());
 
         return jwtResponse;
     }

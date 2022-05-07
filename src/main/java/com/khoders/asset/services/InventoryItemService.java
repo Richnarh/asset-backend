@@ -1,6 +1,5 @@
 package com.khoders.asset.services;
 
-import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.InventoryItem;
 import com.khoders.asset.utils.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +20,12 @@ public class InventoryItemService {
         return builder.save(inventoryItem);
     }
 
-    public List<InventoryItem> inventoryItemList(){
+    public List<InventoryItem> inventoryItemList() {
         return builder.findAll(InventoryItem.class);
     }
 
     public InventoryItem findById(String inventoryItemId) {
-        return builder.simpleFind(InventoryItem.class,inventoryItemId);
+        return builder.simpleFind(InventoryItem.class, inventoryItemId);
     }
 
     public boolean delete(String inventoryItemId) {

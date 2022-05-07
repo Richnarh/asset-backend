@@ -5,12 +5,11 @@ import com.khoders.asset.entities.Category;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.InventoryItem;
 import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.exception.DataNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDateTime;
 
 @Component
 public class InventoryItemMapper {
@@ -18,7 +17,7 @@ public class InventoryItemMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public InventoryItem toEntity(InventoryItemDto dto) throws Exception {
+    public InventoryItem toEntity(InventoryItemDto dto) {
         InventoryItem inventoryItem = new InventoryItem();
         if (dto.getId() != null) {
             inventoryItem.setId(dto.getId());
@@ -28,12 +27,11 @@ public class InventoryItemMapper {
         inventoryItem.setQuantity(dto.getQuantity());
         inventoryItem.setSerialNumber(dto.getSerialNumber());
         inventoryItem.setTotalAmount(dto.getTotalAmount());
-        inventoryItem.setLastModifiedDate(LocalDateTime.now());
         if (dto.getProductCategoryId() == null) {
-            throw new Exception("Please Specify Valid ProductCategoryId");
+            throw new DataNotFoundException("Please Specify Valid ProductCategoryId");
         }
         if (dto.getInventory() == null) {
-            throw new Exception("Please Specify Valid InventoryId");
+            throw new DataNotFoundException("Please Specify Valid InventoryId");
         }
         Category category = builder.findOne(dto.getProductCategoryId(), Category.class);
         if (category != null) {

@@ -1,7 +1,7 @@
 package com.khoders.asset.config;
 
-import com.khoders.asset.jwt.JwtAuthenticationEntryPoint;
 import com.khoders.asset.jwt.AuthTokenFilter;
+import com.khoders.asset.jwt.JwtAuthenticationEntryPoint;
 import com.khoders.asset.services.auth.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,11 +47,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
-                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .authorizeRequests()
+                .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/v1/**").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated().and()
+                .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(authTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 }

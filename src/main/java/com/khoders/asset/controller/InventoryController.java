@@ -1,14 +1,11 @@
 package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.InventoryDto;
-import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.Location;
 import com.khoders.asset.mapper.InventoryMapper;
-import com.khoders.asset.mapper.LocationMapper;
 import com.khoders.asset.services.InventoryService;
-import com.khoders.asset.services.LocationService;
-import com.khoders.asset.utils.ApiResponse;
+import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -3,9 +3,9 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.EmployeeDto;
 import com.khoders.asset.entities.Department;
 import com.khoders.asset.entities.Employee;
-import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.enums.Title;
+import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;
@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Component
@@ -37,12 +36,13 @@ public class EmployeeMapper {
         employee.setLastModifiedDate(LocalDateTime.now());
         try {
             employee.setTitle(Title.valueOf(dto.getTitle()));
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         if (dto.getDepartmentId() == null) {
             throw new DataNotFoundException("Specify Valid DepartmentId");
         }
 
-        Department department = builder.simpleFind(Department.class,dto.getDepartmentId());
+        Department department = builder.simpleFind(Department.class, dto.getDepartmentId());
         if (department != null) {
             employee.setDepartment(department);
         }
@@ -55,7 +55,8 @@ public class EmployeeMapper {
         dto.setId(employee.getId());
         try {
             dto.setTitle(employee.getTitle().getLabel());
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         dto.setFirstName(employee.getFirstName());
         dto.setSurname(employee.getSurname());
         dto.setOtherName(employee.getOtherName());

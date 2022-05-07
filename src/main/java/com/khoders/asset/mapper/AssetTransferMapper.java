@@ -3,15 +3,12 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.AssetTransferDto;
 import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.entities.Location;
-import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Component
 public class AssetTransferMapper {
@@ -33,13 +30,16 @@ public class AssetTransferMapper {
         if (dto.getTransferToId() == null) {
             throw new DataNotFoundException("Please Specify Valid TransferToId");
         }
-        Location fromLoc = builder.findOne(dto.getTransferFromId(), Location.class);
-        Location toLoc = builder.findOne(dto.getTransferToId(), Location.class);
+        Location fromLoc = builder.simpleFind(Location.class, dto.getTransferFromId());
+        Location toLoc = builder.simpleFind(Location.class, dto.getTransferToId());
         if (fromLoc != null) {
             assetTransfer.setTransferFrom(fromLoc);
         }
         if (toLoc != null) {
             assetTransfer.setTransferTo(toLoc);
+        }
+        if (assetTransfer.getTransferFrom().equals(assetTransfer.getTransferTo())) {
+            throw new DataNotFoundException("Transfer is not allowed within same location.");
         }
         return assetTransfer;
     }

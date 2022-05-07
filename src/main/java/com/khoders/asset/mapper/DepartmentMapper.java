@@ -10,9 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Component
 public class DepartmentMapper {
     private static final Logger log = LoggerFactory.getLogger(InventoryItemMapper.class);
@@ -23,18 +20,10 @@ public class DepartmentMapper {
         Department dep = new Department();
         if (dto.getId() != null) {
             dep.setId(dto.getId());
-        } else {
-            dep.setId(builder.genId());
         }
         dep.setDepartmentName(dto.getDepartmentName());
         dep.setDepartmentCode(dto.getDepartmentCode());
         dep.setRefNo(dep.getRefNo());
-        dep.setLastModifiedDate(LocalDateTime.now());
-        if (dto.getValueDate() == null) {
-            dep.setValueDate(LocalDate.now());
-        } else {
-            dep.setValueDate(DateUtil.parseLocalDate(dto.getValueDate(), Pattern._yyyyMMdd));
-        }
         return dep;
     }
 

@@ -3,12 +3,11 @@ package com.khoders.asset.entities.accounts;
 import com.khoders.asset.entities.Ref;
 import com.khoders.asset.entities.Vendor;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "invoices")
 public class Invoice  extends Ref {
     @JoinColumn(name = "vendor", referencedColumnName = "id")
     @ManyToOne

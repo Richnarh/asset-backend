@@ -1,12 +1,16 @@
 package com.khoders.asset.jwt;
 
-import io.jsonwebtoken.*;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,8 +53,8 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .setIssuedAt(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)))
+                .setExpiration(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3,ChronoUnit.MINUTES)))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
@@ -62,8 +66,8 @@ public class JwtService {
 
     public String generateTokenFromEmailAddress(String emailAddress) {
         return Jwts.builder().setSubject(emailAddress)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs)).signWith(SignatureAlgorithm.HS256, jwtSecret)
+                .setIssuedAt(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)))
+                .setExpiration(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3,ChronoUnit.MINUTES))).signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
 

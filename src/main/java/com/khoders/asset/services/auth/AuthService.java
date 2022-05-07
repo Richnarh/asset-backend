@@ -25,7 +25,8 @@ import java.util.ArrayList;
 public class AuthService implements UserDetailsService {
     @Autowired
     private CrudBuilder builder;
-    @Autowired private UserRepository repository;
+    @Autowired
+    private UserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {

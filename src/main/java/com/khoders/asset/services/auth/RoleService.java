@@ -28,7 +28,7 @@ public class RoleService {
         return builder.simpleFind(Role.class, roleId);
     }
 
-    public boolean delete(String roleId) {
+    public boolean delete(String roleId) throws Exception {
         return builder.deleteById(roleId, Role.class);
     }
 }

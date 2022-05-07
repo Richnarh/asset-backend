@@ -33,7 +33,8 @@ public class RoleMapper {
         dto.setId(role.getId());
         try {
             dto.setRoleName(role.getRoleName().name());
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         return dto;
     }
 }

@@ -1,6 +1,6 @@
 package com.khoders.asset.utils;
 
-import com.khoders.asset.exceptions.DataNotFoundException;
+import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.spring.SpringBaseModel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;

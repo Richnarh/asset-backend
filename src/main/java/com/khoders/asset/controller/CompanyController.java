@@ -7,7 +7,7 @@ import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.entities.Company;
 import com.khoders.asset.mapper.CompanyMapper;
 import com.khoders.asset.services.CompanyService;
-import com.khoders.asset.utils.ApiResponse;
+import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

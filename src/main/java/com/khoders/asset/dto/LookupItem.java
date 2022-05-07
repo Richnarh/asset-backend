@@ -1,7 +1,5 @@
 package com.khoders.asset.dto;
 
-import com.khoders.resource.utilities.MsgResolver;
-
 public class LookupItem {
     private String id;
     private String itemName;

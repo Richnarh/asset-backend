@@ -25,7 +25,7 @@ public class InventoryService {
     }
 
     public Inventory findById(String inventoryId) {
-        return builder.simpleFind(Inventory.class,inventoryId);
+        return builder.simpleFind(Inventory.class, inventoryId);
     }
 
     public boolean delete(String inventoryId) {
