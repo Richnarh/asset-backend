@@ -2,10 +2,7 @@ package com.khoders.asset.entities.settings;
 
 import com.khoders.asset.entities.Ref;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "invoice_footer")
@@ -13,4 +10,24 @@ public class InvoiceFooter extends Ref {
     @JoinColumn(name = "invoice_type", referencedColumnName = "id")
     @ManyToOne
     private InvoiceType invoiceType;
+
+    @Column(name = "footer_content")
+    @Lob
+    private String footerContent;
+
+    public InvoiceType getInvoiceType() {
+        return invoiceType;
+    }
+
+    public void setInvoiceType(InvoiceType invoiceType) {
+        this.invoiceType = invoiceType;
+    }
+
+    public String getFooterContent() {
+        return footerContent;
+    }
+
+    public void setFooterContent(String footerContent) {
+        this.footerContent = footerContent;
+    }
 }

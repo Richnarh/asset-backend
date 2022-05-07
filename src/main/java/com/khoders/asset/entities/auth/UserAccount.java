@@ -1,6 +1,5 @@
 package com.khoders.asset.entities.auth;
 
-import com.khoders.asset.entities.Company;
 import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.*;

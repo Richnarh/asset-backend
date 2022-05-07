@@ -2,8 +2,9 @@ package com.khoders.asset.entities.auth;
 
 import com.khoders.asset.entities.Ref;
 
-import javax.persistence.*;
-import java.time.Instant;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
