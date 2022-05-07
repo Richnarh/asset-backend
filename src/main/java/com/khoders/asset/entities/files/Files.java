@@ -1,5 +1,6 @@
-package com.khoders.asset.entities;
+package com.khoders.asset.entities.files;
 
+import com.khoders.asset.entities.Ref;
 import com.khoders.asset.entities.constants.FileType;
 
 import javax.persistence.*;
@@ -7,7 +8,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "files")
-public class Files extends Ref{
+public class Files extends Ref {
     @Column(name = "file_name")
     @Lob
     private String fileName;

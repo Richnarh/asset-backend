@@ -2,7 +2,7 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.Location;
-import com.khoders.resource.spring.CrudBuilder;
+import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;

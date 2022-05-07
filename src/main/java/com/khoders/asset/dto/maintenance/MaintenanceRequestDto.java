@@ -2,8 +2,6 @@ package com.khoders.asset.dto.maintenance;
 
 import com.khoders.asset.dto.BaseDto;
 
-import java.time.LocalDate;
-
 public class MaintenanceRequestDto extends BaseDto {
     private String requestType;
     private String requestTypeId;

@@ -3,7 +3,7 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.authpayload.RoleDto;
 import com.khoders.asset.entities.auth.Role;
 import com.khoders.asset.entities.constants.UserRole;
-import com.khoders.resource.spring.CrudBuilder;
+import com.khoders.asset.utils.CrudBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,8 @@ public class RoleMapper {
         dto.setId(role.getId());
         try {
             dto.setRoleName(role.getRoleName().name());
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         return dto;
     }
 }

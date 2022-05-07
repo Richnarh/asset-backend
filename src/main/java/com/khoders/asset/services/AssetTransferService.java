@@ -1,7 +1,7 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.AssetTransfer;
-import com.khoders.resource.spring.CrudBuilder;
+import com.khoders.asset.utils.CrudBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

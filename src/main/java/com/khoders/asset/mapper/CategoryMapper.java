@@ -8,9 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 @Component
 public class CategoryMapper {
     private static final Logger log = LoggerFactory.getLogger(CategoryMapper.class);

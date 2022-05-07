@@ -3,7 +3,7 @@ package com.khoders.asset.services.auth;
 import com.khoders.asset.Repository.UserRepository;
 import com.khoders.asset.dto.authpayload.LoginRequest;
 import com.khoders.asset.entities.auth.UserAccount;
-import com.khoders.resource.spring.CrudBuilder;
+import com.khoders.asset.utils.CrudBuilder;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -25,7 +25,8 @@ import java.util.ArrayList;
 public class AuthService implements UserDetailsService {
     @Autowired
     private CrudBuilder builder;
-    @Autowired private UserRepository repository;
+    @Autowired
+    private UserRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {

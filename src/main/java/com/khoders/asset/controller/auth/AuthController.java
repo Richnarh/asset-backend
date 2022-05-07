@@ -50,6 +50,7 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
+            System.out.println("working.................\n\n\n");
             return ApiResponse.ok("Login success", mapper.toJwtResponse(loginRequest));
         } catch (Exception e) {
             return ApiResponse.error(e.getMessage(), null);

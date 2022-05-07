@@ -1,12 +1,13 @@
 package com.khoders.asset.entities;
 
 import com.khoders.asset.entities.auth.UserAccount;
+import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "company")
-public class Company extends Ref {
+public class Company extends SpringBaseModel {
 
     @Column(name = "company_name")
     private String companyName;

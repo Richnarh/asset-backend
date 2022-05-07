@@ -7,6 +7,7 @@ import java.util.Set;
 public class JwtResponse extends BaseDto {
     private String accessToken;
     private String refreshToken;
+    private String expiryDate;
     private String type = "Bearer";
     private Set<RoleDto> roleList;
 
@@ -40,5 +41,13 @@ public class JwtResponse extends BaseDto {
 
     public void setRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
+    }
+
+    public String getExpiryDate() {
+        return expiryDate;
+    }
+
+    public void setExpiryDate(String expiryDate) {
+        this.expiryDate = expiryDate;
     }
 }

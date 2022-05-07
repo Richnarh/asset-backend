@@ -121,7 +121,7 @@ public class AuthMapper {
             dto.setRoleName(item.getRoleName().name());
             roles.add(dto);
         });
-        System.out.println("\n roles  --- "+SystemUtils.KJson().toJson(roles));
+
         String jwtToken = jwtService.generateToken(userDetails.getUsername());
 
         jwtResponse.setAccessToken(jwtToken);
@@ -129,9 +129,10 @@ public class AuthMapper {
         jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
         jwtResponse.setRoleList(roles);
 
-        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
-
-        jwtResponse.setRefreshToken(refreshToken.getToken());
+//        Todo: to ne reviewed and error fixed
+//        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
+//        jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
+//        jwtResponse.setRefreshToken(refreshToken.getToken());
 
         return jwtResponse;
     }

@@ -36,7 +36,7 @@
         <mapping class="com.khoders.asset.entities.maintenance.MaintenanceTask"/>
         <mapping class="com.khoders.asset.entities.maintenance.MaintenanceRequest"/>
         <mapping class="com.khoders.asset.entities.maintenance.StartWork"/>
-        <mapping class="com.khoders.asset.entities.maintenance.BusinessClient"/>
+        <mapping class="com.khoders.asset.entities.BusinessClient"/>
 
         <mapping class="com.khoders.asset.entities.accounts.ChartOfAccount"/>
         <mapping class="com.khoders.asset.entities.accounts.Invoice"/>

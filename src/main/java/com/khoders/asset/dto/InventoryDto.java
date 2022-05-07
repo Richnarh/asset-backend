@@ -1,7 +1,5 @@
 package com.khoders.asset.dto;
 
-import java.time.LocalDate;
-
 public class InventoryDto extends BaseDto {
     private String receiptNo;
     private String receivedDate;

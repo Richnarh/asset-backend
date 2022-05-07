@@ -5,8 +5,8 @@ import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.Location;
 import com.khoders.asset.entities.Vendor;
+import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
-import com.khoders.resource.spring.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class InventoryMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public Inventory toEntity(InventoryDto dto){
+    public Inventory toEntity(InventoryDto dto) {
         Inventory inventory = new Inventory();
         if (dto.getId() != null) {
             inventory.setId(dto.getId());
@@ -56,22 +56,22 @@ public class InventoryMapper {
         return inventory;
     }
 
-    public InventoryDto toDto(Inventory inventory){
-        if (inventory.getId() == null){
+    public InventoryDto toDto(Inventory inventory) {
+        if (inventory.getId() == null) {
             return null;
         }
         InventoryDto dto = new InventoryDto();
         dto.setId(inventory.getId());
         dto.setReceiptNo(inventory.getReceiptNo());
-        if (inventory.getReceivedAt() != null){
+        if (inventory.getReceivedAt() != null) {
             dto.setReceivedAtId(inventory.getReceivedAt().getId());
             dto.setReceivedAt(inventory.getReceivedAt().getLocationName());
         }
-        if(inventory.getReceivedBy() != null){
+        if (inventory.getReceivedBy() != null) {
             dto.setReceivedById(inventory.getReceivedBy().getId());
             dto.setReceivedByName(inventory.getReceivedBy().getEmailAddress());
         }
-        if (inventory.getVendor() != null){
+        if (inventory.getVendor() != null) {
             dto.setVendorId(inventory.getVendor().getId());
             dto.setVendorName(inventory.getVendor().getVendorName());
         }

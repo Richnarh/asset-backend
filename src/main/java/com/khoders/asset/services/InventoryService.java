@@ -1,7 +1,7 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Inventory;
-import com.khoders.resource.spring.CrudBuilder;
+import com.khoders.asset.utils.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class InventoryService {
     }
 
     public Inventory findById(String inventoryId) {
-        return builder.simpleFind(Inventory.class,inventoryId);
+        return builder.simpleFind(Inventory.class, inventoryId);
     }
 
     public boolean delete(String inventoryId) {

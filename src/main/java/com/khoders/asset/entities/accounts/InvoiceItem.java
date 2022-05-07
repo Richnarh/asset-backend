@@ -2,11 +2,10 @@ package com.khoders.asset.entities.accounts;
 
 import com.khoders.asset.entities.Ref;
 
-import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
+@Entity
+@Table(name = "invoice_item")
 public class InvoiceItem extends Ref {
 
     @Column(name = "quantity")

@@ -3,8 +3,8 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.entities.Company;
 import com.khoders.asset.entities.auth.UserAccount;
+import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
-import com.khoders.resource.spring.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +27,7 @@ public class CompanyMapper {
         if (dto.getUserAccountId() == null) {
             throw new DataNotFoundException("Specify Valid User AccountId");
         }
-        UserAccount userAccount = builder.simpleFind(UserAccount.class,dto.getUserAccountId());
+        UserAccount userAccount = builder.simpleFind(UserAccount.class, dto.getUserAccountId());
         if (userAccount != null) {
             company.setUserAccount(userAccount);
         }

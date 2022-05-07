@@ -4,8 +4,8 @@ import com.khoders.asset.dto.InventoryItemDto;
 import com.khoders.asset.entities.Category;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.InventoryItem;
+import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
-import com.khoders.resource.spring.CrudBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class InventoryItemMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public InventoryItem toEntity(InventoryItemDto dto){
+    public InventoryItem toEntity(InventoryItemDto dto) {
         InventoryItem inventoryItem = new InventoryItem();
         if (dto.getId() != null) {
             inventoryItem.setId(dto.getId());
