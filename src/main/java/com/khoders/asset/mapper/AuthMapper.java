@@ -6,7 +6,6 @@ import com.khoders.asset.dto.authpayload.JwtResponse;
 import com.khoders.asset.dto.authpayload.LoginRequest;
 import com.khoders.asset.dto.authpayload.RoleDto;
 import com.khoders.asset.dto.authpayload.UserAccountDto;
-import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.Role;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.entities.constants.UserRole;
@@ -16,7 +15,6 @@ import com.khoders.asset.services.auth.RefreshTokenService;
 import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
-import com.khoders.resource.utilities.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +29,7 @@ import java.util.Set;
 
 @Component
 public class AuthMapper {
+
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -129,7 +128,7 @@ public class AuthMapper {
         jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
         jwtResponse.setRoleList(roles);
 
-//        Todo: to ne reviewed and error fixed
+//        Todo: to reviewed and error fixe
 //        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
 //        jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
 //        jwtResponse.setRefreshToken(refreshToken.getToken());

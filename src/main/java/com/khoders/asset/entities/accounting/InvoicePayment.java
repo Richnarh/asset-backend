@@ -1,4 +1,4 @@
-package com.khoders.asset.entities.accounts;
+package com.khoders.asset.entities.accounting;
 
 import com.khoders.asset.entities.Ref;
 import com.khoders.resource.enums.PaymentMethod;

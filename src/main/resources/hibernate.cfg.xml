@@ -38,9 +38,9 @@
         <mapping class="com.khoders.asset.entities.maintenance.StartWork"/>
         <mapping class="com.khoders.asset.entities.BusinessClient"/>
 
-        <mapping class="com.khoders.asset.entities.accounts.ChartOfAccount"/>
-        <mapping class="com.khoders.asset.entities.accounts.Invoice"/>
-        <mapping class="com.khoders.asset.entities.accounts.InvoiceItem"/>
+        <mapping class="com.khoders.asset.entities.accounting.ChartOfAccount"/>
+        <mapping class="com.khoders.asset.entities.accounting.Invoice"/>
+        <mapping class="com.khoders.asset.entities.accounting.InvoiceItem"/>
     </session-factory>
 
 </hibernate-configuration>

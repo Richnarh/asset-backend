@@ -11,4 +11,12 @@ import javax.persistence.Table;
 public class InvoiceType extends Ref {
     @Column(name = "type_name")
     private String typeName;
+
+    public String getTypeName() {
+        return typeName;
+    }
+
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
+    }
 }

@@ -11,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class RefreshTokenService {
     @Value("${khoders.app.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
