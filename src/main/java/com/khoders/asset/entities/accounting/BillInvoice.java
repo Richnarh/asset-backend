@@ -2,9 +2,7 @@ package com.khoders.asset.entities.accounting;
 
 import com.khoders.asset.entities.Ref;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 @MappedSuperclass
 public class BillInvoice extends Ref {
@@ -20,6 +18,10 @@ public class BillInvoice extends Ref {
     @Column(name = "product")
     @Lob
     private String product;
+
+    @JoinColumn(name = "accounts", referencedColumnName = "id")
+    @ManyToOne
+    private Account account;
 
     public double getQuantity() {
         return quantity;

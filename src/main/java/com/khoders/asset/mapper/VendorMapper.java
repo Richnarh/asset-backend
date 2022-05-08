@@ -1,7 +1,7 @@
 package com.khoders.asset.mapper;
 
-import com.khoders.asset.dto.VendorDto;
-import com.khoders.asset.entities.Vendor;
+import com.khoders.asset.dto.BusinessClientDto;
+import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.enums.ClientType;
 import com.khoders.resource.utilities.DateUtil;
@@ -11,44 +11,41 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-
 @Component
 public class VendorMapper {
     private static final Logger log = LoggerFactory.getLogger(VendorMapper.class);
     @Autowired
     private CrudBuilder builder;
 
-    public Vendor toEntity(VendorDto dto) {
-        Vendor vendor = new Vendor();
+    public BusinessClient toEntity(BusinessClientDto dto) {
+        BusinessClient businessClient = new BusinessClient();
         if (dto.getId() != null) {
-            vendor.setId(dto.getId());
+            businessClient.setId(dto.getId());
         }
-        vendor.setRefNo(vendor.getRefNo());
+        businessClient.setRefNo(businessClient.getRefNo());
         try {
             log.info("Vendor Type: {} ", dto.getVendorType());
-            vendor.setVendorType(ClientType.valueOf(dto.getVendorType()));
+            businessClient.setClientType(ClientType.valueOf(dto.getVendorType()));
         } catch (Exception ignored) {
         }
-        vendor.setEmailAddress(dto.getEmailAddress());
-        vendor.setVendorName(dto.getVendorName());
-        vendor.setPhoneNumber(dto.getPhoneNumber());
-        vendor.setLastModifiedDate(LocalDateTime.now());
-        return vendor;
+        businessClient.setEmailAddress(dto.getEmailAddress());
+        businessClient.setFirstname(dto.getVendorName());
+        businessClient.setPhoneNumber(dto.getPhoneNumber());
+        return businessClient;
     }
 
-    public VendorDto toDto(Vendor vendor) {
-        VendorDto dto = new VendorDto();
-        if (vendor.getId() == null) return null;
-        dto.setId(vendor.getId());
-        dto.setVendorName(vendor.getVendorName());
+    public BusinessClientDto toDto(BusinessClient businessClient) {
+        BusinessClientDto dto = new BusinessClientDto();
+        if (businessClient.getId() == null) return null;
+        dto.setId(businessClient.getId());
+        dto.setVendorName(businessClient.getFirstname());
         try {
-            dto.setVendorType(vendor.getVendorType().getLabel());
+            dto.setVendorType(businessClient.getClientType().getLabel());
         } catch (Exception ignored) {
         }
-        dto.setEmailAddress(vendor.getEmailAddress());
-        dto.setPhoneNumber(vendor.getPhoneNumber());
-        dto.setValueDate(DateUtil.parseLocalDateString(vendor.getValueDate(), Pattern.ddMMyyyy));
+        dto.setEmailAddress(businessClient.getEmailAddress());
+        dto.setPhoneNumber(businessClient.getPhoneNumber());
+        dto.setValueDate(DateUtil.parseLocalDateString(businessClient.getValueDate(), Pattern.ddMMyyyy));
         return dto;
     }
 }

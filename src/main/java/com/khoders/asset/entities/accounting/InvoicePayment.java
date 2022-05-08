@@ -9,26 +9,17 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "invoice_payment")
-public class InvoicePayment extends Ref {
-    @Column(name = "amount")
-    private double amount;
-
-    @Column(name = "paid_date")
-    private LocalDate paidDate;
-
-    @Column(name = "amount_remaining")
-    private double amountRemaining;
-
-    @Column(name = "payment_status")
-    @Enumerated(EnumType.STRING)
-    private PaymentStatus paymentStatus;
-
-    @Column(name = "payment_method")
-    @Enumerated(EnumType.STRING)
-    private PaymentMethod paymentMethod;
+public class InvoicePayment extends BillInvoicePayment {
 
     @JoinColumn(name = "invoice", referencedColumnName = "id")
     @ManyToOne
     private Invoice invoice;
 
+    public Invoice getInvoice() {
+        return invoice;
+    }
+
+    public void setInvoice(Invoice invoice) {
+        this.invoice = invoice;
+    }
 }

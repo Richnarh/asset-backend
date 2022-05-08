@@ -1,10 +1,10 @@
 package com.khoders.asset.mapper;
 
 import com.khoders.asset.dto.InventoryDto;
+import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.Location;
-import com.khoders.asset.entities.Vendor;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
@@ -36,7 +36,7 @@ public class InventoryMapper {
         if (dto.getReceivedById() == null) {
             throw new DataNotFoundException("Please Specify Valid ReceivedById (employeeId)");
         }
-        if (dto.getVendorId() == null) {
+        if (dto.getBusinessClientId() == null) {
             throw new DataNotFoundException("Please Specify Valid VendorId");
         }
         Location location = builder.findOne(dto.getReceivedAtId(), Location.class);
@@ -47,11 +47,10 @@ public class InventoryMapper {
         if (employee != null) {
             inventory.setReceivedBy(employee);
         }
-        Vendor vendor = builder.findOne(dto.getVendorId(), Vendor.class);
-        if (vendor != null) {
-            inventory.setVendor(vendor);
+        BusinessClient businessClient = builder.findOne(dto.getBusinessClientId(), BusinessClient.class);
+        if (businessClient != null) {
+            inventory.setBusinessClient(businessClient);
         }
-        inventory.setLastModifiedDate(LocalDateTime.now());
 
         return inventory;
     }
@@ -71,9 +70,9 @@ public class InventoryMapper {
             dto.setReceivedById(inventory.getReceivedBy().getId());
             dto.setReceivedByName(inventory.getReceivedBy().getEmailAddress());
         }
-        if (inventory.getVendor() != null) {
-            dto.setVendorId(inventory.getVendor().getId());
-            dto.setVendorName(inventory.getVendor().getVendorName());
+        if (inventory.getBusinessClient() != null) {
+            dto.setBusinessClientId(inventory.getBusinessClient().getId());
+            dto.setBusinessClientName(inventory.getBusinessClient().getEmailAddress());
         }
         dto.setReceivedDate(DateUtil.parseLocalDateString(inventory.getReceivedDate(), Pattern.ddMMyyyy));
         dto.setTotalPayable(inventory.getTotalPayable());

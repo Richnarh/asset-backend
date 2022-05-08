@@ -13,6 +13,9 @@ public class Invoice  extends Ref {
     @ManyToOne
     private BusinessClient businessClient;
 
+    @Column(name = "customer_type")
+    private boolean customerType;
+
     @Column(name = "invoice_no")
     private String invoiceNo;
 
@@ -22,6 +25,20 @@ public class Invoice  extends Ref {
     @Column(name = "memo")
     @Lob
     private String memo;
+
+    @Column(name = "balance_overdue")
+    private double balanceOverDue;
+
+    @Column(name = "total_amount")
+    private double totalAmount;
+
+    @Column(name = "customer_notes")
+    @Lob
+    private String customerNotes;
+
+    @Column(name = "terms_condition")
+    @Lob
+    private String termsCondition;
 
     public BusinessClient getBusinessClient() {
         return businessClient;
@@ -53,5 +70,21 @@ public class Invoice  extends Ref {
 
     public void setMemo(String memo) {
         this.memo = memo;
+    }
+
+    public double getBalanceOverDue() {
+        return balanceOverDue;
+    }
+
+    public void setBalanceOverDue(double balanceOverDue) {
+        this.balanceOverDue = balanceOverDue;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

@@ -1,5 +1,6 @@
 package com.khoders.asset.controller.lookups;
 
+import com.khoders.asset.entities.Category;
 import com.khoders.asset.entities.constants.*;
 import com.khoders.resource.enums.ClientType;
 import com.khoders.resource.enums.PaymentMethod;
@@ -56,5 +57,17 @@ public class LookupEndpoint {
     @GetMapping("/payment-method")
     public ResponseEntity<List<PaymentMethod>> paymentMethod() {
         return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(PaymentMethod.values()));
+    }
+    @GetMapping("/Social-media-type")
+    public ResponseEntity<List<SocialMediaType>> socialMediaType() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(SocialMediaType.values()));
+    }
+    @GetMapping("/account-type")
+    public ResponseEntity<List<AccountType>> accountCategory() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(AccountType.values()));
+    }
+    @GetMapping("/debit-credit")
+    public ResponseEntity<List<DebitCredit>> debitCredit() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(DebitCredit.values()));
     }
 }

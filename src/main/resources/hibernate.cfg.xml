@@ -23,7 +23,6 @@
         <mapping class="com.khoders.asset.entities.Category"/>
         <mapping class="com.khoders.asset.entities.Company"/>
         <mapping class="com.khoders.asset.entities.Employee"/>
-        <mapping class="com.khoders.asset.entities.Vendor"/>
         <mapping class="com.khoders.asset.entities.Department"/>
         <mapping class="com.khoders.asset.entities.AssetRequestApproval"/>
         <mapping class="com.khoders.asset.entities.Inventory"/>
@@ -38,7 +37,7 @@
         <mapping class="com.khoders.asset.entities.maintenance.StartWork"/>
         <mapping class="com.khoders.asset.entities.BusinessClient"/>
 
-        <mapping class="com.khoders.asset.entities.accounting.ChartOfAccount"/>
+        <mapping class="com.khoders.asset.entities.accounting.Account"/>
         <mapping class="com.khoders.asset.entities.accounting.Invoice"/>
         <mapping class="com.khoders.asset.entities.accounting.InvoiceItem"/>
     </session-factory>

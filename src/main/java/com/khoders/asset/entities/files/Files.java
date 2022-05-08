@@ -27,6 +27,10 @@ public class Files extends Ref {
     @Enumerated(EnumType.STRING)
     private FileType fileType;
 
+    @Column(name = "description")
+    @Lob
+    private String description;
+
     public String getFileName() {
         return fileName;
     }
@@ -57,5 +61,21 @@ public class Files extends Ref {
 
     public void setFileType(FileType fileType) {
         this.fileType = fileType;
+    }
+
+    public LocalDate getUploadDate() {
+        return uploadDate;
+    }
+
+    public void setUploadDate(LocalDate uploadDate) {
+        this.uploadDate = uploadDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
