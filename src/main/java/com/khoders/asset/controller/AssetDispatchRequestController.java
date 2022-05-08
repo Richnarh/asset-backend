@@ -2,7 +2,6 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.AssetDispatchRequestDto;
 import com.khoders.asset.entities.AssetDispatchRequest;
-import com.khoders.asset.entities.Vendor;
 import com.khoders.asset.mapper.AssetDispatchRequestMapper;
 import com.khoders.asset.services.AssetDispatchRequestService;
 import com.khoders.resource.spring.ApiResponse;
@@ -51,7 +50,7 @@ public class AssetDispatchRequestController {
     }
 
     @GetMapping("/{dispatchRequestId}")
-    public ResponseEntity<Vendor> findSingle(@PathVariable(value = "dispatchRequestId") String dispatchRequestId) {
+    public ResponseEntity<AssetDispatchRequest> findSingle(@PathVariable(value = "dispatchRequestId") String dispatchRequestId) {
         try {
             AssetDispatchRequest dispatchRequest = requestService.findById(dispatchRequestId);
             if (dispatchRequest == null) {

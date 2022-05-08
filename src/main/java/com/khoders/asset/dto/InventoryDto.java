@@ -7,8 +7,8 @@ public class InventoryDto extends BaseDto {
     private String receivedById; // employeeId
     private String receivedAt; // locationName
     private String receivedAtId; // locationId
-    private String vendorName;
-    private String vendorId;
+    private String businessClientName;
+    private String businessClientId;
     private double totalPayable;
 
     public String getReceiptNo() {
@@ -59,20 +59,20 @@ public class InventoryDto extends BaseDto {
         this.receivedAtId = receivedAtId;
     }
 
-    public String getVendorName() {
-        return vendorName;
+    public String getBusinessClientName() {
+        return businessClientName;
     }
 
-    public void setVendorName(String vendorName) {
-        this.vendorName = vendorName;
+    public void setBusinessClientName(String businessClientName) {
+        this.businessClientName = businessClientName;
     }
 
-    public String getVendorId() {
-        return vendorId;
+    public String getBusinessClientId() {
+        return businessClientId;
     }
 
-    public void setVendorId(String vendorId) {
-        this.vendorId = vendorId;
+    public void setBusinessClientId(String businessClientId) {
+        this.businessClientId = businessClientId;
     }
 
     public double getTotalPayable() {

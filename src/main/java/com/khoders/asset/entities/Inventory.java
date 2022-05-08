@@ -21,9 +21,9 @@ public class Inventory extends Ref {
     @ManyToOne
     private Location receivedAt;
 
-    @JoinColumn(name = "vendor", referencedColumnName = "id")
+    @JoinColumn(name = "business_client", referencedColumnName = "id")
     @ManyToOne
-    private Vendor vendor;
+    private BusinessClient businessClient;
 
     @Column(name = "total_payable")
     private double totalPayable;
@@ -60,13 +60,6 @@ public class Inventory extends Ref {
         this.receivedAt = receivedAt;
     }
 
-    public Vendor getVendor() {
-        return vendor;
-    }
-
-    public void setVendor(Vendor vendor) {
-        this.vendor = vendor;
-    }
 
     public double getTotalPayable() {
         return totalPayable;
@@ -74,5 +67,13 @@ public class Inventory extends Ref {
 
     public void setTotalPayable(double totalPayable) {
         this.totalPayable = totalPayable;
+    }
+
+    public BusinessClient getBusinessClient() {
+        return businessClient;
+    }
+
+    public void setBusinessClient(BusinessClient businessClient) {
+        this.businessClient = businessClient;
     }
 }

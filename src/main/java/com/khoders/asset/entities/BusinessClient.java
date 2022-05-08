@@ -1,10 +1,9 @@
 package com.khoders.asset.entities;
 
 import com.khoders.resource.enums.ClientType;
+import com.khoders.resource.enums.Title;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "business_client")
@@ -12,8 +11,18 @@ public class BusinessClient extends Ref{
     @Column(name = "client_type")
     private ClientType clientType;
 
-    @Column(name = "client_name")
-    private String clientName;
+    @Column(name = "title")
+    @Enumerated(EnumType.STRING)
+    private Title title;
+
+    @Column(name = "first_name")
+    private String firstname;
+
+    @Column(name = "last_name")
+    private String lastname;
+
+    @Column(name = "company_name")
+    private String companyName;
 
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -27,6 +36,26 @@ public class BusinessClient extends Ref{
     @Column(name = "zipcode")
     private String zipCode;
 
+    @Column(name = "social_media_url")
+    @Lob
+    private String socialMediaUrl;
+
+    public Title getTitle() {
+        return title;
+    }
+
+    public void setTitle(Title title) {
+        this.title = title;
+    }
+
+    public String getSocialMediaUrl() {
+        return socialMediaUrl;
+    }
+
+    public void setSocialMediaUrl(String socialMediaUrl) {
+        this.socialMediaUrl = socialMediaUrl;
+    }
+
     public ClientType getClientType() {
         return clientType;
     }
@@ -35,12 +64,28 @@ public class BusinessClient extends Ref{
         this.clientType = clientType;
     }
 
-    public String getClientName() {
-        return clientName;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getPhoneNumber() {
