@@ -21,13 +21,11 @@ public class BillBillItemController {
         BillDto bill = accountService.saveBill(dto);
         return ApiResponse.created(Msg.CREATED, bill);
     }
-
     @PutMapping
     public ResponseEntity<BillDto> update(@RequestBody BillDto dto){
         BillDto bill = accountService.saveBill(dto);
         return ApiResponse.created(Msg.UPDATED, bill.getId());
     }
-
     @GetMapping("/list")
     public ResponseEntity<List<BillDto>> list(){
         List<BillDto> dtoList = accountService.billList();
