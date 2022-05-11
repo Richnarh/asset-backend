@@ -4,6 +4,7 @@ import com.khoders.asset.dto.EmployeeDto;
 import com.khoders.asset.entities.Employee;
 import com.khoders.asset.mapper.EmployeeMapper;
 import com.khoders.asset.services.EmployeeService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/employee")
+@RequestMapping(ApiEndpoint.EMPLOYEE_ENDPOINT)
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;

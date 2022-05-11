@@ -4,6 +4,7 @@ import com.khoders.asset.dto.BusinessClientDto;
 import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.mapper.VendorMapper;
 import com.khoders.asset.services.BusinessClientService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/vendor")
+@RequestMapping(ApiEndpoint.VENDOR_ENDPOINT)
 public class BusinessClientController {
     @Autowired
     private BusinessClientService clientService;

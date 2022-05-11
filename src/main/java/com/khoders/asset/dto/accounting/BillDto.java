@@ -1,46 +1,33 @@
-package com.khoders.asset.entities.accounting;
+package com.khoders.asset.dto.accounting;
 
-import com.khoders.asset.entities.BusinessClient;
-import com.khoders.asset.entities.Ref;
-import com.khoders.resource.enums.Title;
-
-import javax.persistence.*;
-import java.time.LocalDate;
+import com.khoders.asset.dto.BaseDto;
 import java.util.LinkedList;
 import java.util.List;
 
-@Entity
-@Table(name = "bills")
-public class Bill extends Ref {
-    @JoinColumn(name = "business_client", referencedColumnName = "id")
-    @ManyToOne
-    private BusinessClient businessClient;
-
-    @Column(name = "receipt_no")
+public class BillDto extends BaseDto {
+    private String businessClient;
+    private String businessClientId;
     private String receiptNo;
-
-    @Column(name = "bill_date")
-    private LocalDate billDate;
-
-    @Column(name = "memo")
-    @Lob
+    private String billDate;
     private String memo;
-
-    @Column(name = "total_amount")
     private double totalAmount;
-
-    @Column(name = "balance_overdue")
     private double balanceOverDue;
+    private List<BillItemDto> billItemList = new LinkedList<>();
 
-    @Transient
-    private List<BillItem> billItemList = new LinkedList<>();
-
-    public BusinessClient getBusinessClient() {
+    public String getBusinessClient() {
         return businessClient;
     }
 
-    public void setBusinessClient(BusinessClient businessClient) {
+    public void setBusinessClient(String businessClient) {
         this.businessClient = businessClient;
+    }
+
+    public String getBusinessClientId() {
+        return businessClientId;
+    }
+
+    public void setBusinessClientId(String businessClientId) {
+        this.businessClientId = businessClientId;
     }
 
     public String getReceiptNo() {
@@ -51,11 +38,11 @@ public class Bill extends Ref {
         this.receiptNo = receiptNo;
     }
 
-    public LocalDate getBillDate() {
+    public String getBillDate() {
         return billDate;
     }
 
-    public void setBillDate(LocalDate billDate) {
+    public void setBillDate(String billDate) {
         this.billDate = billDate;
     }
 
@@ -83,11 +70,11 @@ public class Bill extends Ref {
         this.balanceOverDue = balanceOverDue;
     }
 
-    public List<BillItem> getBillItemList() {
+    public List<BillItemDto> getBillItemList() {
         return billItemList;
     }
 
-    public void setBillItemList(List<BillItem> billItemList) {
+    public void setBillItemList(List<BillItemDto> billItemList) {
         this.billItemList = billItemList;
     }
 }

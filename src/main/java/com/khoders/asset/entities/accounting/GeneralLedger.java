@@ -4,6 +4,7 @@ import com.khoders.asset.entities.Ref;
 import com.khoders.asset.entities.constants.EntrySource;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "general_ledger")
@@ -14,6 +15,9 @@ public class GeneralLedger extends Ref {
 
     @Column(name = "debit")
     private double debit;
+
+    @Column(name = "entry_date")
+    private LocalDate entryDate;
 
     @Column(name = "credit")
     private double credit;
@@ -64,5 +68,13 @@ public class GeneralLedger extends Ref {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public LocalDate getEntryDate() {
+        return entryDate;
+    }
+
+    public void setEntryDate(LocalDate entryDate) {
+        this.entryDate = entryDate;
     }
 }

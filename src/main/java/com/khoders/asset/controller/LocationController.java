@@ -4,6 +4,7 @@ import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.Location;
 import com.khoders.asset.mapper.LocationMapper;
 import com.khoders.asset.services.LocationService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/location")
+@RequestMapping(ApiEndpoint.LOCATION_ENDPOINT)
 public class LocationController {
     @Autowired
     private LocationService locationService;
