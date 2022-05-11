@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "bill_payment")
 public class BillPayment extends BillInvoicePayment {
-
+    public static final String _bill = "bill";
     @JoinColumn(name = "bills", referencedColumnName = "id")
     @ManyToOne
     private Bill bill;

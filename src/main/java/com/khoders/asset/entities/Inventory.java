@@ -2,6 +2,8 @@ package com.khoders.asset.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "inventory")
@@ -27,6 +29,9 @@ public class Inventory extends Ref {
 
     @Column(name = "total_payable")
     private double totalPayable;
+
+    @Transient
+    private List<InventoryItem> inventoryItemList = new LinkedList<>();
 
     public String getReceiptNo() {
         return receiptNo;
@@ -75,5 +80,13 @@ public class Inventory extends Ref {
 
     public void setBusinessClient(BusinessClient businessClient) {
         this.businessClient = businessClient;
+    }
+
+    public List<InventoryItem> getInventoryItemList() {
+        return inventoryItemList;
+    }
+
+    public void setInventoryItemList(List<InventoryItem> inventoryItemList) {
+        this.inventoryItemList = inventoryItemList;
     }
 }

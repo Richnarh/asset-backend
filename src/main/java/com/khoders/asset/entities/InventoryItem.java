@@ -12,6 +12,7 @@ public class InventoryItem extends Ref {
     @ManyToOne
     private Category productCategory;
 
+    public static final String _inventory = "inventory";
     @JoinColumn(name = "inventory", referencedColumnName = "id")
     @ManyToOne
     private Inventory inventory;

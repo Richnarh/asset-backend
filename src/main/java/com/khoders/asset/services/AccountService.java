@@ -2,16 +2,15 @@ package com.khoders.asset.services;
 
 import com.khoders.asset.dto.accounting.AccountDto;
 import com.khoders.asset.dto.accounting.BillDto;
-import com.khoders.asset.dto.accounting.BillItemDto;
-import com.khoders.asset.entities.AssetTransfer;
+import com.khoders.asset.dto.accounting.BillPaymentDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Bill;
 import com.khoders.asset.entities.accounting.BillItem;
-import com.khoders.asset.mapper.accounting.AccountExtractMapper;
+import com.khoders.asset.entities.accounting.BillPayment;
+import com.khoders.asset.mapper.accounting.BillExtractMapper;
 import com.khoders.asset.mapper.accounting.AccountMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
-import com.khoders.resource.utilities.SystemUtils;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +28,7 @@ import java.util.List;
 @Service
 public class AccountService {
     @Autowired private CrudBuilder builder;
-    @Autowired private AccountExtractMapper extractMapper;
+    @Autowired private BillExtractMapper extractMapper;
     @Autowired private AccountMapper mapper;
 
     public BillDto saveBill(BillDto dto){
@@ -41,21 +39,19 @@ public class AccountService {
             }
         }
         Bill bill = extractMapper.toEntity(dto);
-        System.out.println("Bill -- "+ SystemUtils.KJson().toJson(bill));
         if (builder.save(bill) != null){
             for(BillItem billItem: bill.getBillItemList()){
                 billItem.setBill(bill);
                 builder.save(billItem);
             }
         }
-        System.out.println("BillDto -- "+ SystemUtils.KJson().toJson(extractMapper.toDto(bill)));
         return extractMapper.toDto(bill);
     }
 
     public List<BillDto> billList(){
         Session session = builder.session();
 
-        List<BillItem> billItemList = new ArrayList<>();
+        List<BillItem> billItemList;
         List<BillDto> dtoList = new LinkedList<>();
 
         List<Bill> billList = builder.findAll(Bill.class);
@@ -84,7 +80,7 @@ public class AccountService {
     }
     public BillDto findById(String billId){
         Session session = builder.session();
-        List<BillItem> billItemList = new ArrayList<>();
+        List<BillItem> billItemList;
 
         Bill bill = builder.simpleFind(Bill.class, billId);
 
@@ -118,5 +114,45 @@ public class AccountService {
             return mapper.tDto(account);
         }
         return  null;
+    }
+
+    public BillPaymentDto saveBillPayment(BillPaymentDto dto){
+        if (dto.getId() != null){
+            BillPayment billPayment = builder.simpleFind(BillPayment.class, dto.getId());
+            if (billPayment == null){
+                throw new DataNotFoundException("BillPayment with ID: "+ dto.getId() +" Not Found");
+            }
+        }
+        BillPayment billPayment = extractMapper.toEntity(dto);
+        if (builder.save(billPayment) != null){
+           return extractMapper.toDto(billPayment);
+        }
+        return null;
+    }
+
+    public List<BillPaymentDto> findByBill(String billId){
+        Session session = builder.session();
+        List<BillPayment> billPaymentList;
+        List<BillPaymentDto> dtoList = new LinkedList<>();
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<BillPayment> criteriaQuery = criteriaBuilder.createQuery(BillPayment.class);
+            Root<BillPayment> root = criteriaQuery.from(BillPayment.class);
+            criteriaQuery.where(criteriaBuilder.equal(root.get(BillPayment._bill), billId));
+            Query<BillPayment> query = session.createQuery(criteriaQuery);
+            billPaymentList = query.getResultList();
+
+            for (BillPayment payment: billPaymentList){
+                dtoList.add(extractMapper.toDto(payment));
+            }
+            return dtoList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public boolean deletePayment(String billPaymentId){
+        return builder.deleteById(billPaymentId, BillPayment.class);
     }
 }

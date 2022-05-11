@@ -34,10 +34,8 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<UserAccount> register(@RequestBody UserAccountDto dto) {
         try {
-            System.out.println("\n registering  ---- "+ SystemUtils.KJson().toJson(dto));
             UserAccount entity = mapper.toEntity(dto);
             UserAccount user = authService.saveUser(entity);
-
             if (user == null) {
                 return ApiResponse.error("Unknown Error", null);
             }
@@ -51,7 +49,6 @@ public class AuthController {
     @PostMapping(value = "/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
-            System.out.println("working.................\n\n\n");
             return ApiResponse.ok("Login success", mapper.toJwtResponse(loginRequest));
         } catch (Exception e) {
             return ApiResponse.error(e.getMessage(), null);
