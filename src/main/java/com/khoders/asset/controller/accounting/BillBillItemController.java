@@ -24,7 +24,7 @@ public class BillBillItemController {
     @PutMapping
     public ResponseEntity<BillDto> update(@RequestBody BillDto dto){
         BillDto bill = accountService.saveBill(dto);
-        return ApiResponse.created(Msg.UPDATED, bill.getId());
+        return ApiResponse.ok(Msg.UPDATED, bill.getId());
     }
     @GetMapping("/list")
     public ResponseEntity<List<BillDto>> list(){
