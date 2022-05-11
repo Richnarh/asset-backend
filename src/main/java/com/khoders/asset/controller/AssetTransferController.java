@@ -4,6 +4,7 @@ import com.khoders.asset.dto.AssetTransferDto;
 import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.mapper.AssetTransferMapper;
 import com.khoders.asset.services.AssetTransferService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/transfer")
+@RequestMapping(ApiEndpoint.ASSET_TRANSFER_ENDPOINT)
 public class AssetTransferController {
     @Autowired
     private AssetTransferService transferService;
@@ -47,7 +48,8 @@ public class AssetTransferController {
             if (assetTransfer == null) {
                 return ApiResponse.error("Unknown Error", null);
             }
-            return ApiResponse.ok("Asset Transfer Updated", true);
+            AssetTransferDto itemDto = mapper.toDto(assetTransfer);
+            return ApiResponse.ok("Asset Transfer Updated", itemDto.getId());
         } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), null);

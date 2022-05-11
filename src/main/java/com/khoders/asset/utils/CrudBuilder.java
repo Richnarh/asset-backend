@@ -1,5 +1,6 @@
 package com.khoders.asset.utils;
 
+import com.khoders.asset.entities.accounting.BillItem;
 import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.spring.SpringBaseModel;
 import org.hibernate.HibernateException;
@@ -78,6 +79,8 @@ public class CrudBuilder {
         return null;
     }
 
+// TODO: 05/09/22 Implement generic save all
+
     public <T> T findOne(String id, Class<T> clazz) {
         try {
             if (id == null) return null;
@@ -95,6 +98,15 @@ public class CrudBuilder {
 
     public <T> T simpleFind(Class<T> t, String id) {
         return session().find(t, id);
+    }
+
+    public <T> List<T>  query(Class<T> clazz, String field){
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<?> criteriaQuery = criteriaBuilder.createQuery(clazz);
+        Root<T> root = criteriaQuery.from(clazz);
+        criteriaQuery.where(criteriaBuilder.equal(root.get(field), field));
+        Query<?> query = session().createQuery(criteriaQuery);
+         return (List<T>) query.getResultList();
     }
 
     public <T> List<T> findAll(Class<T> clazz) {

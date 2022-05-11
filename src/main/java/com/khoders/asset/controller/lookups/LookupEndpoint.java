@@ -1,13 +1,16 @@
 package com.khoders.asset.controller.lookups;
 
+import com.khoders.asset.dto.LookupItem;
 import com.khoders.asset.entities.Category;
 import com.khoders.asset.entities.constants.*;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.enums.ClientType;
 import com.khoders.resource.enums.PaymentMethod;
 import com.khoders.resource.enums.PaymentStatus;
 import com.khoders.resource.enums.Title;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,8 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/data")
+@RequestMapping(ApiEndpoint.LOOKUP_ENDPOINT)
 public class LookupEndpoint {
+    @Autowired private LookupSetup lookupSetup;
+
+    // Enums
     @GetMapping("/approval-status")
     public ResponseEntity<List<ApprovalStatus>> approvalStatus() {
         return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(ApprovalStatus.values()));
@@ -69,5 +75,31 @@ public class LookupEndpoint {
     @GetMapping("/debit-credit")
     public ResponseEntity<List<DebitCredit>> debitCredit() {
         return ApiResponse.ok(Msg.RECORD_FOUND, LookupSetup.PrepareEnum(DebitCredit.values()));
+    }
+
+    // Entities
+    @GetMapping("/categories")
+    public ResponseEntity<List<LookupItem>> category() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.categories());
+    }
+    @GetMapping("/departments")
+    public ResponseEntity<List<LookupItem>> department() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.department());
+    }
+    @GetMapping("/locations")
+    public ResponseEntity<List<LookupItem>> location() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.location());
+    }
+    @GetMapping("/employees")
+    public ResponseEntity<List<LookupItem>> employees() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.employees());
+    }
+    @GetMapping("/business-clients")
+    public ResponseEntity<List<LookupItem>> businessClient() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.businessClient());
+    }
+    @GetMapping("/invoice-types")
+    public ResponseEntity<List<LookupItem>> invoiceType() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.invoiceType());
     }
 }

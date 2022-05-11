@@ -28,7 +28,7 @@ public class AssetTransferService {
     }
 
     public AssetTransfer findById(String id) {
-        return builder.findOne(id, AssetTransfer.class);
+        return builder.simpleFind(AssetTransfer.class, id);
     }
 
     public boolean delete(String transferId) {

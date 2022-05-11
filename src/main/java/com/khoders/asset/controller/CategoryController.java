@@ -4,6 +4,7 @@ import com.khoders.asset.dto.CategoryDto;
 import com.khoders.asset.entities.Category;
 import com.khoders.asset.mapper.CategoryMapper;
 import com.khoders.asset.services.CategoryService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.slf4j.Logger;
@@ -17,7 +18,7 @@ import java.util.List;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @RestController
-@RequestMapping("api/v1/category")
+@RequestMapping(ApiEndpoint.CATEGORY_ENDPOINT)
 public class CategoryController {
     private static final Logger log = getLogger(CategoryController.class);
     @Autowired

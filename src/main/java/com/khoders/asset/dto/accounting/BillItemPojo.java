@@ -1,27 +1,14 @@
-package com.khoders.asset.entities.accounting;
+package com.khoders.asset.dto.accounting;
 
-import com.khoders.asset.entities.Ref;
+import com.khoders.asset.dto.BaseDto;
 
-import javax.persistence.*;
-
-@MappedSuperclass
-public class BillInvoice extends Ref {
-    @Column(name = "quantity")
+public class BillItemPojo extends BaseDto {
     private double quantity;
-
-    @Column(name = "unit_price")
     private double unitPrice;
-
-    @Column(name = "total_amount")
     private double totalAmount;
-
-    @Column(name = "product")
-    @Lob
     private String product;
-
-    @JoinColumn(name = "accounts", referencedColumnName = "id")
-    @ManyToOne
-    private Account account;
+    private String accountName;
+    private String accountId;
 
     public double getQuantity() {
         return quantity;
@@ -55,11 +42,19 @@ public class BillInvoice extends Ref {
         this.product = product;
     }
 
-    public Account getAccount() {
-        return account;
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 }

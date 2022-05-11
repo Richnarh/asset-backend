@@ -4,6 +4,7 @@ import com.khoders.asset.dto.DepartmentDto;
 import com.khoders.asset.entities.Department;
 import com.khoders.asset.mapper.DepartmentMapper;
 import com.khoders.asset.services.DepartmentService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/department")
+@RequestMapping(ApiEndpoint.DEPARTMENT_ENDPOINT)
 public class DepartmentController {
     @Autowired
     private DepartmentService departmentService;

@@ -4,6 +4,7 @@ import com.khoders.asset.dto.AssetDispatchRequestDto;
 import com.khoders.asset.entities.AssetDispatchRequest;
 import com.khoders.asset.mapper.AssetDispatchRequestMapper;
 import com.khoders.asset.services.AssetDispatchRequestService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/dispatch-request")
+@RequestMapping(ApiEndpoint.ASSET_DISPATCH_REQ_ENDPOINT)
 public class AssetDispatchRequestController {
     @Autowired
     private AssetDispatchRequestService requestService;

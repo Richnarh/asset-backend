@@ -4,6 +4,7 @@ import com.khoders.asset.dto.maintenance.MaintenanceRequestDto;
 import com.khoders.asset.entities.maintenance.MaintenanceRequest;
 import com.khoders.asset.mapper.maintenance.MaintenanceRequestMapper;
 import com.khoders.asset.services.MaintenanceRequestService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/maintenance-request")
+@RequestMapping(ApiEndpoint.MAINTENANCE_REQ_ENDPOINT)
 public class MaintenanceRequestController {
     @Autowired
     private MaintenanceRequestService requestService;

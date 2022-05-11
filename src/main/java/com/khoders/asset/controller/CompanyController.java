@@ -7,6 +7,7 @@ import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.entities.Company;
 import com.khoders.asset.mapper.CompanyMapper;
 import com.khoders.asset.services.CompanyService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.slf4j.Logger;
@@ -19,7 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/v1/company")
+@RequestMapping(ApiEndpoint.COMPANY_ENDPOINT)
 public class CompanyController {
     private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
     @Autowired
