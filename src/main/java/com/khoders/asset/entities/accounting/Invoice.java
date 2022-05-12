@@ -5,6 +5,8 @@ import com.khoders.asset.entities.Ref;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "invoices")
@@ -36,6 +38,9 @@ public class Invoice  extends Ref {
     @Column(name = "terms_condition")
     @Lob
     private String termsCondition;
+
+    @Transient
+    private List<InvoiceItem> invoiceItemList = new LinkedList<>();
 
     public BusinessClient getBusinessClient() {
         return businessClient;
@@ -99,5 +104,13 @@ public class Invoice  extends Ref {
 
     public void setTermsCondition(String termsCondition) {
         this.termsCondition = termsCondition;
+    }
+
+    public List<InvoiceItem> getInvoiceItemList() {
+        return invoiceItemList;
+    }
+
+    public void setInvoiceItemList(List<InvoiceItem> invoiceItemList) {
+        this.invoiceItemList = invoiceItemList;
     }
 }

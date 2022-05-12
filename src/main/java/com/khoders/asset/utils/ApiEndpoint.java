@@ -10,6 +10,7 @@ public class ApiEndpoint {
     public static final String ACCOUNT_ENDPOINT = BASE_API + VERSION + "accounts";
     public static final String LOOKUP_ENDPOINT = BASE_API + VERSION + "data";
     public static final String BILL_ENDPOINT = BASE_API + VERSION + "bills";
+    public static final String INVOICE_ENDPOINT = BASE_API + VERSION + "invoices";
     public static final String ASSET_TRANSFER_ENDPOINT = BASE_API + VERSION + "transfers";
     public static final String EMPLOYEE_ENDPOINT = BASE_API + VERSION + "employees";
     public static final String VENDOR_ENDPOINT = BASE_API + VERSION + "business-clients";
@@ -24,4 +25,5 @@ public class ApiEndpoint {
 
 
     public static final String BILL_PAYMENT_ENDPOINT = BASE_API + VERSION + BILL_ENDPOINT +"/{billId}/payment";
+    public static final String INVOICE_PAYMENT_ENDPOINT = BASE_API + VERSION + INVOICE_ENDPOINT +"/{invoiceId}/payment";
 }

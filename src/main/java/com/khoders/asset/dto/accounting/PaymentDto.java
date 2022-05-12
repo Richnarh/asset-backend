@@ -1,8 +1,27 @@
 package com.khoders.asset.dto.accounting;
 
-public class InvoiceItemDto extends BillInvoiceMappedClass{
+public class PaymentDto extends PaymentMappedClass {
+    private String bill;
+    private String billId;
+
     private String invoice;
     private String invoiceId;
+
+    public String getBill() {
+        return bill;
+    }
+
+    public void setBill(String bill) {
+        this.bill = bill;
+    }
+
+    public String getBillId() {
+        return billId;
+    }
+
+    public void setBillId(String billId) {
+        this.billId = billId;
+    }
 
     public String getInvoice() {
         return invoice;

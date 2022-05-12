@@ -2,11 +2,12 @@ package com.khoders.asset.services;
 
 import com.khoders.asset.dto.accounting.AccountDto;
 import com.khoders.asset.dto.accounting.BillDto;
-import com.khoders.asset.dto.accounting.BillPaymentDto;
+import com.khoders.asset.dto.accounting.PaymentDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Bill;
 import com.khoders.asset.entities.accounting.BillItem;
-import com.khoders.asset.entities.accounting.BillPayment;
+import com.khoders.asset.entities.accounting.Payment;
+import com.khoders.asset.entities.constants.PaymentType;
 import com.khoders.asset.mapper.accounting.BillExtractMapper;
 import com.khoders.asset.mapper.accounting.AccountMapper;
 import com.khoders.asset.utils.CrudBuilder;
@@ -40,6 +41,8 @@ public class AccountService {
         }
         Bill bill = extractMapper.toEntity(dto);
         if (builder.save(bill) != null){
+//            bill.getBillItemList().forEach(item -> item.setBill(bill));
+//            builder.saveAll(bill.getBillItemList());
             for(BillItem billItem: bill.getBillItemList()){
                 billItem.setBill(bill);
                 builder.save(billItem);
@@ -116,33 +119,38 @@ public class AccountService {
         return  null;
     }
 
-    public BillPaymentDto saveBillPayment(BillPaymentDto dto){
+    public PaymentDto savePayment(PaymentDto dto){
         if (dto.getId() != null){
-            BillPayment billPayment = builder.simpleFind(BillPayment.class, dto.getId());
-            if (billPayment == null){
-                throw new DataNotFoundException("BillPayment with ID: "+ dto.getId() +" Not Found");
+            Payment payment = builder.simpleFind(Payment.class, dto.getId());
+            if (payment == null){
+                throw new DataNotFoundException("Payment with ID: "+ dto.getId() +" Not Found");
             }
         }
-        BillPayment billPayment = extractMapper.toEntity(dto);
-        if (builder.save(billPayment) != null){
-           return extractMapper.toDto(billPayment);
+        Payment payment = extractMapper.toEntity(dto);
+        if (builder.save(payment) != null){
+           return extractMapper.toDto(payment);
         }
         return null;
     }
 
-    public List<BillPaymentDto> findByBill(String billId){
+    // Payment
+    public List<PaymentDto> find(String billOrInvoice, String type){
         Session session = builder.session();
-        List<BillPayment> billPaymentList;
-        List<BillPaymentDto> dtoList = new LinkedList<>();
+        List<Payment> paymentList;
+        List<PaymentDto> dtoList = new LinkedList<>();
         try {
             CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
-            CriteriaQuery<BillPayment> criteriaQuery = criteriaBuilder.createQuery(BillPayment.class);
-            Root<BillPayment> root = criteriaQuery.from(BillPayment.class);
-            criteriaQuery.where(criteriaBuilder.equal(root.get(BillPayment._bill), billId));
-            Query<BillPayment> query = session.createQuery(criteriaQuery);
-            billPaymentList = query.getResultList();
+            CriteriaQuery<Payment> criteriaQuery = criteriaBuilder.createQuery(Payment.class);
+            Root<Payment> root = criteriaQuery.from(Payment.class);
+            if ((PaymentType.BILL_PAYMENT == PaymentType.valueOf(type))){
+                criteriaQuery.where(criteriaBuilder.equal(root.get(Payment._bill), billOrInvoice));
+            }else{
+                criteriaQuery.where(criteriaBuilder.equal(root.get(Payment._invoice), billOrInvoice));
+            }
+            Query<Payment> query = session.createQuery(criteriaQuery);
+            paymentList = query.getResultList();
 
-            for (BillPayment payment: billPaymentList){
+            for (Payment payment: paymentList){
                 dtoList.add(extractMapper.toDto(payment));
             }
             return dtoList;
@@ -152,7 +160,7 @@ public class AccountService {
         return Collections.emptyList();
     }
 
-    public boolean deletePayment(String billPaymentId){
-        return builder.deleteById(billPaymentId, BillPayment.class);
+    public boolean deletePayment(String paymentId){
+        return builder.deleteById(paymentId, Payment.class);
     }
 }

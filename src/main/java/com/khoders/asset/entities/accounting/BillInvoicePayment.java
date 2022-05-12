@@ -1,6 +1,7 @@
 package com.khoders.asset.entities.accounting;
 
 import com.khoders.asset.entities.Ref;
+import com.khoders.asset.entities.constants.PaymentType;
 import com.khoders.resource.enums.PaymentMethod;
 import com.khoders.resource.enums.PaymentStatus;
 
@@ -11,6 +12,10 @@ import java.time.LocalDate;
 public class BillInvoicePayment extends Ref {
     @Column(name = "amount")
     private double amount;
+
+    @Column(name = "payment_type")
+    @Enumerated(EnumType.STRING)
+    private PaymentType paymentType;
 
     @Column(name = "paid_date")
     private LocalDate paidDate;
@@ -87,5 +92,13 @@ public class BillInvoicePayment extends Ref {
 
     public void setPaymentMethod(PaymentMethod paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public PaymentType getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(PaymentType paymentType) {
+        this.paymentType = paymentType;
     }
 }

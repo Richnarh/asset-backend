@@ -1,6 +1,6 @@
 package com.khoders.asset.dto.accounting;
 
-public class BillItemDto extends BillItemMappedClass {
+public class BillItemDto extends BillInvoiceMappedClass {
     private String bill;
     private String billId;
 

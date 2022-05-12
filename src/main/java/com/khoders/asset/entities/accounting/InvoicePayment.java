@@ -1,11 +1,6 @@
 package com.khoders.asset.entities.accounting;
 
-import com.khoders.asset.entities.Ref;
-import com.khoders.resource.enums.PaymentMethod;
-import com.khoders.resource.enums.PaymentStatus;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "invoice_payment")

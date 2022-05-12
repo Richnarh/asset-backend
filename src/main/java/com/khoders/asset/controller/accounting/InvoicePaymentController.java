@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiEndpoint.BILL_PAYMENT_ENDPOINT)
-public class BillPaymentController {
+@RequestMapping(ApiEndpoint.INVOICE_PAYMENT_ENDPOINT)
+public class InvoicePaymentController {
     @Autowired private AccountService accountService;
 
     @PostMapping
@@ -27,8 +27,8 @@ public class BillPaymentController {
         return ApiResponse.ok(Msg.UPDATED, paymentDto);
     }
     @GetMapping("/{type}")
-    public ResponseEntity<PaymentDto> findByBill(@PathVariable(value = "billId") String billId, @PathVariable(value = "type") String type){
-        List<PaymentDto> dtoList = accountService.find(billId,type);
+    public ResponseEntity<PaymentDto> findByInvoice(@PathVariable(value = "invoiceId") String invoiceId, @PathVariable(value = "type") String type){
+        List<PaymentDto> dtoList = accountService.find(invoiceId, type);
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @DeleteMapping("/{paymentId}")

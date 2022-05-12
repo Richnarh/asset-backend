@@ -2,7 +2,7 @@ package com.khoders.asset.dto.accounting;
 
 import com.khoders.asset.dto.BaseDto;
 
-public class BillInvoicePaymentMappedClass extends BaseDto {
+public class PaymentMappedClass extends BaseDto {
     private double amount;
     private String paidDate;
     private String referenceNo;
@@ -11,6 +11,7 @@ public class BillInvoicePaymentMappedClass extends BaseDto {
     private String accountName;
     private String accountId;
     private String paymentMethod;
+    private String paymentType;
 
     public double getAmount() {
         return amount;
@@ -74,5 +75,13 @@ public class BillInvoicePaymentMappedClass extends BaseDto {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
     }
 }

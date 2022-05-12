@@ -1,9 +1,11 @@
 package com.khoders.asset.dto.accounting;
 
+import com.khoders.asset.dto.BaseDto;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class InvoiceDto {
+public class InvoiceDto extends BaseDto {
     private String businessClient;
     private String businessClientId;
     private String invoiceNo;

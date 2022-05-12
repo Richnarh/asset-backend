@@ -3,6 +3,7 @@ package com.khoders.asset.utils;
 import com.khoders.asset.entities.accounting.BillItem;
 import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.spring.SpringBaseModel;
+import com.khoders.resource.utilities.SystemUtils;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -19,10 +20,7 @@ import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 
 @Transactional
 @Service
@@ -79,7 +77,16 @@ public class CrudBuilder {
         return null;
     }
 
-// TODO: 05/09/22 Implement generic save all
+    // TODO: 05/12/22 Not working yet, to be looked at
+    @SafeVarargs
+    public final <T extends SpringBaseModel> List<T> saveAll(T... list){
+        List<T> items = new LinkedList<>();
+        for (T t:list){
+            items.addAll(save(t));
+        }
+        System.out.println("Data -- "+ SystemUtils.KJson().toJson(items));
+        return items;
+    }
 
     public <T> T findOne(String id, Class<T> clazz) {
         try {
