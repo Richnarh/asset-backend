@@ -2,11 +2,13 @@ package com.khoders.asset.mapper.accounting;
 
 import com.khoders.asset.dto.accounting.BillDto;
 import com.khoders.asset.dto.accounting.BillItemDto;
+import com.khoders.asset.dto.accounting.PaymentDto;
 import com.khoders.asset.entities.BusinessClient;
-import com.khoders.asset.entities.accounting.Account;
-import com.khoders.asset.entities.accounting.Bill;
-import com.khoders.asset.entities.accounting.BillItem;
+import com.khoders.asset.entities.accounting.*;
+import com.khoders.asset.entities.constants.PaymentType;
 import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.enums.PaymentMethod;
+import com.khoders.resource.enums.PaymentStatus;
 import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
@@ -17,7 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Component
-public class AccountExtractMapper {
+public class BillExtractMapper {
     @Autowired private CrudBuilder builder;
 
     public Bill toEntity(BillDto dto){
@@ -102,10 +104,76 @@ public class AccountExtractMapper {
             }
             if (billItem.getAccount() != null){
                 dto.setAccountId(billItem.getAccount().getId());
-                dto.setAccountName(billItem.getAccount().getAccountCode());
+                dto.setAccountName(billItem.getAccount().getAccountName());
             }
             dtoList.add(dto);
         }
         return dtoList;
+    }
+
+    public Payment toEntity(PaymentDto dto){
+        Payment payment = new Payment();
+        if (dto.getId() != null){
+            payment.setId(dto.getId());
+        }
+        if (dto.getBillId() == null){
+            throw new DataNotFoundException("Please Specify Valid BillId");
+        }
+        if (dto.getAccountId() == null){
+            throw new DataNotFoundException("Please Specify Valid AccountId");
+        }
+        if (dto.getPaymentType().equals(PaymentType.BILL_PAYMENT.name())){
+            Bill bill = builder.simpleFind(Bill.class, dto.getBillId());
+            if (bill != null){
+                payment.setBill(bill);
+            }
+        }
+        if (dto.getPaymentType().equals(PaymentType.INVOICE_PAYMENT.name())){
+            Invoice invoice = builder.simpleFind(Invoice.class, dto.getInvoiceId());
+            if (invoice != null){
+                payment.setInvoice(invoice);
+            }
+        }
+
+        Account account = builder.simpleFind(Account.class, dto.getAccountId());
+        if (account != null){
+            payment.setAccount(account);
+        }
+        payment.setAmount(dto.getAmount());
+        try {
+            payment.setPaymentMethod(PaymentMethod.valueOf(dto.getPaymentMethod()));
+        }catch (Exception ignored){}
+        try {
+            payment.setPaymentStatus(PaymentStatus.valueOf(dto.getPaymentStatus()));
+        }catch (Exception ignored){}
+        try {
+            payment.setPaymentType(PaymentType.valueOf(dto.getPaymentType()));
+        }catch (Exception ignored){}
+        payment.setPaidDate(DateUtil.parseLocalDate(dto.getPaidDate(), Pattern._yyyyMMdd));
+        payment.setReferenceNo(dto.getReferenceNo());
+        payment.setAmountRemaining(dto.getAmountRemaining());
+
+        return payment;
+    }
+
+    public PaymentDto toDto(Payment payment){
+        PaymentDto dto = new PaymentDto();
+        if (payment.getId() == null) return null;
+        dto.setId(payment.getId());
+        if (payment.getAccount() != null){
+            dto.setAccountId(payment.getAccount().getId());
+            dto.setAccountName(payment.getAccount().getAccountName());
+        }
+        if (payment.getBill() != null){
+            dto.setBillId(payment.getBill().getId());
+            dto.setBill(payment.getReferenceNo());
+        }
+        dto.setAmount(payment.getAmount());
+        dto.setPaidDate(DateUtil.parseLocalDateString(payment.getPaidDate(), Pattern.ddMMyyyy));
+        dto.setPaymentMethod(payment.getPaymentMethod().getLabel());
+        dto.setPaymentStatus(payment.getPaymentStatus().getLabel());
+        dto.setValueDate(DateUtil.parseLocalDateString(payment.getValueDate(), Pattern.ddMMyyyy));
+        dto.setPaymentType(payment.getPaymentType().name());
+        return dto;
     }
 }

@@ -1,9 +1,7 @@
 package com.khoders.asset.controller.accounting;
 
 import com.khoders.asset.dto.accounting.AccountDto;
-import com.khoders.asset.entities.AssetTransfer;
-import com.khoders.asset.entities.accounting.Account;
-import com.khoders.asset.mapper.accounting.AccountExtractMapper;
+import com.khoders.asset.mapper.accounting.BillExtractMapper;
 import com.khoders.asset.services.AccountService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
@@ -15,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(ApiEndpoint.ACCOUNT_ENDPOINT)
 public class AccountController {
-    @Autowired private AccountExtractMapper mapper;
+    @Autowired private BillExtractMapper mapper;
     @Autowired private AccountService accountService;
 
     @PostMapping

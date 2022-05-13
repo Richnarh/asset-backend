@@ -1,5 +1,8 @@
 package com.khoders.asset.dto;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class InventoryDto extends BaseDto {
     private String receiptNo;
     private String receivedDate;
@@ -10,6 +13,7 @@ public class InventoryDto extends BaseDto {
     private String businessClientName;
     private String businessClientId;
     private double totalPayable;
+    List<InventoryItemDto> inventoryItemList = new LinkedList<>();
 
     public String getReceiptNo() {
         return receiptNo;
@@ -81,5 +85,13 @@ public class InventoryDto extends BaseDto {
 
     public void setTotalPayable(double totalPayable) {
         this.totalPayable = totalPayable;
+    }
+
+    public List<InventoryItemDto> getInventoryItemList() {
+        return inventoryItemList;
+    }
+
+    public void setInventoryItemList(List<InventoryItemDto> inventoryItemList) {
+        this.inventoryItemList = inventoryItemList;
     }
 }

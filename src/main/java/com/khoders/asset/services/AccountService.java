@@ -2,16 +2,16 @@ package com.khoders.asset.services;
 
 import com.khoders.asset.dto.accounting.AccountDto;
 import com.khoders.asset.dto.accounting.BillDto;
-import com.khoders.asset.dto.accounting.BillItemDto;
-import com.khoders.asset.entities.AssetTransfer;
+import com.khoders.asset.dto.accounting.PaymentDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Bill;
 import com.khoders.asset.entities.accounting.BillItem;
-import com.khoders.asset.mapper.accounting.AccountExtractMapper;
+import com.khoders.asset.entities.accounting.Payment;
+import com.khoders.asset.entities.constants.PaymentType;
+import com.khoders.asset.mapper.accounting.BillExtractMapper;
 import com.khoders.asset.mapper.accounting.AccountMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
-import com.khoders.resource.utilities.SystemUtils;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +29,7 @@ import java.util.List;
 @Service
 public class AccountService {
     @Autowired private CrudBuilder builder;
-    @Autowired private AccountExtractMapper extractMapper;
+    @Autowired private BillExtractMapper extractMapper;
     @Autowired private AccountMapper mapper;
 
     public BillDto saveBill(BillDto dto){
@@ -41,21 +40,21 @@ public class AccountService {
             }
         }
         Bill bill = extractMapper.toEntity(dto);
-        System.out.println("Bill -- "+ SystemUtils.KJson().toJson(bill));
         if (builder.save(bill) != null){
+//            bill.getBillItemList().forEach(item -> item.setBill(bill));
+//            builder.saveAll(bill.getBillItemList());
             for(BillItem billItem: bill.getBillItemList()){
                 billItem.setBill(bill);
                 builder.save(billItem);
             }
         }
-        System.out.println("BillDto -- "+ SystemUtils.KJson().toJson(extractMapper.toDto(bill)));
         return extractMapper.toDto(bill);
     }
 
     public List<BillDto> billList(){
         Session session = builder.session();
 
-        List<BillItem> billItemList = new ArrayList<>();
+        List<BillItem> billItemList;
         List<BillDto> dtoList = new LinkedList<>();
 
         List<Bill> billList = builder.findAll(Bill.class);
@@ -84,7 +83,7 @@ public class AccountService {
     }
     public BillDto findById(String billId){
         Session session = builder.session();
-        List<BillItem> billItemList = new ArrayList<>();
+        List<BillItem> billItemList;
 
         Bill bill = builder.simpleFind(Bill.class, billId);
 
@@ -118,5 +117,50 @@ public class AccountService {
             return mapper.tDto(account);
         }
         return  null;
+    }
+
+    public PaymentDto savePayment(PaymentDto dto){
+        if (dto.getId() != null){
+            Payment payment = builder.simpleFind(Payment.class, dto.getId());
+            if (payment == null){
+                throw new DataNotFoundException("Payment with ID: "+ dto.getId() +" Not Found");
+            }
+        }
+        Payment payment = extractMapper.toEntity(dto);
+        if (builder.save(payment) != null){
+           return extractMapper.toDto(payment);
+        }
+        return null;
+    }
+
+    // Payment
+    public List<PaymentDto> find(String billOrInvoice, String type){
+        Session session = builder.session();
+        List<Payment> paymentList;
+        List<PaymentDto> dtoList = new LinkedList<>();
+        try {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Payment> criteriaQuery = criteriaBuilder.createQuery(Payment.class);
+            Root<Payment> root = criteriaQuery.from(Payment.class);
+            if ((PaymentType.BILL_PAYMENT == PaymentType.valueOf(type))){
+                criteriaQuery.where(criteriaBuilder.equal(root.get(Payment._bill), billOrInvoice));
+            }else{
+                criteriaQuery.where(criteriaBuilder.equal(root.get(Payment._invoice), billOrInvoice));
+            }
+            Query<Payment> query = session.createQuery(criteriaQuery);
+            paymentList = query.getResultList();
+
+            for (Payment payment: paymentList){
+                dtoList.add(extractMapper.toDto(payment));
+            }
+            return dtoList;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return Collections.emptyList();
+    }
+
+    public boolean deletePayment(String paymentId){
+        return builder.deleteById(paymentId, Payment.class);
     }
 }

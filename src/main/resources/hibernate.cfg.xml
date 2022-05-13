@@ -45,7 +45,7 @@
         <mapping class="com.khoders.asset.entities.accounting.BillItem"/>
         <mapping class="com.khoders.asset.entities.accounting.Expense"/>
         <mapping class="com.khoders.asset.entities.accounting.ExpenseItem"/>
-        <mapping class="com.khoders.asset.entities.accounting.BillPayment"/>
+        <mapping class="com.khoders.asset.entities.accounting.Payment"/>
         <mapping class="com.khoders.asset.entities.accounting.InvoicePayment"/>
         <mapping class="com.khoders.asset.entities.accounting.Journal"/>
         <mapping class="com.khoders.asset.entities.accounting.GeneralLedger"/>

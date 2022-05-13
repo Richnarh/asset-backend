@@ -17,33 +17,6 @@ public class InventoryItemMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public InventoryItem toEntity(InventoryItemDto dto) {
-        InventoryItem inventoryItem = new InventoryItem();
-        if (dto.getId() != null) {
-            inventoryItem.setId(dto.getId());
-        }
-        inventoryItem.setRefNo(inventoryItem.getRefNo());
-        inventoryItem.setProductName(dto.getProductName());
-        inventoryItem.setQuantity(dto.getQuantity());
-        inventoryItem.setSerialNumber(dto.getSerialNumber());
-        inventoryItem.setTotalAmount(dto.getTotalAmount());
-        if (dto.getProductCategoryId() == null) {
-            throw new DataNotFoundException("Please Specify Valid ProductCategoryId");
-        }
-        if (dto.getInventory() == null) {
-            throw new DataNotFoundException("Please Specify Valid InventoryId");
-        }
-        Category category = builder.findOne(dto.getProductCategoryId(), Category.class);
-        if (category != null) {
-            inventoryItem.setProductCategory(category);
-        }
-        Inventory inventory = builder.findOne(dto.getInventory(), Inventory.class);
-        if (inventory != null) {
-            inventoryItem.setInventory(inventory);
-        }
-        return inventoryItem;
-    }
-
     public InventoryItemDto toDto(InventoryItem inventoryItem) {
         InventoryItemDto dto = new InventoryItemDto();
         if (inventoryItem.getId() == null) return null;

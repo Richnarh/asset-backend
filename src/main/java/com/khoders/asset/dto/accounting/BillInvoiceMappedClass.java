@@ -2,7 +2,7 @@ package com.khoders.asset.dto.accounting;
 
 import com.khoders.asset.dto.BaseDto;
 
-public class BillItemPojo extends BaseDto {
+public class BillInvoiceMappedClass extends BaseDto {
     private double quantity;
     private double unitPrice;
     private double totalAmount;

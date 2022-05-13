@@ -1,53 +1,36 @@
-package com.khoders.asset.entities.accounting;
+package com.khoders.asset.dto.accounting;
 
-import com.khoders.asset.entities.BusinessClient;
-import com.khoders.asset.entities.Ref;
+import com.khoders.asset.dto.BaseDto;
 
-import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
 
-@Entity
-@Table(name = "invoices")
-public class Invoice  extends Ref {
-    @JoinColumn(name = "business_client", referencedColumnName = "id")
-    @ManyToOne
-    private BusinessClient businessClient;
-
-    @Column(name = "invoice_no")
+public class InvoiceDto extends BaseDto {
+    private String businessClient;
+    private String businessClientId;
     private String invoiceNo;
-
-    @Column(name = "due_date")
-    private LocalDate dueDate;
-
-    @Column(name = "memo")
-    @Lob
+    private String dueDate;
     private String memo;
-
-    @Column(name = "balance_overdue")
     private double balanceOverDue;
-
-    @Column(name = "total_amount")
     private double totalAmount;
-
-    @Column(name = "customer_notes")
-    @Lob
     private String customerNotes;
-
-    @Column(name = "terms_condition")
-    @Lob
     private String termsCondition;
+    private List<InvoiceItemDto> invoiceItemList = new LinkedList<>();
 
-    @Transient
-    private List<InvoiceItem> invoiceItemList = new LinkedList<>();
-
-    public BusinessClient getBusinessClient() {
+    public String getBusinessClient() {
         return businessClient;
     }
 
-    public void setBusinessClient(BusinessClient businessClient) {
+    public void setBusinessClient(String businessClient) {
         this.businessClient = businessClient;
+    }
+
+    public String getBusinessClientId() {
+        return businessClientId;
+    }
+
+    public void setBusinessClientId(String businessClientId) {
+        this.businessClientId = businessClientId;
     }
 
     public String getInvoiceNo() {
@@ -58,11 +41,11 @@ public class Invoice  extends Ref {
         this.invoiceNo = invoiceNo;
     }
 
-    public LocalDate getDueDate() {
+    public String getDueDate() {
         return dueDate;
     }
 
-    public void setDueDate(LocalDate dueDate) {
+    public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
 
@@ -106,11 +89,11 @@ public class Invoice  extends Ref {
         this.termsCondition = termsCondition;
     }
 
-    public List<InvoiceItem> getInvoiceItemList() {
+    public List<InvoiceItemDto> getInvoiceItemList() {
         return invoiceItemList;
     }
 
-    public void setInvoiceItemList(List<InvoiceItem> invoiceItemList) {
+    public void setInvoiceItemList(List<InvoiceItemDto> invoiceItemList) {
         this.invoiceItemList = invoiceItemList;
     }
 }
