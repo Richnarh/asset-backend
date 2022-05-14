@@ -129,7 +129,6 @@ public class AuthMapper {
         jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
         jwtResponse.setRoleList(roles);
 
-        // Todo: to reviewed and error fix
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
         jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
         jwtResponse.setRefreshToken(refreshToken.getToken());
