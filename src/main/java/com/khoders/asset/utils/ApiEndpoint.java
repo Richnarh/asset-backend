@@ -19,10 +19,12 @@ public class ApiEndpoint {
     public static final String INVENTORY_ENDPOINT = BASE_API + VERSION + "inventory";
     public static final String LOCATION_ENDPOINT = BASE_API + VERSION + "location";
 
-
     public static final String ASSET_DISPATCH_REQ_ENDPOINT = BASE_API + VERSION + "dispatch-requests";
     public static final String MAINTENANCE_REQ_ENDPOINT = BASE_API + VERSION + "maintenance-request";
-
+    public static final String OCCURRENCE_ENDPOINT = BASE_API + VERSION + "occurrences";
+    public static final String MAINTENANCE_TASK_ENDPOINT = BASE_API + VERSION + "maintenance-task";
+    public static final String INSTRUCTION_SET_ENDPOINT = BASE_API + VERSION + "instruction-set";
+    public static final String STARTWORK_ENDPOINT = BASE_API + VERSION + "start-work";
 
     public static final String BILL_PAYMENT_ENDPOINT = BASE_API + VERSION + BILL_ENDPOINT +"/{billId}/payment";
     public static final String INVOICE_PAYMENT_ENDPOINT = BASE_API + VERSION + INVOICE_ENDPOINT +"/{invoiceId}/payment";

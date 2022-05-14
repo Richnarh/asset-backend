@@ -118,6 +118,14 @@ public class AccountService {
         }
         return  null;
     }
+    public List<AccountDto> accountList(){
+        List<Account> accounts = builder.findAll(Account.class);
+        List<AccountDto> dtoList = new LinkedList<>();
+        for (Account account:accounts){
+            dtoList.add(mapper.tDto(account));
+        }
+        return dtoList;
+    }
 
     public PaymentDto savePayment(PaymentDto dto){
         if (dto.getId() != null){

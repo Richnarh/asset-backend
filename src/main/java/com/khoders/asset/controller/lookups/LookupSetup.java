@@ -2,6 +2,7 @@ package com.khoders.asset.controller.lookups;
 
 import com.khoders.asset.dto.LookupItem;
 import com.khoders.asset.entities.*;
+import com.khoders.asset.entities.maintenance.RequestType;
 import com.khoders.asset.entities.settings.InvoiceType;
 import com.khoders.asset.utils.CrudBuilder;
 import org.slf4j.Logger;
@@ -90,6 +91,16 @@ public class LookupSetup {
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getTypeName());
+            itemList.add(item);
+        });
+        return itemList;
+    }
+    public List<LookupItem> requestType(){
+        List<LookupItem> itemList = new LinkedList<>();
+        builder.findAll(RequestType.class).forEach(data ->{
+            LookupItem item = new LookupItem();
+            item.setId(data.getId());
+            item.setItemName(data.getRequestName());
             itemList.add(item);
         });
         return itemList;

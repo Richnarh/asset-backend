@@ -14,7 +14,7 @@ public class Occurrence extends Ref {
     @ManyToOne
     private InstructionSet instructionSet;
 
-    @JoinColumn(name = "asset", referencedColumnName = "id")
+    @JoinColumn(name = "asset", referencedColumnName = "id ")
     @ManyToOne
     private Asset asset;
 

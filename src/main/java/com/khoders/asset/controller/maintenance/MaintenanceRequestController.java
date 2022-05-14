@@ -36,13 +36,12 @@ public class MaintenanceRequestController {
             return ApiResponse.error(e.getMessage(), null);
         }
     }
-
     @PutMapping
     public ResponseEntity<MaintenanceRequest> update(@RequestBody MaintenanceRequestDto dto) {
         try {
             MaintenanceRequest request = requestService.findById(dto.getId());
             if (request == null) {
-                return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, null);
+                return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, new MaintenanceRequestDto());
             }
             MaintenanceRequest entity = mapper.toEntity(dto);
             MaintenanceRequest maintenanceRequest = requestService.save(request);
@@ -55,7 +54,6 @@ public class MaintenanceRequestController {
             return ApiResponse.error(e.getMessage(), null);
         }
     }
-
     @GetMapping("/list")
     public ResponseEntity<List<MaintenanceRequest>> list() {
         List<MaintenanceRequest> requestList = requestService.maintenanceRequestList();
@@ -68,7 +66,6 @@ public class MaintenanceRequestController {
         }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
-
     @GetMapping("/{requestId}")
     public ResponseEntity<MaintenanceRequest> findSingle(@PathVariable(value = "requestId") String requestId) {
         try {

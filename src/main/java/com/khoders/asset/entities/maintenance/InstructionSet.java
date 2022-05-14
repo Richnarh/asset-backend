@@ -2,10 +2,9 @@ package com.khoders.asset.entities.maintenance;
 
 import com.khoders.asset.entities.Ref;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Lob;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Table(name = "instruction_set")
@@ -17,8 +16,7 @@ public class InstructionSet extends Ref {
     @Lob
     private String description;
 
-    @Column(name = "steps")
-    private String steps;
+    private List<InstructionStep> instructionStepList = new LinkedList<>();
 
     public String getInstructionName() {
         return instructionName;
@@ -36,11 +34,11 @@ public class InstructionSet extends Ref {
         this.description = description;
     }
 
-    public String getSteps() {
-        return steps;
+    public List<InstructionStep> getInstructionStepList() {
+        return instructionStepList;
     }
 
-    public void setSteps(String steps) {
-        this.steps = steps;
+    public void setInstructionStepList(List<InstructionStep> instructionStepList) {
+        this.instructionStepList = instructionStepList;
     }
 }
