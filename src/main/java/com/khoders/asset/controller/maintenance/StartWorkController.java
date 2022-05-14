@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiEndpoint.STARTWORK_ENDPOINT)
+@RequestMapping(ApiEndpoint.START_WORK_ENDPOINT)
 public class StartWorkController {
     @Autowired private StartWorkService workService;
 
