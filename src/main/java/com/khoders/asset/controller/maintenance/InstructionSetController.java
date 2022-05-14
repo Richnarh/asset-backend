@@ -1,5 +1,6 @@
 package com.khoders.asset.controller.maintenance;
 
+import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.dto.maintenance.InstructionSetDto;
 import com.khoders.asset.services.InstructionSetService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -33,5 +34,20 @@ public class InstructionSetController {
             return ApiResponse.ok(Msg.RECORD_NOT_FOUND, new InstructionSetDto());
         }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
+    }
+    @GetMapping("/{instructionSetId}")
+    public ResponseEntity<InstructionSetDto> findById(@PathVariable(value = "instructionSetId") String instructionSetId){
+        InstructionSetDto itemDto = instructionSetService.findById(instructionSetId);
+        return ApiResponse.ok(Msg.RECORD_FOUND, itemDto);
+    }
+    @DeleteMapping("/{instructionSetId}")
+    public ResponseEntity<?> delete(@PathVariable("instructionSetId") String instructionSetId){
+        try {
+            if (instructionSetService.delete(instructionSetId)) return ApiResponse.ok(Msg.DELETED, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.error(e.getMessage(), false);
+        }
+        return ApiResponse.error("Could Not Delete Invoice", false);
     }
 }

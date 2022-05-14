@@ -67,7 +67,6 @@ public class RequestTypeController {
             return ApiResponse.error(e.getMessage(), false);
         }
     }
-
     @PutMapping
     public ResponseEntity<RequestType> update(@RequestBody RequestTypeDto dto) {
         try {

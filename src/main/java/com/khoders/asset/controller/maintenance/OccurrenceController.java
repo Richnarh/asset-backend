@@ -27,9 +27,7 @@ public class OccurrenceController {
     @GetMapping("/list")
     public ResponseEntity<List<OccurrenceDto>> list(){
         List<OccurrenceDto> dtoList = occurrenceService.occurrenceList();
-        if (dtoList.isEmpty()){
-            ApiResponse.ok(Msg.RECORD_NOT_FOUND, dtoList);
-        }
+
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @GetMapping("/{occurrenceId}")

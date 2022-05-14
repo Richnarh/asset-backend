@@ -5,6 +5,8 @@ import com.khoders.asset.entities.maintenance.StartWork;
 import com.khoders.asset.mapper.maintenance.StartWorkMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.spring.ApiResponse;
+import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,13 +37,20 @@ public class StartWorkService {
     public List<StartWorkDto> startWorkList(){
         List<StartWorkDto> dtoList = new LinkedList<>();
         List<StartWork> startWorkList = builder.findAll(StartWork.class);
+        if (startWorkList.isEmpty()){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
         for (StartWork startWork:startWorkList){
             dtoList.add(startWorkMapper.toDto(startWork));
         }
         return dtoList;
     }
     public StartWorkDto findById(String startWorkId){
-        return startWorkMapper.toDto(builder.simpleFind(StartWork.class, startWorkId));
+        StartWork startWork = builder.simpleFind(StartWork.class, startWorkId);
+        if (startWork == null){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
+        return startWorkMapper.toDto(startWork);
     }
     public boolean delete(String startWorkId){
         return builder.deleteById(startWorkId, StartWork.class);

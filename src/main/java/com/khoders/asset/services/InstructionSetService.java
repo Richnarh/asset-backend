@@ -3,9 +3,11 @@ package com.khoders.asset.services;
 import com.khoders.asset.dto.maintenance.InstructionSetDto;
 import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.entities.maintenance.InstructionStep;
+import com.khoders.asset.entities.maintenance.Occurrence;
 import com.khoders.asset.mapper.maintenance.InstructionSetMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.utilities.Msg;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Service;
@@ -47,8 +49,9 @@ public class InstructionSetService {
         List<InstructionStep> instructionStepList;
         List<InstructionSetDto> instructionList = new LinkedList<>();
         List<InstructionSet> instructionSetList = builder.findAll(InstructionSet.class);
-
-        if (instructionSetList != null && !instructionSetList.isEmpty()){
+        if (instructionSetList.isEmpty()){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
             try {
                 for (InstructionSet instructionSet:instructionSetList){
                     CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -68,8 +71,6 @@ public class InstructionSetService {
                 instructionList.add(mapper.toDto(instructionSet));
             }
             return instructionList;
-        }
-        return Collections.emptyList();
     }
 
     public InstructionSetDto findById(String instructionSetId){
@@ -77,8 +78,9 @@ public class InstructionSetService {
         List<InstructionStep> instructionStepList;
 
         InstructionSet instructionSet = builder.simpleFind(InstructionSet.class, instructionSetId);
-
-        if (instructionSet != null){
+        if (instructionSet == null){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
             try {
                 CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
                 CriteriaQuery<InstructionStep> criteriaQuery = criteriaBuilder.createQuery(InstructionStep.class);
@@ -90,10 +92,10 @@ public class InstructionSetService {
                 return mapper.toDto(instructionSet);
             }catch (Exception e){
                 e.printStackTrace();
-                return null;
             }
-        }
         return null;
     }
-
+    public boolean delete(String instructionSetId){
+        return builder.deleteById(instructionSetId, InstructionSet.class);
+    }
 }

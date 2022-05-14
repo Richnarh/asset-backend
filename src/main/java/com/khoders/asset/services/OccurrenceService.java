@@ -5,6 +5,8 @@ import com.khoders.asset.entities.maintenance.Occurrence;
 import com.khoders.asset.mapper.maintenance.OccurrenceMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.spring.ApiResponse;
+import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,8 @@ public class OccurrenceService {
         if (dto.getId() != null){
             Occurrence occurrence = builder.simpleFind(Occurrence.class, dto.getId());
             if (occurrence == null){
-                throw new DataNotFoundException("Occurrence with ID: "+ dto.getId() +" Not Found");
+//                throw new DataNotFoundException("Occurrence with ID: "+ dto.getId() +" Not Found");
+                ApiResponse.notFound("Occurrence with ID: "+ dto.getId() +" Not Found", null);
             }
         }
         Occurrence occurrence = mapper.toEntity(dto);
@@ -34,6 +37,9 @@ public class OccurrenceService {
     public List<OccurrenceDto> occurrenceList(){
         List<OccurrenceDto> dtoList = new LinkedList<>();
         List<Occurrence> occurrences = builder.findAll(Occurrence.class);
+        if (occurrences.isEmpty()){
+            ApiResponse.ok(Msg.RECORD_NOT_FOUND, dtoList);
+        }
         for (Occurrence occurrence:occurrences){
             dtoList.add(mapper.toDto(occurrence));
         }

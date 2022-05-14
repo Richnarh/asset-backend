@@ -11,6 +11,8 @@ public class ApiEndpoint {
     public static final String LOOKUP_ENDPOINT = BASE_API + VERSION + "data";
     public static final String BILL_ENDPOINT = BASE_API + VERSION + "bills";
     public static final String INVOICE_ENDPOINT = BASE_API + VERSION + "invoices";
+    public static final String EXPENSE_ENDPOINT = BASE_API + VERSION + "expense";
+
     public static final String ASSET_TRANSFER_ENDPOINT = BASE_API + VERSION + "transfers";
     public static final String EMPLOYEE_ENDPOINT = BASE_API + VERSION + "employees";
     public static final String VENDOR_ENDPOINT = BASE_API + VERSION + "business-clients";

@@ -12,6 +12,7 @@ import com.khoders.asset.mapper.accounting.BillExtractMapper;
 import com.khoders.asset.mapper.accounting.AccountMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.utilities.Msg;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +42,6 @@ public class AccountService {
         }
         Bill bill = extractMapper.toEntity(dto);
         if (builder.save(bill) != null){
-//            bill.getBillItemList().forEach(item -> item.setBill(bill));
-//            builder.saveAll(bill.getBillItemList());
             for(BillItem billItem: bill.getBillItemList()){
                 billItem.setBill(bill);
                 builder.save(billItem);
@@ -118,8 +117,18 @@ public class AccountService {
         }
         return  null;
     }
+    public AccountDto findAccount(String accountId){
+        Account account = builder.simpleFind(Account.class, accountId);
+        if (account == null){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
+        return mapper.tDto(account);
+    }
     public List<AccountDto> accountList(){
         List<Account> accounts = builder.findAll(Account.class);
+        if (accounts.isEmpty()){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
         List<AccountDto> dtoList = new LinkedList<>();
         for (Account account:accounts){
             dtoList.add(mapper.tDto(account));
@@ -167,7 +176,9 @@ public class AccountService {
         }
         return Collections.emptyList();
     }
-
+    public boolean deleteBill(String billId){
+        return builder.deleteById(billId, Bill.class);
+    }
     public boolean deletePayment(String paymentId){
         return builder.deleteById(paymentId, Payment.class);
     }

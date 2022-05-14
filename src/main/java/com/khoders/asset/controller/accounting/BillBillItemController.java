@@ -39,4 +39,14 @@ public class BillBillItemController {
         BillDto itemDto = accountService.findById(billId);
         return ApiResponse.ok(Msg.RECORD_FOUND, itemDto);
     }
+    @DeleteMapping("/{billId}")
+    public ResponseEntity<?> delete(@PathVariable("billId") String billId){
+        try {
+            if (accountService.deleteBill(billId)) return ApiResponse.ok(Msg.DELETED, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.error(e.getMessage(), false);
+        }
+        return ApiResponse.error("Could Not Delete Bill", false);
+    }
 }
