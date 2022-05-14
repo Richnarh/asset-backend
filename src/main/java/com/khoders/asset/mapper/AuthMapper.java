@@ -6,6 +6,7 @@ import com.khoders.asset.dto.authpayload.JwtResponse;
 import com.khoders.asset.dto.authpayload.LoginRequest;
 import com.khoders.asset.dto.authpayload.RoleDto;
 import com.khoders.asset.dto.authpayload.UserAccountDto;
+import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.Role;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.entities.constants.UserRole;
@@ -128,10 +129,10 @@ public class AuthMapper {
         jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
         jwtResponse.setRoleList(roles);
 
-//        Todo: to reviewed and error fixe
-//        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
-//        jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
-//        jwtResponse.setRefreshToken(refreshToken.getToken());
+        // Todo: to reviewed and error fix
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
+        jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
+        jwtResponse.setRefreshToken(refreshToken.getToken());
 
         return jwtResponse;
     }

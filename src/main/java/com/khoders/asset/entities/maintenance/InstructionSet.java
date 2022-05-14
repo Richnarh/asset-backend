@@ -16,6 +16,7 @@ public class InstructionSet extends Ref {
     @Lob
     private String description;
 
+    @Transient
     private List<InstructionStep> instructionStepList = new LinkedList<>();
 
     public String getInstructionName() {

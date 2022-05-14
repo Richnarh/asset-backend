@@ -27,11 +27,15 @@ public class AccountController {
     }
     @GetMapping("/list")
     public ResponseEntity<List<AccountDto>> list(){
-        return ApiResponse.ok(Msg.RECORD_FOUND, accountService.accountList());
+        try{
+            return ApiResponse.ok(Msg.RECORD_FOUND, accountService.accountList());
+        }catch (Exception e){e.printStackTrace();}
+        return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, null);
     }
     @GetMapping("/{accountId}")
     public ResponseEntity<AccountDto> findById(@PathVariable("accountId") String accountId){
-        return ApiResponse.ok(Msg.RECORD_FOUND, accountService.findById(accountId));
+        AccountDto dto = accountService.findAccount(accountId);
+        return ApiResponse.ok(Msg.RECORD_FOUND, dto);
     }
 
 }

@@ -39,4 +39,14 @@ public class InvoiceController {
         InvoiceDto itemDto = invoiceService.findById(invoiceId);
         return ApiResponse.ok(Msg.RECORD_FOUND, itemDto);
     }
+    @DeleteMapping("/{invoiceId}")
+    public ResponseEntity<?> delete(@PathVariable("invoiceId") String invoiceId){
+        try {
+            if (invoiceService.delete(invoiceId)) return ApiResponse.ok(Msg.DELETED, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.error(e.getMessage(), false);
+        }
+        return ApiResponse.error("Could Not Delete Invoice", false);
+    }
 }

@@ -1,12 +1,8 @@
 package com.khoders.asset.controller;
 
-import com.khoders.asset.dto.DepartmentDto;
 import com.khoders.asset.dto.maintenance.RequestTypeDto;
-import com.khoders.asset.entities.Department;
 import com.khoders.asset.entities.maintenance.RequestType;
-import com.khoders.asset.mapper.DepartmentMapper;
 import com.khoders.asset.mapper.maintenance.RequestTypeMapper;
-import com.khoders.asset.services.DepartmentService;
 import com.khoders.asset.services.RequestTypeService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
@@ -19,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping(ApiEndpoint.DEPARTMENT_ENDPOINT)
+@RequestMapping(ApiEndpoint.REQUEST_TYPE_ENDPOINT)
 public class RequestTypeController {
     @Autowired
     private RequestTypeService typeService;
@@ -67,7 +63,6 @@ public class RequestTypeController {
             return ApiResponse.error(e.getMessage(), false);
         }
     }
-
     @PutMapping
     public ResponseEntity<RequestType> update(@RequestBody RequestTypeDto dto) {
         try {

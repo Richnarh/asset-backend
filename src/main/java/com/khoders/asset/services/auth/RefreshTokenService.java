@@ -41,7 +41,6 @@ public class RefreshTokenService {
         refreshToken.setExpiryDate(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3,ChronoUnit.MINUTES)));
         refreshToken.setToken(builder.genId());
 
-        System.out.println("refreshToken ---- "+ SystemUtils.KJson().toJson(refreshToken));
         refreshToken = builder.save(refreshToken);
         return refreshToken;
     }

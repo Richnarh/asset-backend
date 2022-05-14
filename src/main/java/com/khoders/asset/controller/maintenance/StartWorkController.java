@@ -20,7 +20,7 @@ public class StartWorkController {
 
     @PostMapping
     public ResponseEntity<StartWorkDto> save(@RequestBody StartWorkDto dto){
-        return ApiResponse.created(Msg.CREATED, workService.toEntity(dto));
+        return ApiResponse.created(workService.toEntity(dto));
     }
     @PutMapping
     public ResponseEntity<StartWorkDto> update(@RequestBody StartWorkDto dto){
@@ -29,17 +29,11 @@ public class StartWorkController {
     @GetMapping("/list")
     public ResponseEntity<List<StartWorkDto>> list(){
         List<StartWorkDto> dtoList = workService.startWorkList();
-        if (dtoList.isEmpty()){
-            ApiResponse.ok(Msg.RECORD_NOT_FOUND, dtoList);
-        }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @GetMapping("/{startWorkId}")
     public ResponseEntity<StartWorkDto> findById(@PathVariable("startWorkId") String startWorkId){
         StartWorkDto dto = workService.findById(startWorkId);
-        if (dto == null){
-            ApiResponse.ok(Msg.RECORD_NOT_FOUND, null);
-        }
         return ApiResponse.ok(Msg.RECORD_FOUND, dto);
     }
     @DeleteMapping("/{startWorkId}")

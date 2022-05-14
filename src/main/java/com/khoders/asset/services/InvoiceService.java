@@ -3,9 +3,11 @@ package com.khoders.asset.services;
 import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.entities.accounting.Invoice;
 import com.khoders.asset.entities.accounting.InvoiceItem;
+import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.mapper.accounting.InvoiceExtractMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.utilities.Msg;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +51,10 @@ public class InvoiceService {
         List<InvoiceDto> dtoList = new LinkedList<>();
 
         List<Invoice> invoiceList = builder.findAll(Invoice.class);
-        if (invoiceList != null && !invoiceList.isEmpty()){
+
+        if (invoiceList.isEmpty()){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
             try {
                 for (Invoice invoice:invoiceList){
                     CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
@@ -70,8 +75,6 @@ public class InvoiceService {
                 dtoList.add(extractMapper.toDto(invoice));
             }
             return dtoList;
-        }
-        return Collections.emptyList();
     }
 
     public InvoiceDto findById(String invoiceId){
@@ -80,7 +83,9 @@ public class InvoiceService {
 
         Invoice invoice = builder.simpleFind(Invoice.class, invoiceId);
 
-        if (invoice != null){
+        if (invoice == null){
+            throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
+        }
             try {
                 CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
                 CriteriaQuery<InvoiceItem> criteriaQuery = criteriaBuilder.createQuery(InvoiceItem.class);
@@ -92,9 +97,10 @@ public class InvoiceService {
                 return extractMapper.toDto(invoice);
             }catch (Exception e){
                 e.printStackTrace();
-                return null;
             }
-        }
         return null;
+    }
+    public boolean delete(String invoiceId){
+        return builder.deleteById(invoiceId, Invoice.class);
     }
 }
