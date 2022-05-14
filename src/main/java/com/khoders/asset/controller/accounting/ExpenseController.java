@@ -1,9 +1,7 @@
 package com.khoders.asset.controller.accounting;
 
 import com.khoders.asset.dto.accounting.ExpenseDto;
-import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.services.ExpenseService;
-import com.khoders.asset.services.InvoiceService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
