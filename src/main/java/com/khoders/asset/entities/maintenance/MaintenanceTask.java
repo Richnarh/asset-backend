@@ -15,11 +15,11 @@ public class MaintenanceTask extends Ref {
 
     @JoinColumn(name = "request_type", referencedColumnName = "id")
     @ManyToOne
-    private RequestType type;
+    private RequestType requestType;
 
     @Column(name = "task_priority")
     @Enumerated(EnumType.STRING)
-    private TaskPriority priority;
+    private TaskPriority taskPriority;
 
     @Column(name = "task_status")
     @Enumerated(EnumType.STRING)
@@ -36,12 +36,12 @@ public class MaintenanceTask extends Ref {
         this.taskName = taskName;
     }
 
-    public RequestType getType() {
-        return type;
+    public RequestType getRequestType() {
+        return requestType;
     }
 
-    public void setType(RequestType type) {
-        this.type = type;
+    public void setRequestType(RequestType requestType) {
+        this.requestType = requestType;
     }
 
     public LocalDate getStartDate() {
@@ -52,12 +52,12 @@ public class MaintenanceTask extends Ref {
         this.startDate = startDate;
     }
 
-    public TaskPriority getPriority() {
-        return priority;
+    public TaskPriority getTaskPriority() {
+        return taskPriority;
     }
 
-    public void setPriority(TaskPriority priority) {
-        this.priority = priority;
+    public void setTaskPriority(TaskPriority taskPriority) {
+        this.taskPriority = taskPriority;
     }
 
     public Status getTaskStatus() {

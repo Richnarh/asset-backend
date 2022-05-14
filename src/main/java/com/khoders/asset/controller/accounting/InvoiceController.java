@@ -29,6 +29,9 @@ public class InvoiceController {
     @GetMapping("/list")
     public ResponseEntity<List<InvoiceDto>> findAll(){
         List<InvoiceDto> dtoList = invoiceService.invoiceList();
+        if (dtoList.isEmpty()){
+            ApiResponse.ok(Msg.RECORD_NOT_FOUND, new InvoiceDto());
+        }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @GetMapping("/{invoiceId}")

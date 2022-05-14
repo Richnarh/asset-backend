@@ -29,6 +29,9 @@ public class BillBillItemController {
     @GetMapping("/list")
     public ResponseEntity<List<BillDto>> list(){
         List<BillDto> dtoList = accountService.billList();
+        if (dtoList.isEmpty()){
+            ApiResponse.ok(Msg.RECORD_NOT_FOUND, new BillDto());
+        }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @GetMapping("/{billId}")

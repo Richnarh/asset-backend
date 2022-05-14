@@ -102,4 +102,8 @@ public class LookupEndpoint {
     public ResponseEntity<List<LookupItem>> invoiceType() {
         return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.invoiceType());
     }
+    @GetMapping("/request-types")
+    public ResponseEntity<List<LookupItem>> requestType() {
+        return ApiResponse.ok(Msg.RECORD_FOUND, lookupSetup.invoiceType());
+    }
 }
