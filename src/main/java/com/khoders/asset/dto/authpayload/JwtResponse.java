@@ -8,7 +8,7 @@ public class JwtResponse extends BaseDto {
     private String accessToken;
     private String refreshToken;
     private String expiryDate;
-    private String type = "Bearer";
+    private String authType = "Bearer";
     private Set<RoleDto> roleList;
 
     public String getAccessToken() {
@@ -19,12 +19,12 @@ public class JwtResponse extends BaseDto {
         this.accessToken = accessToken;
     }
 
-    public String getType() {
-        return type;
+    public String getAuthType() {
+        return authType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAuthType(String authType) {
+        this.authType = authType;
     }
 
     public Set<RoleDto> getRoleList() {
