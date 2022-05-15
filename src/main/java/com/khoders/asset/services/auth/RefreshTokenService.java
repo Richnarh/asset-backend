@@ -34,7 +34,6 @@ public class RefreshTokenService {
     }
 
     public RefreshToken createRefreshToken(String userId) {
-        System.out.println("Instant Now --- "+Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)));
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUserAccount(builder.simpleFind(UserAccount.class, userId));
         refreshToken.setIssuedAt(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)));
