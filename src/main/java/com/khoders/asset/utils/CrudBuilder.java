@@ -1,6 +1,5 @@
 package com.khoders.asset.utils;
 
-import com.khoders.asset.entities.accounting.BillItem;
 import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.spring.SpringBaseModel;
 import com.khoders.resource.utilities.SystemUtils;
