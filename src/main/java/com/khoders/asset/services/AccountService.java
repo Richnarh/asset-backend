@@ -53,7 +53,6 @@ public class AccountService {
     public List<BillDto> billList(){
         Session session = builder.session();
 
-        List<BillItem> billItemList;
         List<BillDto> dtoList = new LinkedList<>();
 
         List<Bill> billList = builder.findAll(Bill.class);
@@ -65,7 +64,7 @@ public class AccountService {
                    Root<BillItem> root = criteriaQuery.from(BillItem.class);
                    criteriaQuery.where(criteriaBuilder.equal(root.get(BillItem._bill), bill));
                    Query<BillItem> query = session.createQuery(criteriaQuery);
-                   billItemList = query.getResultList();
+                   List<BillItem> billItemList = query.getResultList();
                    bill.setBillItemList(billItemList);
                    billList = new LinkedList<>();
                    billList.add(bill);

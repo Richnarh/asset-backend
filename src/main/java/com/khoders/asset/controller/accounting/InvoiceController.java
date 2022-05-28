@@ -5,6 +5,8 @@ import com.khoders.asset.services.InvoiceService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,11 +14,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "Invoice")
 @RequestMapping(ApiEndpoint.INVOICE_ENDPOINT)
 public class InvoiceController {
     @Autowired private InvoiceService invoiceService;
 
     @PostMapping
+    @Operation(summary = "Save Invoice")
     public ResponseEntity<InvoiceDto> save(@RequestBody InvoiceDto dto){
         InvoiceDto invoiceDto = invoiceService.saveInvoice(dto);
         return ApiResponse.created(Msg.CREATED, invoiceDto);
