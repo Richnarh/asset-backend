@@ -29,6 +29,6 @@ public class ApiEndpoint {
     public static final String INSTRUCTION_SET_ENDPOINT = BASE_API + VERSION + "instruction-set";
     public static final String START_WORK_ENDPOINT = BASE_API + VERSION + "start-work";
 
-    public static final String BILL_PAYMENT_ENDPOINT = BASE_API + VERSION + BILL_ENDPOINT +"/{billId}/payment";
-    public static final String INVOICE_PAYMENT_ENDPOINT = BASE_API + VERSION + INVOICE_ENDPOINT +"/{invoiceId}/payment";
+    public static final String BILL_PAYMENT_ENDPOINT = BILL_ENDPOINT +"/{billId}/payment";
+    public static final String INVOICE_PAYMENT_ENDPOINT = INVOICE_ENDPOINT +"/{invoiceId}/payment";
 }
