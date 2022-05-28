@@ -5,8 +5,11 @@ import com.khoders.asset.dto.authpayload.RoleDto;
 import com.khoders.asset.entities.auth.Role;
 import com.khoders.asset.mapper.RoleMapper;
 import com.khoders.asset.services.auth.RoleService;
+import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/role")
+@Tag(name = "Role - Endpoint")
+@RequestMapping(ApiEndpoint.ROLE_ENDPOINT)
 public class RoleController {
     @Autowired
     private RoleService roleService;

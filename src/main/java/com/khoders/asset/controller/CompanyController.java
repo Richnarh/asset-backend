@@ -10,6 +10,7 @@ import com.khoders.asset.services.CompanyService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
+@Tag(name = "Company - Endpoint")
 @RequestMapping(ApiEndpoint.COMPANY_ENDPOINT)
 public class CompanyController {
     private static final Logger log = LoggerFactory.getLogger(CompanyController.class);
