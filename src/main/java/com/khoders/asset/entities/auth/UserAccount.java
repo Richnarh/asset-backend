@@ -10,14 +10,14 @@ import java.util.Set;
 @Table(name = "user_account")
 public class UserAccount extends SpringBaseModel {
 
+    @Column(name = "company_name")
+    private String companyName;
+
     @Column(name = "email_address")
     private String emailAddress;
 
     @Column(name = "primary_number")
     private String primaryNumber;
-
-    @Column(name = "second_number")
-    private String secondNumber;
 
     @Column(name = "password")
     private String password;
@@ -27,10 +27,6 @@ public class UserAccount extends SpringBaseModel {
             joinColumns = @JoinColumn(name = "user_account"),
             inverseJoinColumns = @JoinColumn(name = "roles"))
     private Set<Role> roles = new HashSet<>();
-
-//    @JoinColumn(name = "company")
-//    @ManyToOne
-//    private Company company;
 
     public String getEmailAddress() {
         return emailAddress;
@@ -48,14 +44,6 @@ public class UserAccount extends SpringBaseModel {
         this.primaryNumber = primaryNumber;
     }
 
-    public String getSecondNumber() {
-        return secondNumber;
-    }
-
-    public void setSecondNumber(String secondNumber) {
-        this.secondNumber = secondNumber;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -70,6 +58,14 @@ public class UserAccount extends SpringBaseModel {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.khoders.asset.entities;
 
 import com.khoders.asset.entities.auth.UserAccount;
+import com.khoders.asset.entities.constants.CompanyType;
 import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.*;
@@ -11,6 +12,10 @@ public class Company extends SpringBaseModel {
 
     @Column(name = "company_name")
     private String companyName;
+
+    @Column(name = "company_type")
+    @Enumerated(EnumType.STRING)
+    private CompanyType companyType;
 
     @Column(name = "telephone")
     private String telephone;

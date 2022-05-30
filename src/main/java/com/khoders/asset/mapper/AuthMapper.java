@@ -52,7 +52,7 @@ public class AuthMapper {
         user.setRefNo(user.getRefNo());
         user.setEmailAddress(dto.getEmailAddress());
         user.setPrimaryNumber(dto.getPrimaryNumber());
-        user.setSecondNumber(dto.getSecondNumber());
+        user.setCompanyName(dto.getCompanyName());
         user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
 
         Set<String> strRoles = dto.getUserRoles();
@@ -94,7 +94,7 @@ public class AuthMapper {
         dto.setId(user.getId());
         dto.setEmailAddress(user.getEmailAddress());
         dto.setPrimaryNumber(user.getPrimaryNumber());
-        dto.setSecondNumber(user.getSecondNumber());
+        dto.setCompanyName(user.getCompanyName());
         dto.setValueDate(DateUtil.parseLocalDateString(user.getValueDate(), Pattern.ddMMyyyy));
         return dto;
     }

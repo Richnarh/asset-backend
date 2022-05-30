@@ -33,7 +33,7 @@ public class AuthController {
     @Autowired
     private JwtService jwtService;
 
-    @PostMapping("/register")
+    @PostMapping("/signup")
     public ResponseEntity<UserAccount> register(@RequestBody UserAccountDto dto) {
         try {
             UserAccount entity = mapper.toEntity(dto);
