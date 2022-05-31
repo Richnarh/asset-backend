@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@Tag(name = "Invoice")
+@Tag(name = "Invoice - Endpoint")
 @RequestMapping(ApiEndpoint.INVOICE_ENDPOINT)
 public class InvoiceController {
     @Autowired private InvoiceService invoiceService;

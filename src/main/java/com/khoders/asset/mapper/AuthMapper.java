@@ -2,10 +2,12 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.Repository.RoleRepository;
 import com.khoders.asset.Repository.UserRepository;
+import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.dto.authpayload.JwtResponse;
 import com.khoders.asset.dto.authpayload.LoginRequest;
 import com.khoders.asset.dto.authpayload.RoleDto;
 import com.khoders.asset.dto.authpayload.UserAccountDto;
+import com.khoders.asset.entities.Company;
 import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.Role;
 import com.khoders.asset.entities.auth.UserAccount;
@@ -13,9 +15,15 @@ import com.khoders.asset.entities.constants.UserRole;
 import com.khoders.asset.jwt.JwtService;
 import com.khoders.asset.services.auth.AuthService;
 import com.khoders.asset.services.auth.RefreshTokenService;
+import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.resource.exception.BadDataException;
 import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.resource.utilities.Stringz;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,26 +33,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.ws.rs.BadRequestException;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 @Component
 public class AuthMapper {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JwtService jwtService;
-    @Autowired
-    private AuthService authService;
-    @Autowired
-    private RoleRepository roleRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RefreshTokenService refreshTokenService;
+    @Autowired private AuthenticationManager authenticationManager;
+    @Autowired private JwtService jwtService;
+    @Autowired private RoleRepository roleRepository;
+    @Autowired private UserRepository userRepository;
+    @Autowired private RefreshTokenService refreshTokenService;
+    @Autowired private CrudBuilder builder;
 
-    public UserAccount toEntity(UserAccountDto dto) {
+    public UserAccount createAccount(UserAccountDto dto) {
         UserAccount user = new UserAccount();
         if (dto.getId() != null) {
             user.setId(dto.getId());
@@ -52,9 +60,15 @@ public class AuthMapper {
         user.setRefNo(user.getRefNo());
         user.setEmailAddress(dto.getEmailAddress());
         user.setPrimaryNumber(dto.getPrimaryNumber());
-        user.setSecondNumber(dto.getSecondNumber());
         user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
 
+        if(Stringz.isNullOrEmpty(dto.getEmailAddress())){
+            throw new BadDataException("Email cannot be null");
+        }
+        UserAccount userAccount = builder.simpleFind(UserAccount.class, dto.getEmailAddress());
+        if (userAccount != null){
+            throw new BadDataException("A user with the email address already exist");
+        }
         Set<String> strRoles = dto.getUserRoles();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null){
@@ -94,13 +108,11 @@ public class AuthMapper {
         dto.setId(user.getId());
         dto.setEmailAddress(user.getEmailAddress());
         dto.setPrimaryNumber(user.getPrimaryNumber());
-        dto.setSecondNumber(user.getSecondNumber());
         dto.setValueDate(DateUtil.parseLocalDateString(user.getValueDate(), Pattern.ddMMyyyy));
         return dto;
     }
 
     public JwtResponse toJwtResponse(LoginRequest loginRequest) {
-        JwtResponse jwtResponse = new JwtResponse();
 
         if (loginRequest.getEmailAddress() == null){
             throw new DataNotFoundException("Please enter email");
@@ -113,7 +125,18 @@ public class AuthMapper {
         );
         UserDetails userDetails = (UserDetails)authentication.getPrincipal();
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        String jwtToken = jwtService.generateToken(userDetails.getUsername());
         UserAccount userAccount = userRepository.findByEmailAddress(userDetails.getUsername()).orElseThrow(() -> new DataNotFoundException("User Not Found"));
+
+        return toJwt(userAccount,jwtToken);
+    }
+
+    public JwtResponse toJwt(UserAccount userAccount, String jwtToken){
+        JwtResponse jwtResponse = new JwtResponse();
+
+        if (userAccount == null){
+            throw new BadRequestException("Something went wrong with the system, Contact Developer with server log");
+        }
         Set<RoleDto> roles = new HashSet<>();
         userAccount.getRoles().forEach(item ->{
             RoleDto dto = new RoleDto();
@@ -122,17 +145,42 @@ public class AuthMapper {
             roles.add(dto);
         });
 
-        String jwtToken = jwtService.generateToken(userDetails.getUsername());
+        List<Company> companies = companies(userAccount);
+        List<CompanyDto> companyList = new LinkedList<>();
+        for (Company company:companies){
+            CompanyDto dto = new CompanyDto();
+            dto.setId(company.getId());
+            dto.setCompanyName(company.getCompanyName());
+            dto.setCompanyType(company.getCompanyType().getLabel());
+            companyList.add(dto);
+        }
 
         jwtResponse.setAccessToken(jwtToken);
         jwtResponse.setId(userAccount.getId());
         jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
         jwtResponse.setRoleList(roles);
+        jwtResponse.setCompanyList(companyList);
 
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
         jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
         jwtResponse.setRefreshToken(refreshToken.getToken());
 
         return jwtResponse;
+    }
+
+    public List<Company> companies(UserAccount userAccount){
+        Session session = builder.session();
+        try {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
+            Root<Company> root = criteriaQuery.from(Company.class);
+            criteriaQuery.where(builder.and(builder.equal(root.get("primaryUser"), userAccount)));
+            criteriaQuery.orderBy(builder.asc(root.get(Company._companyName)));
+            Query<Company> query = session.createQuery(criteriaQuery);
+            return query.getResultList();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

@@ -5,6 +5,7 @@ import com.khoders.asset.services.ExpenseService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "Expense - Endpoint")
 @RequestMapping(ApiEndpoint.EXPENSE_ENDPOINT)
 public class ExpenseController {
     @Autowired private ExpenseService expenseService;

@@ -7,6 +7,7 @@ import com.khoders.asset.services.EmployeeService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 @RestController
+@Tag(name = "Employee - Endpoint")
 @RequestMapping(ApiEndpoint.EMPLOYEE_ENDPOINT)
 public class EmployeeController {
     @Autowired

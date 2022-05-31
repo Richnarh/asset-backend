@@ -7,6 +7,7 @@ import com.khoders.asset.services.StartWorkService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@Tag(name = "Start Work - Endpoint")
 @RequestMapping(ApiEndpoint.START_WORK_ENDPOINT)
 public class StartWorkController {
     @Autowired private StartWorkService workService;

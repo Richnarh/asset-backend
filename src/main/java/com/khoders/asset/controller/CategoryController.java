@@ -7,6 +7,7 @@ import com.khoders.asset.services.CategoryService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @RestController
+@Tag(name = "Category - Endpoint")
 @RequestMapping(ApiEndpoint.CATEGORY_ENDPOINT)
 public class CategoryController {
     private static final Logger log = getLogger(CategoryController.class);

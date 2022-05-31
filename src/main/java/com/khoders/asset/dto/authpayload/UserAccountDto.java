@@ -7,7 +7,7 @@ import java.util.Set;
 public class UserAccountDto extends BaseDto {
     private String emailAddress;
     private String primaryNumber;
-    private String secondNumber;
+    private String companyName;
     private String password;
     private Set<String> userRoles;
 
@@ -27,12 +27,12 @@ public class UserAccountDto extends BaseDto {
         this.primaryNumber = primaryNumber;
     }
 
-    public String getSecondNumber() {
-        return secondNumber;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setSecondNumber(String secondNumber) {
-        this.secondNumber = secondNumber;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public String getPassword() {

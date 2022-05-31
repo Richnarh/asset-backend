@@ -105,4 +105,14 @@ public class LookupSetup {
         });
         return itemList;
     }
+    public List<LookupItem> companies(){
+        List<LookupItem> itemList = new LinkedList<>();
+        builder.findAll(Company.class).forEach(data ->{
+            LookupItem item = new LookupItem();
+            item.setId(data.getId());
+            item.setItemName(data.getCompanyName());
+            itemList.add(item);
+        });
+        return itemList;
+    }
 }

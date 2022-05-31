@@ -4,7 +4,8 @@ public class ApiEndpoint {
     public static final String BASE_API = "api/";
     public static final String VERSION = "v1/";
 
-    public static final String AUTH_ENDPOINT = BASE_API + "auth";
+    public static final String AUTH_ENDPOINT = BASE_API + VERSION + "auth";
+    public static final String ROLE_ENDPOINT = BASE_API + VERSION + "role";
 
     public static final String COMPANY_ENDPOINT = BASE_API + VERSION + "company";
     public static final String ACCOUNT_ENDPOINT = BASE_API + VERSION + "accounts";
