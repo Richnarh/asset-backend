@@ -10,7 +10,6 @@ import com.khoders.asset.services.auth.AuthService;
 import com.khoders.asset.services.auth.RefreshTokenService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
-import com.khoders.resource.utilities.SystemUtils;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@CrossOrigin(origins = "*", maxAge = 3600L)
 @RestController
 @Tag(name = "Authentication - Endpoint")
 @RequestMapping(ApiEndpoint.AUTH_ENDPOINT)
@@ -34,14 +32,13 @@ public class AuthController {
     private JwtService jwtService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserAccount> register(@RequestBody UserAccountDto dto) {
+    public ResponseEntity<JwtResponse> signup(@RequestBody UserAccountDto dto) {
         try {
-            UserAccount entity = mapper.toEntity(dto);
-            UserAccount user = authService.saveUser(entity);
+            JwtResponse user = authService.save(dto);
             if (user == null) {
                 return ApiResponse.error("Unknown Error", null);
             }
-            return ApiResponse.created("Registration successful", mapper.toDto(user));
+            return ApiResponse.created("Registration successful", user);
         } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), null);

@@ -1,7 +1,9 @@
 package com.khoders.asset.dto.authpayload;
 
 import com.khoders.asset.dto.BaseDto;
+import com.khoders.asset.dto.CompanyDto;
 
+import java.util.List;
 import java.util.Set;
 
 public class JwtResponse extends BaseDto {
@@ -10,6 +12,7 @@ public class JwtResponse extends BaseDto {
     private String expiryDate;
     private String authType = "Bearer";
     private Set<RoleDto> roleList;
+    private List<CompanyDto> companyList;
 
     public String getAccessToken() {
         return accessToken;
@@ -49,5 +52,13 @@ public class JwtResponse extends BaseDto {
 
     public void setExpiryDate(String expiryDate) {
         this.expiryDate = expiryDate;
+    }
+
+    public List<CompanyDto> getCompanyList() {
+        return companyList;
+    }
+
+    public void setCompanyList(List<CompanyDto> companyList) {
+        this.companyList = companyList;
     }
 }

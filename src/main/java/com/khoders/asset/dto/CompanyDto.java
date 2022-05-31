@@ -1,5 +1,7 @@
 package com.khoders.asset.dto;
 
+import com.khoders.asset.entities.constants.CompanyType;
+
 public class CompanyDto {
     private String id;
     private String companyName;
@@ -7,8 +9,9 @@ public class CompanyDto {
     private String emailAddress;
     private String website;
     private String companyAddress;
-    private String userAccountName;
-    private String userAccountId;
+    private String companyType;
+    private String primaryUser;
+    private String primaryUserId;
 
     public String getId() {
         return id;
@@ -58,19 +61,27 @@ public class CompanyDto {
         this.companyAddress = companyAddress;
     }
 
-    public String getUserAccountName() {
-        return userAccountName;
+    public String getPrimaryUser() {
+        return primaryUser;
     }
 
-    public void setUserAccountName(String userAccountName) {
-        this.userAccountName = userAccountName;
+    public void setPrimaryUser(String primaryUser) {
+        this.primaryUser = primaryUser;
     }
 
-    public String getUserAccountId() {
-        return userAccountId;
+    public String getPrimaryUserId() {
+        return primaryUserId;
     }
 
-    public void setUserAccountId(String userAccountId) {
-        this.userAccountId = userAccountId;
+    public void setPrimaryUserId(String primaryUserId) {
+        this.primaryUserId = primaryUserId;
+    }
+
+    public String getCompanyType() {
+        return companyType;
+    }
+
+    public void setCompanyType(String companyType) {
+        this.companyType = companyType;
     }
 }

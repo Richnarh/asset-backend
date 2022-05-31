@@ -1,5 +1,6 @@
 package com.khoders.asset.entities.auth;
 
+import com.khoders.asset.entities.CompanyRecord;
 import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.*;
@@ -8,10 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user_account")
-public class UserAccount extends SpringBaseModel {
-
-    @Column(name = "company_name")
-    private String companyName;
+public class UserAccount extends CompanyRecord {
 
     @Column(name = "email_address")
     private String emailAddress;
@@ -58,14 +56,6 @@ public class UserAccount extends SpringBaseModel {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 
     @Override

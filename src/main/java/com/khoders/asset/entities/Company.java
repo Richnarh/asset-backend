@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Table(name = "company")
 public class Company extends SpringBaseModel {
 
+    public static final String _companyName="companyName";
     @Column(name = "company_name")
     private String companyName;
 
@@ -32,9 +33,10 @@ public class Company extends SpringBaseModel {
     @Column(name = "company_address")
     private String companyAddress;
 
-    @JoinColumn(name = "user_account", referencedColumnName = "id")
+    public static final String _primaryUser="primaryUser";
+    @JoinColumn(name = "primary_user", referencedColumnName = "id")
     @ManyToOne
-    private UserAccount userAccount;
+    private UserAccount primaryUser;
 
     public String getCompanyName() {
         return companyName;
@@ -76,11 +78,27 @@ public class Company extends SpringBaseModel {
         this.companyAddress = companyAddress;
     }
 
-    public UserAccount getUserAccount() {
-        return userAccount;
+    public CompanyType getCompanyType() {
+        return companyType;
     }
 
-    public void setUserAccount(UserAccount userAccount) {
-        this.userAccount = userAccount;
+    public void setCompanyType(CompanyType companyType) {
+        this.companyType = companyType;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
+
+    public UserAccount getPrimaryUser() {
+        return primaryUser;
+    }
+
+    public void setPrimaryUser(UserAccount primaryUser) {
+        this.primaryUser = primaryUser;
     }
 }
