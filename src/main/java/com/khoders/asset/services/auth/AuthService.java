@@ -1,16 +1,21 @@
 package com.khoders.asset.services.auth;
 
 import com.khoders.asset.Repository.UserRepository;
+import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.dto.authpayload.JwtResponse;
 import com.khoders.asset.dto.authpayload.LoginRequest;
+import com.khoders.asset.dto.authpayload.RoleDto;
 import com.khoders.asset.dto.authpayload.UserAccountDto;
 import com.khoders.asset.entities.Company;
+import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.jwt.JwtService;
 import com.khoders.asset.mapper.AuthMapper;
 import com.khoders.asset.mapper.CompanyMapper;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.resource.utilities.DateUtil;
+import com.khoders.resource.utilities.Pattern;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -30,22 +35,18 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
+import javax.ws.rs.BadRequestException;
+import java.util.*;
 
 @Service
 @Transactional
 public class AuthService implements UserDetailsService {
-    @Autowired
-    private CrudBuilder builder;
-    @Autowired
-    private UserRepository repository;
-    @Autowired
-    private CompanyMapper companyMapper;
-    @Autowired
-    private AuthMapper authMapper;
-    @Autowired
-    private JwtService jwtService;
+    @Autowired private CrudBuilder builder;
+    @Autowired private UserRepository repository;
+    @Autowired private RefreshTokenService refreshTokenService;
+    @Autowired private CompanyMapper companyMapper;
+    @Autowired private AuthMapper authMapper;
+    @Autowired private JwtService jwtService;
 
     AuthService(){}
     @Override
@@ -65,7 +66,7 @@ public class AuthService implements UserDetailsService {
         System.out.println("userAccount -- "+userAccount.getEmailAddress());
         String jwtToken = jwtService.generateToken(userAccount.getEmailAddress());
 
-        return authMapper.toJwt(userAccount,jwtToken);
+        return toJwt(userAccount,jwtToken);
     }
 
     public UserAccount findById(String id) {
@@ -87,6 +88,43 @@ public class AuthService implements UserDetailsService {
         }
     }
 
+    public JwtResponse toJwt(UserAccount userAccount, String jwtToken){
+        JwtResponse jwtResponse = new JwtResponse();
+
+        if (userAccount == null){
+            throw new BadRequestException("Something went wrong with the system, Contact Developer with server log");
+        }
+        Set<RoleDto> roles = new HashSet<>();
+        userAccount.getRoles().forEach(item ->{
+            RoleDto dto = new RoleDto();
+            dto.setId(item.getId());
+            dto.setRoleName(item.getRoleName().name());
+            roles.add(dto);
+        });
+
+        List<Company> companies = companies(userAccount);
+        List<CompanyDto> companyList = new LinkedList<>();
+        for (Company company:companies){
+            CompanyDto dto = new CompanyDto();
+            dto.setId(company.getId());
+            dto.setCompanyName(company.getCompanyName());
+            dto.setCompanyType(company.getCompanyType().getLabel());
+            companyList.add(dto);
+        }
+
+        jwtResponse.setAccessToken(jwtToken);
+        jwtResponse.setId(userAccount.getId());
+        jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
+        jwtResponse.setRoleList(roles);
+        jwtResponse.setCompanyList(companyList);
+
+        RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
+        jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
+        jwtResponse.setRefreshToken(refreshToken.getToken());
+
+        return jwtResponse;
+    }
+
     public List<Company> companies(UserAccount userAccount){
         Session session = builder.session();
         try {
@@ -99,7 +137,7 @@ public class AuthService implements UserDetailsService {
             return query.getResultList();
         } catch (HibernateException e) {
             e.printStackTrace();
-            return null;
+            return Collections.emptyList();
         }
     }
 }
