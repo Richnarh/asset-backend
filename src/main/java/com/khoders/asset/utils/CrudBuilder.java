@@ -95,7 +95,7 @@ public class CrudBuilder {
             Root<T> root = criteriaQuery.from(clazz);
             criteriaQuery.where(criteriaBuilder.equal(root.get("id"), id));
             Query<?> query = session().createQuery(criteriaQuery);
-            return (T) query.getSingleResult();
+            return (T) query.getResultStream().findFirst().orElse(null);
         } catch (HibernateException e) {
             e.printStackTrace();
         }
@@ -113,6 +113,15 @@ public class CrudBuilder {
         criteriaQuery.where(criteriaBuilder.equal(root.get(field), field));
         Query<?> query = session().createQuery(criteriaQuery);
          return (List<T>) query.getResultList();
+    }
+
+    public <T> T singleResult(Class<T> clazz, String field, String fieldValue){
+        CriteriaBuilder criteriaBuilder = session().getCriteriaBuilder();
+        CriteriaQuery<?> criteriaQuery = criteriaBuilder.createQuery(clazz);
+        Root<T> root = criteriaQuery.from(clazz);
+        criteriaQuery.where(criteriaBuilder.equal(root.get(field), fieldValue));
+        Query<?> query = session().createQuery(criteriaQuery);
+         return (T) query.getResultStream().findFirst().orElse(null);
     }
 
     public <T> List<T> findAll(Class<T> clazz) {
