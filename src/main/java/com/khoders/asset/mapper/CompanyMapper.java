@@ -11,6 +11,8 @@ import com.khoders.resource.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.ws.rs.BadRequestException;
+
 @Component
 public class CompanyMapper {
     @Autowired
@@ -62,6 +64,10 @@ public class CompanyMapper {
 
     public Company createCompany(UserAccountDto userAccount){
         Company company = new Company();
+        Company newCompany = builder.singleResult(Company.class, "emailAddress", userAccount.getEmailAddress());
+        if(newCompany != null){
+            throw new RuntimeException("A user with the email: "+userAccount.getEmailAddress()+" already exist");
+        }
         company.setCompanyType(CompanyType.PARENT_COMPANY);
         company.setCompanyName(userAccount.getCompanyName());
         company.setEmailAddress(userAccount.getEmailAddress());

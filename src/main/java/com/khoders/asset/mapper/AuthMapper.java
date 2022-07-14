@@ -26,6 +26,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,13 +59,14 @@ public class AuthMapper {
             user.setId(dto.getId());
         }
         user.setRefNo(user.getRefNo());
-        user.setEmailAddress(dto.getEmailAddress());
-        user.setPrimaryNumber(dto.getPrimaryNumber());
-        user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
 
         if(Stringz.isNullOrEmpty(dto.getEmailAddress())){
             throw new BadDataException("Email cannot be null");
         }
+        user.setEmailAddress(dto.getEmailAddress());
+        user.setPrimaryNumber(dto.getPrimaryNumber());
+        user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
+
         UserAccount userAccount = builder.simpleFind(UserAccount.class, dto.getEmailAddress());
         if (userAccount != null){
             throw new BadDataException("A user with the email address already exist");
@@ -113,30 +115,28 @@ public class AuthMapper {
     }
 
     public JwtResponse toJwtResponse(LoginRequest loginRequest) {
-
+        JwtResponse jwtResponse = new JwtResponse();
         if (loginRequest.getEmailAddress() == null){
             throw new DataNotFoundException("Please enter email");
         }
         if (loginRequest.getPassword() == null){
             throw new DataNotFoundException("Please enter password");
         }
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginRequest.getEmailAddress(), loginRequest.getPassword())
-        );
-        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String jwtToken = jwtService.generateToken(userDetails.getUsername());
-        UserAccount userAccount = userRepository.findByEmailAddress(userDetails.getUsername()).orElseThrow(() -> new DataNotFoundException("User Not Found"));
+        System.out.println("Email Address --- "+loginRequest.getEmailAddress()+"\n");
+        System.out.println("Password --- "+loginRequest.getPassword()+"\n");
+//        Authentication authentication = null;
+//        try {
+//             authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(loginRequest.getEmailAddress(), loginRequest.getPassword()));
+//        } catch (BadCredentialsException e) {
+//            System.out.println("Printing........");
+//            e.printStackTrace();
+//        }
+//        SecurityContextHolder.getContext().setAuthentication(authentication);
+//        UserDetails userDetails = (UserDetails)authentication.getPrincipal();
+        String jwtToken = jwtService.generateToken(loginRequest.getEmailAddress() );
+        UserAccount userAccount = userRepository.findByEmailAddress(loginRequest.getEmailAddress()).orElseThrow(() -> new DataNotFoundException("User Not Found"));
 
-        return toJwt(userAccount,jwtToken);
-    }
-
-    public JwtResponse toJwt(UserAccount userAccount, String jwtToken){
-        JwtResponse jwtResponse = new JwtResponse();
-
-        if (userAccount == null){
-            throw new BadRequestException("Something went wrong with the system, Contact Developer with server log");
-        }
         Set<RoleDto> roles = new HashSet<>();
         userAccount.getRoles().forEach(item ->{
             RoleDto dto = new RoleDto();
@@ -161,7 +161,9 @@ public class AuthMapper {
         jwtResponse.setRoleList(roles);
         jwtResponse.setCompanyList(companyList);
 
+        System.out.println("start 7 \n");
         RefreshToken refreshToken = refreshTokenService.createRefreshToken(userAccount.getId());
+        System.out.println("start 8 \n");
         jwtResponse.setExpiryDate(String.valueOf(refreshToken.getExpiryDate()));
         jwtResponse.setRefreshToken(refreshToken.getToken());
 
