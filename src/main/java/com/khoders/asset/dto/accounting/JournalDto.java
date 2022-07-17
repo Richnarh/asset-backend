@@ -1,7 +1,6 @@
 package com.khoders.asset.dto.accounting;
 
 import com.khoders.asset.dto.BaseDto;
-import com.khoders.asset.entities.constants.DebitCredit;
 
 public class JournalDto extends BaseDto {
     private double debit;

@@ -2,7 +2,7 @@ package com.khoders.asset.dto.accounting;
 
 import com.khoders.asset.dto.BaseDto;
 
-public class GeneralLedgerDto extends BaseDto {
+public class GLDto extends BaseDto {
     private String accountName;
     private String accountId;
     private double debit;

@@ -1,6 +1,6 @@
 package com.khoders.asset.mapper.accounting;
 
-import com.khoders.asset.dto.accounting.GeneralLedgerDto;
+import com.khoders.asset.dto.accounting.GLDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.GeneralLedger;
 import com.khoders.asset.entities.constants.EntrySource;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class GLMapper {
     @Autowired private CrudBuilder builder;
 
-    public GeneralLedger toEntity(GeneralLedgerDto dto){
+    public GeneralLedger toEntity(GLDto dto){
         GeneralLedger ledger = new GeneralLedger();
         if (dto.getId() != null) {
             ledger.setId(dto.getId());
@@ -35,8 +35,8 @@ public class GLMapper {
         return ledger;
     }
 
-    public GeneralLedgerDto toDto(GeneralLedger ledger){
-        GeneralLedgerDto dto = new GeneralLedgerDto();
+    public GLDto toDto(GeneralLedger ledger){
+        GLDto dto = new GLDto();
         if (ledger == null) {
             return null;
         }
