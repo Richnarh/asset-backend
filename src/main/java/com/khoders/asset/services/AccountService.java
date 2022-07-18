@@ -175,6 +175,9 @@ public class AccountService {
         }
         return Collections.emptyList();
     }
+    public boolean delete(String accountId){
+        return builder.deleteById(accountId, Account.class);
+    }
     public boolean deleteBill(String billId){
         return builder.deleteById(billId, Bill.class);
     }

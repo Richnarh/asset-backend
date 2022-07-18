@@ -39,5 +39,14 @@ public class AccountController {
         AccountDto dto = accountService.findAccount(accountId);
         return ApiResponse.ok(Msg.RECORD_FOUND, dto);
     }
-
+    @DeleteMapping("/{accountId}")
+    public ResponseEntity<?> delete(@PathVariable("accountId") String accountId){
+        try {
+            if (accountService.delete(accountId)) return ApiResponse.ok(Msg.DELETED, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ApiResponse.error(e.getMessage(), false);
+        }
+        return ApiResponse.error("Could Not Delete account", false);
+    }
 }
