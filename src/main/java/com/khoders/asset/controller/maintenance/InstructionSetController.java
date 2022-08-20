@@ -1,6 +1,5 @@
 package com.khoders.asset.controller.maintenance;
 
-import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.dto.maintenance.InstructionSetDto;
 import com.khoders.asset.services.InstructionSetService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -33,7 +32,7 @@ public class InstructionSetController {
     public ResponseEntity<List<InstructionSetDto>> list(){
         List<InstructionSetDto> dtoList = instructionSetService.instructionSetList();
         if (dtoList.isEmpty()){
-            return ApiResponse.ok(Msg.RECORD_NOT_FOUND, new InstructionSetDto());
+            return ApiResponse.ok(Msg.RECORD_NOT_FOUND, dtoList);
         }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
