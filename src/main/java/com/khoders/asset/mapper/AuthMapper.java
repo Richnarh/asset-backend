@@ -60,8 +60,8 @@ public class AuthMapper {
         }
         user.setRefNo(user.getRefNo());
 
-        if(Stringz.isNullOrEmpty(dto.getEmailAddress())){
-            throw new BadDataException("Email cannot be null");
+        if(!Stringz.isNotNullOrEmpty(dto.getEmailAddress())){
+            throw new BadDataException("Email cannot be empty");
         }
         user.setEmailAddress(dto.getEmailAddress());
         user.setPrimaryNumber(dto.getPrimaryNumber());
