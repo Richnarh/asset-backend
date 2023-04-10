@@ -2,9 +2,9 @@ package com.khoders.asset.services.accounting;
 
 import com.khoders.asset.dto.accounting.GLDto;
 import com.khoders.asset.entities.accounting.GeneralLedger;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.accounting.GLMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,13 +13,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 @Service
-@Transactional
 public class GLService {
     @Autowired
     private CrudBuilder builder;
     private GLMapper glMapper;
 
-    public GLDto save(GLDto dto){
+    public GLDto save(GLDto dto) throws Exception {
         if (dto.getId() != null){
             GeneralLedger gl = builder.simpleFind(GeneralLedger.class, dto.getId());
             if (gl == null){
@@ -43,7 +42,7 @@ public class GLService {
     public GLDto findById(String glId){
         return glMapper.toDto(builder.simpleFind(GeneralLedger.class, glId));
     }
-    public boolean delete(String glId){
+    public boolean delete(String glId) throws Exception {
         return builder.deleteById(glId, GeneralLedger.class);
     }
 }

@@ -2,6 +2,8 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.EmployeeDto;
 import com.khoders.asset.entities.Employee;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.EmployeeMapper;
 import com.khoders.asset.services.EmployeeService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -25,17 +27,17 @@ public class EmployeeController {
     private EmployeeMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Employee> create(@RequestBody EmployeeDto dto) {
+    public ResponseEntity<Employee> create(@RequestBody EmployeeDto dto)throws Exception {
         try {
             Employee entity = mapper.toEntity(dto);
             Employee Employee = employeeService.save(entity);
             if (Employee == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(Employee));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
@@ -67,7 +69,7 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public ResponseEntity<Employee> update(@RequestBody EmployeeDto dto) {
+    public ResponseEntity<Employee> update(@RequestBody EmployeeDto dto) throws Exception{
         try {
             Employee employee = employeeService.findById(dto.getId());
             if (employee == null) {
@@ -76,12 +78,12 @@ public class EmployeeController {
             Employee entity = mapper.toEntity(dto);
             Employee emp = employeeService.save(entity);
             if (emp == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new InternalErrException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, mapper.toDto(emp));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 

@@ -3,10 +3,9 @@ package com.khoders.asset.services;
 import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.entities.accounting.Invoice;
 import com.khoders.asset.entities.accounting.InvoiceItem;
-import com.khoders.asset.entities.maintenance.InstructionSet;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.accounting.InvoiceExtractMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.Msg;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -17,7 +16,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,7 +25,7 @@ public class InvoiceService {
     @Autowired private CrudBuilder builder;
     @Autowired private InvoiceExtractMapper extractMapper;
 
-    public InvoiceDto saveInvoice(InvoiceDto dto){
+    public InvoiceDto saveInvoice(InvoiceDto dto)throws Exception{
         if (dto.getId() != null){
             Invoice invoice = builder.simpleFind(Invoice.class, dto.getId());
             if (invoice == null){
@@ -44,7 +42,7 @@ public class InvoiceService {
         return extractMapper.toDto(invoice);
     }
 
-    public List<InvoiceDto> invoiceList(){
+    public List<InvoiceDto> invoiceList() throws Exception {
         Session session = builder.session();
 
         List<InvoiceItem> invoiceItemList;
@@ -77,7 +75,7 @@ public class InvoiceService {
             return dtoList;
     }
 
-    public InvoiceDto findById(String invoiceId){
+    public InvoiceDto findById(String invoiceId)throws Exception{
         Session session = builder.session();
         List<InvoiceItem> invoiceItemList;
 
@@ -100,7 +98,7 @@ public class InvoiceService {
             }
         return null;
     }
-    public boolean delete(String invoiceId){
+    public boolean delete(String invoiceId) throws Exception {
         return builder.deleteById(invoiceId, Invoice.class);
     }
 }

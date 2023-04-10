@@ -2,6 +2,8 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.AssetTransferDto;
 import com.khoders.asset.entities.AssetTransfer;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.AssetTransferMapper;
 import com.khoders.asset.services.AssetTransferService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -25,22 +27,22 @@ public class AssetTransferController {
     private AssetTransferMapper mapper;
 
     @PostMapping
-    public ResponseEntity<AssetTransfer> createAssetTransfer(@RequestBody AssetTransferDto dto) {
+    public ResponseEntity<AssetTransfer> createAssetTransfer(@RequestBody AssetTransferDto dto) throws Exception{
         try {
             AssetTransfer entity = mapper.toEntity(dto);
             AssetTransfer assetTransfer = transferService.saveTransfer(entity);
             if (assetTransfer == null) {
-                return ApiResponse.error("Unknown Error", null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok("Asset Transfer Created Successfully", mapper.toDto(assetTransfer));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
     @PutMapping
-    public ResponseEntity<AssetTransfer> updateTransfer(@RequestBody AssetTransferDto dto) {
+    public ResponseEntity<AssetTransfer> updateTransfer(@RequestBody AssetTransferDto dto) throws Exception {
         try {
             AssetTransfer transfer = transferService.findById(dto.getId());
             if (transfer == null) {
@@ -48,18 +50,18 @@ public class AssetTransferController {
             }
             AssetTransfer assetTransfer = transferService.saveTransfer(transfer);
             if (assetTransfer == null) {
-                return ApiResponse.error("Unknown Error", null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             AssetTransferDto itemDto = mapper.toDto(assetTransfer);
             return ApiResponse.ok("Asset Transfer Updated", itemDto.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
     @GetMapping("/{transferId}")
-    public ResponseEntity<AssetTransfer> findTransfer(@PathVariable(value = "transferId") String transferId) {
+    public ResponseEntity<AssetTransfer> findTransfer(@PathVariable(value = "transferId") String transferId) throws Exception{
         try {
             AssetTransfer transfer = transferService.findById(transferId);
             if (transfer == null) {
@@ -68,7 +70,7 @@ public class AssetTransferController {
             return ApiResponse.ok(Msg.RECORD_FOUND, mapper.toDto(transfer));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), false);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
@@ -80,18 +82,18 @@ public class AssetTransferController {
             dtoList.add(mapper.toDto(assetTransfer));
         });
         if (dtoList.isEmpty()) {
-            return ApiResponse.ok("No Record Found", dtoList);
+            return ApiResponse.ok(Msg.RECORD_NOT_FOUND, dtoList);
         }
-        return ApiResponse.ok("Records Found", dtoList);
+        return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
 
     @DeleteMapping("/delete/{transferId}")
-    public ResponseEntity<Object> delete(@PathVariable(value = "transferId") String transferId) {
+    public ResponseEntity<Object> delete(@PathVariable(value = "transferId") String transferId)throws Exception {
         try {
             if (transferService.delete(transferId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), false);
+            throw new InternalErrException(e.getMessage());
         }
         return ApiResponse.error("Could Not Delete Transfer", false);
     }

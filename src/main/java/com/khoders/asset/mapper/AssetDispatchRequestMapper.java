@@ -6,8 +6,8 @@ import com.khoders.asset.entities.Department;
 import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.InventoryItem;
 import com.khoders.asset.entities.constants.ApprovalStatus;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class AssetDispatchRequestMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public AssetDispatchRequest toEntity(AssetDispatchRequestDto dto) {
+    public AssetDispatchRequest toEntity(AssetDispatchRequestDto dto) throws Exception{
         AssetDispatchRequest dispatchRequest = new AssetDispatchRequest();
         if (dto.getId() != null) {
             dispatchRequest.setId(dto.getId());

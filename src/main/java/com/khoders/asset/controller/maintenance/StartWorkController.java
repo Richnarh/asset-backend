@@ -1,8 +1,6 @@
 package com.khoders.asset.controller.maintenance;
 
-import com.khoders.asset.dto.maintenance.OccurrenceDto;
 import com.khoders.asset.dto.maintenance.StartWorkDto;
-import com.khoders.asset.services.OccurrenceService;
 import com.khoders.asset.services.StartWorkService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
@@ -21,20 +19,20 @@ public class StartWorkController {
     @Autowired private StartWorkService workService;
 
     @PostMapping
-    public ResponseEntity<StartWorkDto> save(@RequestBody StartWorkDto dto){
+    public ResponseEntity<StartWorkDto> save(@RequestBody StartWorkDto dto) throws Exception {
         return ApiResponse.created(workService.toEntity(dto));
     }
     @PutMapping
-    public ResponseEntity<StartWorkDto> update(@RequestBody StartWorkDto dto){
+    public ResponseEntity<StartWorkDto> update(@RequestBody StartWorkDto dto) throws Exception {
         return ApiResponse.ok(Msg.UPDATED, workService.toEntity(dto).getId());
     }
     @GetMapping("/list")
-    public ResponseEntity<List<StartWorkDto>> list(){
+    public ResponseEntity<List<StartWorkDto>> list() throws Exception {
         List<StartWorkDto> dtoList = workService.startWorkList();
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @GetMapping("/{startWorkId}")
-    public ResponseEntity<StartWorkDto> findById(@PathVariable("startWorkId") String startWorkId){
+    public ResponseEntity<StartWorkDto> findById(@PathVariable("startWorkId") String startWorkId) throws Exception {
         StartWorkDto dto = workService.findById(startWorkId);
         return ApiResponse.ok(Msg.RECORD_FOUND, dto);
     }

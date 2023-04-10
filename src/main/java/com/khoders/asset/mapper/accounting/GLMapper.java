@@ -4,8 +4,8 @@ import com.khoders.asset.dto.accounting.GLDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.GeneralLedger;
 import com.khoders.asset.entities.constants.EntrySource;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 public class GLMapper {
     @Autowired private CrudBuilder builder;
 
-    public GeneralLedger toEntity(GLDto dto){
+    public GeneralLedger toEntity(GLDto dto)throws Exception{
         GeneralLedger ledger = new GeneralLedger();
         if (dto.getId() != null) {
             ledger.setId(dto.getId());

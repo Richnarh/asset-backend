@@ -1,37 +1,30 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.dto.InventoryDto;
-import com.khoders.asset.dto.accounting.BillDto;
 import com.khoders.asset.entities.Inventory;
 import com.khoders.asset.entities.InventoryItem;
-import com.khoders.asset.entities.accounting.Bill;
-import com.khoders.asset.entities.accounting.BillItem;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.InventoryExtractMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
-import com.khoders.resource.utilities.SystemUtils;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-@Transactional
 @Service
 public class InventoryService {
     @Autowired private CrudBuilder builder;
     @Autowired private InventoryExtractMapper extractMapper;
 
-    public InventoryDto saveInventory(InventoryDto dto){
+    public InventoryDto saveInventory(InventoryDto dto)throws Exception{
         if (dto.getId() != null){
             Inventory inventory = builder.simpleFind(Inventory.class, dto.getId());
             if (inventory == null){
@@ -101,7 +94,7 @@ public class InventoryService {
         return null;
     }
 
-    public boolean delete(String inventoryId) {
+    public boolean delete(String inventoryId) throws Exception {
         return builder.deleteById(inventoryId, Inventory.class);
     }
 }

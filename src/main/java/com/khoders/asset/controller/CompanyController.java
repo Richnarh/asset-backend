@@ -5,6 +5,9 @@ import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.entities.Company;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.DataNotFoundException;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.CompanyMapper;
 import com.khoders.asset.services.CompanyService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -31,22 +34,22 @@ public class CompanyController {
     private CompanyMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Company> saveCompany(@RequestBody CompanyDto dto) {
+    public ResponseEntity<Company> saveCompany(@RequestBody CompanyDto dto) throws Exception {
         try {
             Company entity = mapper.toEntity(dto);
             Company company = companyService.saveCompany(entity);
             if (company == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created("Company Created Successfully", mapper.toDto(company));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
     @PutMapping
-    public ResponseEntity<AssetTransfer> updateTransfer(@RequestBody AssetTransferDto dto) {
+    public ResponseEntity<AssetTransfer> updateTransfer(@RequestBody AssetTransferDto dto) throws Exception {
         try {
             Company company = companyService.findById(dto.getId());
             if (company == null) {
@@ -54,12 +57,12 @@ public class CompanyController {
             }
             Company com = companyService.saveCompany(company);
             if (com == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
-            return ApiResponse.created(Msg.UPDATED, true);
+            return ApiResponse.ok(Msg.UPDATED, true);
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
@@ -77,16 +80,16 @@ public class CompanyController {
     }
 
     @GetMapping("/{companyId}")
-    public ResponseEntity<Company> findSingle(@PathVariable(value = "companyId") String companyId) {
+    public ResponseEntity<Company> findSingle(@PathVariable(value = "companyId") String companyId) throws Exception{
         try {
             Company company = companyService.findById(companyId);
             if (company == null) {
-                return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, new LocationDto());
+                throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
             }
             return ApiResponse.ok(Msg.RECORD_FOUND, mapper.toDto(company));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), false);
+            throw new InternalErrException(e.getMessage());
         }
     }
 }

@@ -19,12 +19,12 @@ public class AccountController {
     @Autowired private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<AccountDto> create(@RequestBody AccountDto dto){
+    public ResponseEntity<AccountDto> create(@RequestBody AccountDto dto) throws Exception {
         AccountDto itemDto = accountService.saveAccount(dto);
        return ApiResponse.created(Msg.CREATED, itemDto);
     }
     @PutMapping
-    public ResponseEntity<AccountDto> update(@RequestBody AccountDto dto){
+    public ResponseEntity<AccountDto> update(@RequestBody AccountDto dto) throws Exception {
         return ApiResponse.ok(Msg.UPDATED, accountService.saveAccount(dto).getId());
     }
     @GetMapping("/list")
@@ -35,7 +35,7 @@ public class AccountController {
         return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, null);
     }
     @GetMapping("/{accountId}")
-    public ResponseEntity<AccountDto> findById(@PathVariable("accountId") String accountId){
+    public ResponseEntity<AccountDto> findById(@PathVariable("accountId") String accountId) throws Exception {
         AccountDto dto = accountService.findAccount(accountId);
         return ApiResponse.ok(Msg.RECORD_FOUND, dto);
     }

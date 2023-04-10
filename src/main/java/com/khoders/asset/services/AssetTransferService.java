@@ -6,13 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Service
 @Repository
 public class AssetTransferService {
     private static final Logger log = LoggerFactory.getLogger(AssetTransferService.class);
@@ -31,7 +26,7 @@ public class AssetTransferService {
         return builder.simpleFind(AssetTransfer.class, id);
     }
 
-    public boolean delete(String transferId) {
+    public boolean delete(String transferId) throws Exception {
         return builder.deleteById(transferId, AssetTransfer.class);
     }
 }

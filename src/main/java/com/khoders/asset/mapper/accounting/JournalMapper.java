@@ -4,8 +4,8 @@ import com.khoders.asset.dto.accounting.JournalDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Journal;
 import com.khoders.asset.entities.constants.DebitCredit;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class JournalMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public Journal toEntity(JournalDto dto){
+    public Journal toEntity(JournalDto dto)throws Exception{
         Journal journal = new Journal();
         if (dto.getId() != null) {
             journal.setId(dto.getId());

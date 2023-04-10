@@ -5,14 +5,9 @@ import com.khoders.asset.utils.CrudBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
 @Service
 public class CompanyService {
     private static final Logger log = LoggerFactory.getLogger(CompanyService.class);
@@ -31,7 +26,7 @@ public class CompanyService {
         return builder.findOne(companyId, Company.class);
     }
 
-    public boolean delete(String companyId) {
+    public boolean delete(String companyId) throws Exception {
         return builder.deleteById(companyId, Company.class);
     }
 }

@@ -6,8 +6,8 @@ import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Expense;
 import com.khoders.asset.entities.accounting.ExpenseItem;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ import java.util.List;
 public class ExpenseMapper {
     @Autowired private CrudBuilder builder;
 
-    public Expense toEntity(ExpenseDto dto){
+    public Expense toEntity(ExpenseDto dto)throws Exception{
         Expense expense = new Expense();
         if (dto.getId() != null){
             expense.setId(dto.getId());
@@ -62,7 +62,7 @@ public class ExpenseMapper {
         dto.setExpenseItemList(expense.getExpenseItemList());
         return dto;
     }
-    public List<ExpenseItem> toEntity(List<ExpenseItemDto> itemDtoList){
+    public List<ExpenseItem> toEntity(List<ExpenseItemDto> itemDtoList)throws Exception{
         List<ExpenseItem> expenseItemList = new LinkedList<>();
         for (ExpenseItemDto dto:itemDtoList){
             ExpenseItem expenseItem = new ExpenseItem();

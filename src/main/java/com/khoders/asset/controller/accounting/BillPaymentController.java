@@ -19,12 +19,12 @@ public class BillPaymentController {
     @Autowired private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<PaymentDto> save(@RequestBody PaymentDto dto){
+    public ResponseEntity<PaymentDto> save(@RequestBody PaymentDto dto)throws Exception{
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.created(Msg.CREATED, paymentDto);
     }
     @PutMapping
-    public ResponseEntity<PaymentDto> update(@RequestBody PaymentDto dto){
+    public ResponseEntity<PaymentDto> update(@RequestBody PaymentDto dto)throws Exception{
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.ok(Msg.UPDATED, paymentDto);
     }

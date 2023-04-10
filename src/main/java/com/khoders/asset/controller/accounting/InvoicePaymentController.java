@@ -1,6 +1,7 @@
 package com.khoders.asset.controller.accounting;
 
 import com.khoders.asset.dto.accounting.PaymentDto;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.services.AccountService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
@@ -19,12 +20,12 @@ public class InvoicePaymentController {
     @Autowired private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<PaymentDto> save(@RequestBody PaymentDto dto){
+    public ResponseEntity<PaymentDto> save(@RequestBody PaymentDto dto) throws Exception {
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.created(Msg.CREATED, paymentDto);
     }
     @PutMapping
-    public ResponseEntity<PaymentDto> update(@RequestBody PaymentDto dto){
+    public ResponseEntity<PaymentDto> update(@RequestBody PaymentDto dto) throws Exception {
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.ok(Msg.UPDATED, paymentDto);
     }
@@ -34,12 +35,12 @@ public class InvoicePaymentController {
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @DeleteMapping("/{paymentId}")
-    public ResponseEntity<Object> delete(@PathVariable("paymentId") String paymentId){
+    public ResponseEntity<Object> delete(@PathVariable("paymentId") String paymentId) throws Exception {
         try {
             if (accountService.deletePayment(paymentId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), false);
+            throw new InternalErrException(e.getMessage());
         }
         return ApiResponse.error("Could Not Delete Payment", false);
     }

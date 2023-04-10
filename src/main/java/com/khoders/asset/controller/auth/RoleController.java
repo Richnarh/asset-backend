@@ -3,13 +3,13 @@ package com.khoders.asset.controller.auth;
 import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.dto.authpayload.RoleDto;
 import com.khoders.asset.entities.auth.Role;
+import com.khoders.asset.exceptions.BadDataException;
 import com.khoders.asset.mapper.RoleMapper;
 import com.khoders.asset.services.auth.RoleService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,17 +28,17 @@ public class RoleController {
     private RoleMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Role> create(@Valid @RequestBody RoleDto dto) {
+    public ResponseEntity<Role> create(@Valid @RequestBody RoleDto dto) throws Exception{
         try {
             Role entity = mapper.toEntity(dto);
             Role role = roleService.save(entity);
             if (role == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(role));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InterruptedException(e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class RoleController {
     }
 
     @PutMapping
-    public ResponseEntity<Role> update(@RequestBody RoleDto dto) {
+    public ResponseEntity<Role> update(@RequestBody RoleDto dto)throws Exception {
         try {
             Role role = roleService.findById(dto.getId());
             if (role == null) {
@@ -79,12 +79,12 @@ public class RoleController {
             Role entity = mapper.toEntity(dto);
             Role userRole = roleService.save(entity);
             if (userRole == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, mapper.toDto(userRole));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+           throw new InterruptedException(e.getMessage());
         }
     }
 

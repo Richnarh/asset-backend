@@ -3,9 +3,9 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.EmployeeDto;
 import com.khoders.asset.entities.Department;
 import com.khoders.asset.entities.Employee;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.enums.Title;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;
@@ -21,7 +21,7 @@ public class EmployeeMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public Employee toEntity(EmployeeDto dto) {
+    public Employee toEntity(EmployeeDto dto) throws Exception{
         Employee employee = new Employee();
         if (dto.getId() != null) {
             employee.setId(dto.getId());

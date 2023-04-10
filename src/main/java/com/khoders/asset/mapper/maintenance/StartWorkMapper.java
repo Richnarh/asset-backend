@@ -4,8 +4,8 @@ import com.khoders.asset.dto.maintenance.StartWorkDto;
 import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.maintenance.Occurrence;
 import com.khoders.asset.entities.maintenance.StartWork;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ import java.time.LocalTime;
 public class StartWorkMapper {
     @Autowired private CrudBuilder builder;
 
-    public StartWork toEntity(StartWorkDto dto){
+    public StartWork toEntity(StartWorkDto dto)throws Exception{
         StartWork work = new StartWork();
         if (dto.getId() != null){
             work.setId(dto.getId());

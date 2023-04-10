@@ -20,12 +20,12 @@ public class InventoryController {
     private InventoryService inventoryService;
 
     @PostMapping
-    public ResponseEntity<InventoryDto> create(@RequestBody InventoryDto dto) {
+    public ResponseEntity<InventoryDto> create(@RequestBody InventoryDto dto) throws Exception {
         InventoryDto inventory = inventoryService.saveInventory(dto);
         return ApiResponse.created(Msg.CREATED, inventory);
     }
     @PutMapping
-    public ResponseEntity<InventoryDto> update(@RequestBody InventoryDto dto) {
+    public ResponseEntity<InventoryDto> update(@RequestBody InventoryDto dto) throws Exception {
         InventoryDto inventory = inventoryService.saveInventory(dto);
         return ApiResponse.ok(Msg.CREATED, inventory);
     }

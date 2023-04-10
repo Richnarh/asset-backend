@@ -25,10 +25,10 @@ public class AssetRegisterService {
     }
 
     public Asset findById(String assetId) {
-        return builder.findOne(assetId, Asset.class);
+        return builder.simpleFind(Asset.class,assetId);
     }
 
-    public boolean delete(String assetId) {
+    public boolean delete(String assetId) throws Exception {
         return builder.deleteById(assetId, Asset.class);
     }
 }

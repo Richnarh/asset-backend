@@ -3,9 +3,9 @@ package com.khoders.asset.services;
 import com.khoders.asset.dto.accounting.ExpenseDto;
 import com.khoders.asset.entities.accounting.Expense;
 import com.khoders.asset.entities.accounting.ExpenseItem;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.accounting.ExpenseMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.Msg;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -15,17 +15,15 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 
-@Transactional
 @Service
 public class ExpenseService {
     @Autowired private CrudBuilder builder;
     @Autowired private ExpenseMapper expenseMapper;
 
-    public ExpenseDto save(ExpenseDto dto){
+    public ExpenseDto save(ExpenseDto dto)throws Exception{
         if (dto.getId() != null){
             Expense expense = builder.simpleFind(Expense.class, dto.getId());
             if (expense == null){
@@ -41,7 +39,7 @@ public class ExpenseService {
         }
         return expenseMapper.toDto(expense);
     }
-    public List<ExpenseDto> expenseList(){
+    public List<ExpenseDto> expenseList() throws Exception {
         Session session = builder.session();
 
         List<ExpenseItem> expenseItemList;
@@ -71,7 +69,7 @@ public class ExpenseService {
             }
             return dtoList;
     }
-    public ExpenseDto findById(String expenseId){
+    public ExpenseDto findById(String expenseId) throws Exception {
         Session session = builder.session();
         List<ExpenseItem> expenseItemList = new LinkedList<>();
 
@@ -93,7 +91,7 @@ public class ExpenseService {
             }
         return null;
     }
-    public boolean delete(String expenseId) {
+    public boolean delete(String expenseId) throws Exception {
         return builder.deleteById(expenseId, Expense.class);
     }
 }

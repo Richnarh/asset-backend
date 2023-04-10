@@ -3,9 +3,8 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.InventoryDto;
 import com.khoders.asset.dto.InventoryItemDto;
 import com.khoders.asset.entities.*;
-import com.khoders.asset.entities.accounting.BillItem;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.slf4j.Logger;
@@ -22,7 +21,7 @@ public class InventoryExtractMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public Inventory toEntity(InventoryDto dto) {
+    public Inventory toEntity(InventoryDto dto) throws Exception{
         Inventory inventory = new Inventory();
         if (dto.getId() != null) {
             inventory.setId(dto.getId());
@@ -56,7 +55,7 @@ public class InventoryExtractMapper {
         return inventory;
     }
 
-    public List<InventoryItem> toEntity(List<InventoryItemDto> itemDtoList) {
+    public List<InventoryItem> toEntity(List<InventoryItemDto> itemDtoList)throws Exception {
         List<InventoryItem> inventoryItemList = new LinkedList<>();
         for(InventoryItemDto dto: itemDtoList){
             InventoryItem inventoryItem = new InventoryItem();

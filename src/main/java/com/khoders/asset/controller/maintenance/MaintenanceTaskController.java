@@ -21,11 +21,11 @@ public class MaintenanceTaskController {
     @Autowired private MaintenanceTaskService taskService;
 
     @PostMapping
-    public ResponseEntity<MaintenanceTaskDto> save(@RequestBody MaintenanceTaskDto dto){
+    public ResponseEntity<MaintenanceTaskDto> save(@RequestBody MaintenanceTaskDto dto) throws Exception {
         return ApiResponse.created(Msg.CREATED, taskService.toEntity(dto));
     }
     @PutMapping
-    public ResponseEntity<MaintenanceTaskDto> update(@RequestBody MaintenanceTaskDto dto){
+    public ResponseEntity<MaintenanceTaskDto> update(@RequestBody MaintenanceTaskDto dto) throws Exception {
         return ApiResponse.ok(Msg.UPDATED, taskService.toEntity(dto).getId());
     }
     @GetMapping("/list")

@@ -8,10 +8,10 @@ import com.khoders.asset.entities.accounting.Bill;
 import com.khoders.asset.entities.accounting.BillItem;
 import com.khoders.asset.entities.accounting.Payment;
 import com.khoders.asset.entities.constants.PaymentType;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.accounting.BillExtractMapper;
 import com.khoders.asset.mapper.accounting.AccountMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.Msg;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -33,7 +33,7 @@ public class AccountService {
     @Autowired private BillExtractMapper extractMapper;
     @Autowired private AccountMapper mapper;
 
-    public BillDto saveBill(BillDto dto){
+    public BillDto saveBill(BillDto dto)throws Exception{
         if (dto.getId() != null){
             Bill bill = builder.simpleFind(Bill.class, dto.getId());
             if (bill == null){
@@ -103,7 +103,7 @@ public class AccountService {
         return null;
     }
 
-    public AccountDto saveAccount(AccountDto dto){
+    public AccountDto saveAccount(AccountDto dto)throws Exception{
         if (dto.getId() != null){
             Account account = builder.simpleFind(Account.class, dto.getId());
             if (account == null){
@@ -116,14 +116,14 @@ public class AccountService {
         }
         return  null;
     }
-    public AccountDto findAccount(String accountId){
+    public AccountDto findAccount(String accountId)throws Exception{
         Account account = builder.simpleFind(Account.class, accountId);
         if (account == null){
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
         }
         return mapper.tDto(account);
     }
-    public List<AccountDto> accountList(){
+    public List<AccountDto> accountList()throws Exception{
         List<Account> accounts = builder.findAll(Account.class);
         if (accounts.isEmpty()){
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
@@ -135,7 +135,7 @@ public class AccountService {
         return dtoList;
     }
 
-    public PaymentDto savePayment(PaymentDto dto){
+    public PaymentDto savePayment(PaymentDto dto)throws Exception{
         if (dto.getId() != null){
             Payment payment = builder.simpleFind(Payment.class, dto.getId());
             if (payment == null){
@@ -175,13 +175,13 @@ public class AccountService {
         }
         return Collections.emptyList();
     }
-    public boolean delete(String accountId){
+    public boolean delete(String accountId) throws Exception {
         return builder.deleteById(accountId, Account.class);
     }
-    public boolean deleteBill(String billId){
+    public boolean deleteBill(String billId) throws Exception {
         return builder.deleteById(billId, Bill.class);
     }
-    public boolean deletePayment(String paymentId){
+    public boolean deletePayment(String paymentId) throws Exception {
         return builder.deleteById(paymentId, Payment.class);
     }
 }

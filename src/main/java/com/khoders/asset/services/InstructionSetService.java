@@ -3,10 +3,9 @@ package com.khoders.asset.services;
 import com.khoders.asset.dto.maintenance.InstructionSetDto;
 import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.entities.maintenance.InstructionStep;
-import com.khoders.asset.entities.maintenance.Occurrence;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.maintenance.InstructionSetMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.Msg;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -16,7 +15,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -26,7 +24,7 @@ public class InstructionSetService {
     private CrudBuilder builder;
     private InstructionSetMapper mapper;
 
-    public InstructionSetDto save(InstructionSetDto dto){
+    public InstructionSetDto save(InstructionSetDto dto) throws Exception {
         if (dto.getId() != null){
             InstructionSet instruction = builder.simpleFind(InstructionSet.class, dto.getId());
             if (instruction == null){
@@ -43,7 +41,7 @@ public class InstructionSetService {
         return mapper.toDto(instructionSet);
     }
 
-    public List<InstructionSetDto> instructionSetList(){
+    public List<InstructionSetDto> instructionSetList()throws Exception{
         Session session = builder.session();
 
         List<InstructionStep> instructionStepList;
@@ -73,7 +71,7 @@ public class InstructionSetService {
             return instructionList;
     }
 
-    public InstructionSetDto findById(String instructionSetId){
+    public InstructionSetDto findById(String instructionSetId) throws Exception {
         Session session = builder.session();
         List<InstructionStep> instructionStepList;
 
@@ -95,7 +93,7 @@ public class InstructionSetService {
             }
         return null;
     }
-    public boolean delete(String instructionSetId){
+    public boolean delete(String instructionSetId) throws Exception {
         return builder.deleteById(instructionSetId, InstructionSet.class);
     }
 }

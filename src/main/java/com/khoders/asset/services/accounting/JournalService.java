@@ -1,12 +1,10 @@
 package com.khoders.asset.services.accounting;
 
-import com.khoders.asset.dto.accounting.GLDto;
 import com.khoders.asset.dto.accounting.JournalDto;
-import com.khoders.asset.entities.accounting.GeneralLedger;
 import com.khoders.asset.entities.accounting.Journal;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.accounting.JournalMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +19,7 @@ public class JournalService {
     private CrudBuilder builder;
     private JournalMapper journalMapper;
 
-    public JournalDto save(JournalDto dto){
+    public JournalDto save(JournalDto dto)throws Exception{
         if (dto.getId() != null){
             Journal journal = builder.simpleFind(Journal.class, dto.getId());
             if (journal == null){
@@ -45,7 +43,7 @@ public class JournalService {
     public JournalDto findById(String journalId){
         return journalMapper.toDto(builder.simpleFind(Journal.class, journalId));
     }
-    public boolean delete(String journalId){
+    public boolean delete(String journalId) throws Exception {
         return builder.deleteById(journalId, Journal.class);
     }
 }

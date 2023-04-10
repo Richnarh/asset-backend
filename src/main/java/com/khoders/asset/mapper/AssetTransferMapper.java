@@ -3,8 +3,8 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.AssetTransferDto;
 import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.entities.Location;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class AssetTransferMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public AssetTransfer toEntity(AssetTransferDto dto) {
+    public AssetTransfer toEntity(AssetTransferDto dto) throws Exception{
         AssetTransfer assetTransfer = new AssetTransfer();
         if (dto.getId() != null) {
             assetTransfer.setId(dto.getId());

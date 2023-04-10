@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
 @Service
 public class EmployeeService {
     @Autowired
@@ -28,7 +26,7 @@ public class EmployeeService {
         return builder.findOne(employeeId, Employee.class);
     }
 
-    public boolean delete(String employeeId) {
+    public boolean delete(String employeeId) throws Exception {
         return builder.deleteById(employeeId, Employee.class);
     }
 }

@@ -19,9 +19,9 @@ import java.util.function.Function;
 @Service
 public class JwtService {
     private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
-    @Value("${khoders.app.jwtSecret}")
+    @Value("${asset.app.jwtSecret}")
     private String jwtSecret;
-    @Value("${khoders.app.jwtExpirationMs}")
+    @Value("${asset.app.jwtExpirationMs}")
     private int jwtExpirationMs;
 
     public String extractUsername(String token) {

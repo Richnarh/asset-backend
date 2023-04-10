@@ -2,6 +2,9 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.AssetDispatchRequestDto;
 import com.khoders.asset.entities.AssetDispatchRequest;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.DataNotFoundException;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.AssetDispatchRequestMapper;
 import com.khoders.asset.services.AssetDispatchRequestService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -25,17 +28,17 @@ public class AssetDispatchRequestController {
     private AssetDispatchRequestMapper mapper;
 
     @PostMapping
-    public ResponseEntity<AssetDispatchRequest> create(@RequestBody AssetDispatchRequestDto dto) {
+    public ResponseEntity<AssetDispatchRequest> create(@RequestBody AssetDispatchRequestDto dto) throws Exception{
         try {
             AssetDispatchRequest entity = mapper.toEntity(dto);
             AssetDispatchRequest dispatchRequest = requestService.save(entity);
             if (dispatchRequest == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(dispatchRequest));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
@@ -67,21 +70,21 @@ public class AssetDispatchRequestController {
     }
 
     @PutMapping
-    public ResponseEntity<AssetDispatchRequest> update(@RequestBody AssetDispatchRequestDto dto) {
+    public ResponseEntity<AssetDispatchRequest> update(@RequestBody AssetDispatchRequestDto dto) throws Exception{
         try {
             AssetDispatchRequest dispatchRequest = requestService.findById(dto.getId());
             if (dispatchRequest == null) {
-                return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, null);
+                throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
             }
             AssetDispatchRequest entity = mapper.toEntity(dto);
             AssetDispatchRequest request = requestService.save(entity);
             if (request == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, mapper.toDto(request));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 

@@ -19,12 +19,12 @@ public class BillBillItemController {
     @Autowired private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<BillDto> create(@RequestBody BillDto dto){
+    public ResponseEntity<BillDto> create(@RequestBody BillDto dto) throws Exception {
         BillDto bill = accountService.saveBill(dto);
         return ApiResponse.created(Msg.CREATED, bill);
     }
     @PutMapping
-    public ResponseEntity<BillDto> update(@RequestBody BillDto dto){
+    public ResponseEntity<BillDto> update(@RequestBody BillDto dto) throws Exception {
         BillDto bill = accountService.saveBill(dto);
         return ApiResponse.ok(Msg.UPDATED, bill.getId());
     }

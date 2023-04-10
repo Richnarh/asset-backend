@@ -2,6 +2,8 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.Location;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.LocationMapper;
 import com.khoders.asset.services.LocationService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -25,17 +27,17 @@ public class LocationController {
     private LocationMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Location> create(@RequestBody LocationDto dto) {
+    public ResponseEntity<Location> create(@RequestBody LocationDto dto) throws Exception{
         try {
             Location entity = mapper.toEntity(dto);
             Location location = locationService.save(entity);
             if (location == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(location));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
@@ -67,7 +69,7 @@ public class LocationController {
     }
 
     @PutMapping
-    public ResponseEntity<Location> update(@RequestBody LocationDto dto) {
+    public ResponseEntity<Location> update(@RequestBody LocationDto dto)throws Exception {
         try {
             Location loc = locationService.findById(dto.getId());
             if (loc == null) {
@@ -76,12 +78,12 @@ public class LocationController {
             Location entity = mapper.toEntity(dto);
             Location location = locationService.save(entity);
             if (location == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, mapper.toDto(location));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 

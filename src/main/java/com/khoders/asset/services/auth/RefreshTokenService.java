@@ -6,21 +6,18 @@ import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.exceptions.TokenRefreshException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.utilities.SystemUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class RefreshTokenService {
-    @Value("${khoders.app.jwtRefreshExpirationMs}")
+    @Value("${asset.app.jwtRefreshExpirationMs}")
     private Long refreshTokenDurationMs;
     @Autowired
     private RefreshTokenRepository tokenRepository;

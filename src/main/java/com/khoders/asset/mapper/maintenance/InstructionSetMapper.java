@@ -3,8 +3,8 @@ import com.khoders.asset.dto.maintenance.InstructionSetDto;
 import com.khoders.asset.dto.maintenance.InstructionStepDto;
 import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.entities.maintenance.InstructionStep;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class InstructionSetMapper {
     @Autowired private CrudBuilder builder;
 
-    public InstructionSet toEntity(InstructionSetDto dto){
+    public InstructionSet toEntity(InstructionSetDto dto) throws Exception {
         InstructionSet instructionStep = new InstructionSet();
         if (dto.getId() != null){
             instructionStep.setId(dto.getId());
@@ -36,7 +36,7 @@ public class InstructionSetMapper {
         return dto;
     }
 
-    public List<InstructionStep> toEntity(List<InstructionStepDto> stepDtoList){
+    public List<InstructionStep> toEntity(List<InstructionStepDto> stepDtoList)throws Exception{
         List<InstructionStep> instructionStepList = new LinkedList<>();
         for (InstructionStepDto dto:stepDtoList){
             InstructionStep step = new InstructionStep();

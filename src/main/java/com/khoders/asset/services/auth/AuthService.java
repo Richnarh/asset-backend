@@ -13,22 +13,16 @@ import com.khoders.asset.jwt.JwtService;
 import com.khoders.asset.mapper.AuthMapper;
 import com.khoders.asset.mapper.CompanyMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -55,7 +49,7 @@ public class AuthService implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getEmailAddress(), user.getPassword(), new ArrayList<>());
     }
 
-    public JwtResponse save(UserAccountDto dto) {
+    public JwtResponse save(UserAccountDto dto) throws Exception {
         Company company = companyMapper.createCompany(dto);
         UserAccount userAccount = authMapper.createAccount(dto);
         userAccount.setCompany(company);

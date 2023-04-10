@@ -3,8 +3,8 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.AssetRequestApprovalDto;
 import com.khoders.asset.entities.AssetRequestApproval;
 import com.khoders.asset.entities.Employee;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class AssetRequestApprovalMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public AssetRequestApproval toEntity(AssetRequestApprovalDto dto) {
+    public AssetRequestApproval toEntity(AssetRequestApprovalDto dto) throws Exception{
         AssetRequestApproval requestApproval = new AssetRequestApproval();
         if (dto.getId() != null) {
             requestApproval.setId(dto.getId());

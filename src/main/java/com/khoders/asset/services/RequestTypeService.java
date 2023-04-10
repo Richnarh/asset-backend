@@ -1,17 +1,12 @@
 package com.khoders.asset.services;
 
-import com.khoders.asset.entities.Department;
 import com.khoders.asset.entities.maintenance.RequestType;
 import com.khoders.asset.utils.CrudBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
 @Service
 public class RequestTypeService {
     @Autowired
@@ -29,7 +24,7 @@ public class RequestTypeService {
         return builder.findOne(requestTypeId, RequestType.class);
     }
 
-    public boolean delete(String requestTypeId) {
+    public boolean delete(String requestTypeId) throws Exception {
         return builder.deleteById(requestTypeId, RequestType.class);
     }
 }

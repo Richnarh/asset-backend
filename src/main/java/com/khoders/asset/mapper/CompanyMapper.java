@@ -5,13 +5,13 @@ import com.khoders.asset.dto.authpayload.UserAccountDto;
 import com.khoders.asset.entities.Company;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.entities.constants.CompanyType;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.services.CompanyService;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.BadRequestException;
 
 @Component
 public class CompanyMapper {
@@ -19,7 +19,7 @@ public class CompanyMapper {
     private CrudBuilder builder;
     @Autowired private CompanyService companyService;
 
-    public Company toEntity(CompanyDto dto) {
+    public Company toEntity(CompanyDto dto) throws DataNotFoundException {
         Company company = new Company();
         if (dto.getId() != null) {
             company.setId(dto.getId());
@@ -62,11 +62,11 @@ public class CompanyMapper {
         return dto;
     }
 
-    public Company createCompany(UserAccountDto userAccount){
+    public Company createCompany(UserAccountDto userAccount)throws Exception{
         Company company = new Company();
         Company newCompany = builder.singleResult(Company.class, "emailAddress", userAccount.getEmailAddress());
         if(newCompany != null){
-            throw new RuntimeException("A user with the email: "+userAccount.getEmailAddress()+" already exist");
+            throw new BadDataException("A user with the email: "+userAccount.getEmailAddress()+" already exist");
         }
         company.setCompanyType(CompanyType.PARENT_COMPANY);
         company.setCompanyName(userAccount.getCompanyName());

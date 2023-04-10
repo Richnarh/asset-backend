@@ -2,6 +2,8 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.CategoryDto;
 import com.khoders.asset.entities.Category;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.CategoryMapper;
 import com.khoders.asset.services.CategoryService;
 import com.khoders.asset.utils.ApiEndpoint;
@@ -29,22 +31,22 @@ public class CategoryController {
     private CategoryMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody CategoryDto dto) {
+    public ResponseEntity<Category> createCategory(@RequestBody CategoryDto dto)throws Exception {
         try {
             Category entity = mapper.toEntity(dto);
             Category category = categoryService.saveCategory(entity);
             if (category == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(category));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
     @PutMapping
-    public ResponseEntity<Category> updateCategory(@RequestBody CategoryDto dto) {
+    public ResponseEntity<Category> updateCategory(@RequestBody CategoryDto dto) throws Exception{
         try {
             Category category = categoryService.findById(dto.getId());
             if (category == null) {
@@ -52,12 +54,12 @@ public class CategoryController {
             }
             Category c = categoryService.saveCategory(category);
             if (c == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, true);
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
@@ -75,7 +77,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> findSingle(@PathVariable(value = "categoryId") String categoryId) {
+    public ResponseEntity<Category> findSingle(@PathVariable(value = "categoryId") String categoryId)throws Exception {
         try {
             Category category = categoryService.findById(categoryId);
             if (category == null) {
@@ -84,7 +86,7 @@ public class CategoryController {
             return ApiResponse.ok(Msg.RECORD_FOUND, mapper.toDto(category));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), false);
+            throw new InternalErrException(e.getMessage());
         }
     }
 

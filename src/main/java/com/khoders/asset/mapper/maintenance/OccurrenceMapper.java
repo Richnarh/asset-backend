@@ -7,8 +7,8 @@ import com.khoders.asset.entities.Location;
 import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.entities.maintenance.MaintenanceTask;
 import com.khoders.asset.entities.maintenance.Occurrence;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 public class OccurrenceMapper {
     @Autowired private CrudBuilder builder;
 
-    public Occurrence toEntity(OccurrenceDto dto){
+    public Occurrence toEntity(OccurrenceDto dto)throws Exception{
         Occurrence occurrence = new Occurrence();
         if (dto.getId() != null){
             occurrence.setId(dto.getId());

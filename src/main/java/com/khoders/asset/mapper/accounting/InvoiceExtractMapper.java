@@ -3,8 +3,8 @@ package com.khoders.asset.mapper.accounting;
 import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.dto.accounting.InvoiceItemDto;
 import com.khoders.asset.entities.accounting.*;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import com.khoders.resource.utilities.SystemUtils;
@@ -19,7 +19,7 @@ public class InvoiceExtractMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public Invoice toEntity(InvoiceDto dto){
+    public Invoice toEntity(InvoiceDto dto)throws Exception{
         Invoice invoice = new Invoice();
         if (dto.getId() != null){
             invoice.setId(dto.getId());
@@ -41,7 +41,7 @@ public class InvoiceExtractMapper {
         return invoice;
     }
 
-    public List<InvoiceItem> toEntity(List<InvoiceItemDto> itemDtoList){
+    public List<InvoiceItem> toEntity(List<InvoiceItemDto> itemDtoList)throws Exception{
         List<InvoiceItem> invoiceItemList = new LinkedList<>();
         for (InvoiceItemDto dto :itemDtoList){
             InvoiceItem invoiceItem = new InvoiceItem();

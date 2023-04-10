@@ -2,30 +2,27 @@ package com.khoders.asset.services;
 
 import com.khoders.asset.dto.maintenance.OccurrenceDto;
 import com.khoders.asset.entities.maintenance.Occurrence;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.mapper.maintenance.OccurrenceMapper;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.LinkedList;
 import java.util.List;
 
-@Transactional
 @Service
 public class OccurrenceService {
     @Autowired private CrudBuilder builder;
     @Autowired private OccurrenceMapper mapper;
 
-    public OccurrenceDto toEntity(OccurrenceDto dto){
+    public OccurrenceDto toEntity(OccurrenceDto dto)throws Exception{
         if (dto.getId() != null){
             Occurrence occurrence = builder.simpleFind(Occurrence.class, dto.getId());
             if (occurrence == null){
-//                throw new DataNotFoundException("Occurrence with ID: "+ dto.getId() +" Not Found");
-                ApiResponse.notFound("Occurrence with ID: "+ dto.getId() +" Not Found", null);
+                throw new DataNotFoundException("Occurrence with ID: "+ dto.getId() +" Not Found");
             }
         }
         Occurrence occurrence = mapper.toEntity(dto);
@@ -48,7 +45,7 @@ public class OccurrenceService {
     public OccurrenceDto findById(String occurrenceId){
         return mapper.toDto(builder.simpleFind(Occurrence.class, occurrenceId));
     }
-    public boolean delete(String occurrenceId){
+    public boolean delete(String occurrenceId) throws Exception {
         return builder.deleteById(occurrenceId, Occurrence.class);
     }
 }

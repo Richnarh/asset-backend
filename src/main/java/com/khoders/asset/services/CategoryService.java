@@ -6,13 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Service
+
 @Repository
 public class CategoryService {
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
@@ -31,7 +27,7 @@ public class CategoryService {
         return builder.simpleFind(Category.class, id);
     }
 
-    public boolean delete(String categoryId) {
+    public boolean delete(String categoryId) throws Exception {
         return builder.deleteById(categoryId, Category.class);
     }
 }

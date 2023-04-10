@@ -12,12 +12,11 @@ import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.Role;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.entities.constants.UserRole;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.jwt.JwtService;
-import com.khoders.asset.services.auth.AuthService;
 import com.khoders.asset.services.auth.RefreshTokenService;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.BadDataException;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import com.khoders.resource.utilities.Stringz;
@@ -26,18 +25,12 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import javax.ws.rs.BadRequestException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -53,7 +46,7 @@ public class AuthMapper {
     @Autowired private RefreshTokenService refreshTokenService;
     @Autowired private CrudBuilder builder;
 
-    public UserAccount createAccount(UserAccountDto dto) {
+    public UserAccount createAccount(UserAccountDto dto) throws Exception{
         UserAccount user = new UserAccount();
         if (dto.getId() != null) {
             user.setId(dto.getId());
@@ -82,18 +75,33 @@ public class AuthMapper {
             strRoles.forEach(role -> {
                 switch (role) {
                     case "admin":
-                        Role adminRole = roleRepository.findByRoleName(UserRole.ROLE_ADMIN)
-                                .orElseThrow(() -> new DataNotFoundException("Error: Role is not found."));
+                        Role adminRole = null;
+                        try {
+                            adminRole = roleRepository.findByRoleName(UserRole.ROLE_ADMIN)
+                                    .orElseThrow(() -> new DataNotFoundException("Error: Role is not found."));
+                        } catch (DataNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
                         roles.add(adminRole);
                         break;
                     case "mod":
-                        Role modRole = roleRepository.findByRoleName(UserRole.ROLE_MODERATOR)
-                                .orElseThrow(() -> new DataNotFoundException("Error: Role is not found."));
+                        Role modRole = null;
+                        try {
+                            modRole = roleRepository.findByRoleName(UserRole.ROLE_MODERATOR)
+                                    .orElseThrow(() -> new DataNotFoundException("Error: Role is not found."));
+                        } catch (DataNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
                         roles.add(modRole);
                         break;
                     default:
-                        Role userRole = roleRepository.findByRoleName(UserRole.ROLE_USER)
-                                .orElseThrow(() -> new DataNotFoundException("Error: Role is not found."));
+                        Role userRole = null;
+                        try {
+                            userRole = roleRepository.findByRoleName(UserRole.ROLE_USER)
+                                    .orElseThrow(() -> new DataNotFoundException("Error: Role is not found."));
+                        } catch (DataNotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
                         roles.add(userRole);
                 }
             });
@@ -114,7 +122,7 @@ public class AuthMapper {
         return dto;
     }
 
-    public JwtResponse toJwtResponse(LoginRequest loginRequest) {
+    public JwtResponse toJwtResponse(LoginRequest loginRequest) throws Exception{
         JwtResponse jwtResponse = new JwtResponse();
         if (loginRequest.getEmailAddress() == null){
             throw new DataNotFoundException("Please enter email");

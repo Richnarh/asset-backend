@@ -5,8 +5,8 @@ import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.constants.Status;
 import com.khoders.asset.entities.maintenance.MaintenanceRequest;
 import com.khoders.asset.entities.maintenance.RequestType;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class MaintenanceRequestMapper {
     @Autowired
     private CrudBuilder builder;
 
-    public MaintenanceRequest toEntity(MaintenanceRequestDto dto) {
+    public MaintenanceRequest toEntity(MaintenanceRequestDto dto) throws Exception {
         MaintenanceRequest request = new MaintenanceRequest();
         if (dto.getId() != null) {
             request.setId(dto.getId());

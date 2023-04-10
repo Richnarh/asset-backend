@@ -19,17 +19,17 @@ public class InstructionSetController {
     @Autowired private InstructionSetService instructionSetService;
 
     @PostMapping
-    public ResponseEntity<InstructionSetDto> save(@RequestBody InstructionSetDto dto){
+    public ResponseEntity<InstructionSetDto> save(@RequestBody InstructionSetDto dto) throws Exception {
         InstructionSetDto instructionSetDto = instructionSetService.save(dto);
         return ApiResponse.created(Msg.CREATED, instructionSetDto);
     }
     @PutMapping
-    public ResponseEntity<InstructionSetDto> update(@RequestBody InstructionSetDto dto){
+    public ResponseEntity<InstructionSetDto> update(@RequestBody InstructionSetDto dto) throws Exception {
         InstructionSetDto instructionSetDto = instructionSetService.save(dto);
         return ApiResponse.ok(Msg.UPDATED, instructionSetDto);
     }
     @GetMapping("/list")
-    public ResponseEntity<List<InstructionSetDto>> list(){
+    public ResponseEntity<List<InstructionSetDto>> list() throws Exception {
         List<InstructionSetDto> dtoList = instructionSetService.instructionSetList();
         if (dtoList.isEmpty()){
             return ApiResponse.ok(Msg.RECORD_NOT_FOUND, dtoList);
@@ -37,7 +37,7 @@ public class InstructionSetController {
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
     @GetMapping("/{instructionSetId}")
-    public ResponseEntity<InstructionSetDto> findById(@PathVariable(value = "instructionSetId") String instructionSetId){
+    public ResponseEntity<InstructionSetDto> findById(@PathVariable(value = "instructionSetId") String instructionSetId) throws Exception {
         InstructionSetDto itemDto = instructionSetService.findById(instructionSetId);
         return ApiResponse.ok(Msg.RECORD_FOUND, itemDto);
     }

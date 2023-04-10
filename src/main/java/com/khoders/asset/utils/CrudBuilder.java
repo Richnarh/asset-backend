@@ -1,6 +1,6 @@
 package com.khoders.asset.utils;
 
-import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.resource.spring.SpringBaseModel;
 import com.khoders.resource.utilities.SystemUtils;
 import org.hibernate.HibernateException;
@@ -138,7 +138,7 @@ public class CrudBuilder {
         return Collections.emptyList();
     }
 
-    public <T> boolean deleteById(String id, Class<T> clazz) {
+    public <T> boolean deleteById(String id, Class<T> clazz) throws Exception{
         try {
             if (id == null) return false;
             Object obj = session().find(clazz, id);

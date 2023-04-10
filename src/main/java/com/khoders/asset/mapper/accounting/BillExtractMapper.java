@@ -6,10 +6,10 @@ import com.khoders.asset.dto.accounting.PaymentDto;
 import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.entities.accounting.*;
 import com.khoders.asset.entities.constants.PaymentType;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.enums.PaymentMethod;
 import com.khoders.resource.enums.PaymentStatus;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.List;
 public class BillExtractMapper {
     @Autowired private CrudBuilder builder;
 
-    public Bill toEntity(BillDto dto){
+    public Bill toEntity(BillDto dto)throws Exception{
         Bill bill = new Bill();
         if (dto.getId() !=null){
             bill.setId(dto.getId());
@@ -46,7 +46,7 @@ public class BillExtractMapper {
         return bill;
     }
 
-    public List<BillItem> toEntity(List<BillItemDto> itemDtoList){
+    public List<BillItem> toEntity(List<BillItemDto> itemDtoList)throws Exception{
         List<BillItem> billItemList = new LinkedList<>();
          for(BillItemDto dto: itemDtoList){
             BillItem billItem = new BillItem();
@@ -111,7 +111,7 @@ public class BillExtractMapper {
         return dtoList;
     }
 
-    public Payment toEntity(PaymentDto dto){
+    public Payment toEntity(PaymentDto dto)throws Exception{
         Payment payment = new Payment();
         if (dto.getId() != null){
             payment.setId(dto.getId());
