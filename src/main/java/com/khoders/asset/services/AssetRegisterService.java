@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Asset;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -14,21 +15,21 @@ import java.util.List;
 @Service
 public class AssetRegisterService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Asset save(Asset asset) {
-        return builder.save(asset);
+        return appService.save(asset);
     }
 
     public List<Asset> registers() {
-        return builder.findAll(Asset.class);
+        return appService.findAll(Asset.class);
     }
 
     public Asset findById(String assetId) {
-        return builder.simpleFind(Asset.class,assetId);
+        return appService.findById(Asset.class,assetId);
     }
 
     public boolean delete(String assetId) throws Exception {
-        return builder.deleteById(assetId, Asset.class);
+        return appService.deleteById(Asset.class,assetId);
     }
 }

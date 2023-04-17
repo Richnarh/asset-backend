@@ -1,10 +1,11 @@
 package com.khoders.asset.entities;
 
-import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+
+import com.khoders.springapi.spring.SpringBaseModel;
 
 @MappedSuperclass
 public class CompanyRecord extends SpringBaseModel {

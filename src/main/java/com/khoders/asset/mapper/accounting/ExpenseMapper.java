@@ -7,9 +7,10 @@ import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Expense;
 import com.khoders.asset.entities.accounting.ExpenseItem;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +19,7 @@ import java.util.List;
 
 @Component
 public class ExpenseMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
 
     public Expense toEntity(ExpenseDto dto)throws Exception{
         Expense expense = new Expense();
@@ -33,11 +34,11 @@ public class ExpenseMapper {
         if (dto.getBusinessClientId() == null){
             throw new DataNotFoundException("Please Specify Valid Client/Vendor");
         }
-        Account account = builder.simpleFind(Account.class, dto.getAccountId());
+        Account account = appService.findById(Account.class, dto.getAccountId());
         if (account != null){
             expense.setAccount(account);
         }
-        BusinessClient businessClient = builder.simpleFind(BusinessClient.class, dto.getBusinessClientId());
+        BusinessClient businessClient = appService.findById(BusinessClient.class, dto.getBusinessClientId());
         if (businessClient != null){
             expense.setBusinessClient(businessClient);
         }
@@ -76,7 +77,7 @@ public class ExpenseMapper {
             if (dto.getAccountId() == null){
                 throw new DataNotFoundException("Please Specify Valid AccountId");
             }
-            Account account = builder.simpleFind(Account.class, dto.getAccountId());
+            Account account = appService.findById(Account.class, dto.getAccountId());
             if (account != null){
                 expenseItem.setAccount(account);
             }

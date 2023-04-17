@@ -1,6 +1,8 @@
 package com.khoders.asset.mapper;
 
+import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.CompanyDto;
+import com.khoders.asset.dto.Sql;
 import com.khoders.asset.dto.authpayload.UserAccountDto;
 import com.khoders.asset.entities.Company;
 import com.khoders.asset.entities.auth.UserAccount;
@@ -8,16 +10,30 @@ import com.khoders.asset.entities.constants.CompanyType;
 import com.khoders.asset.exceptions.BadDataException;
 import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.services.CompanyService;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 
 @Component
 public class CompanyMapper {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
     @Autowired private CompanyService companyService;
+    @Autowired private NamedParameterJdbcTemplate jdbc;
+    
+    public CompanyMapper(JndiConfig jndiConfig) {
+    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+    }
 
     public Company toEntity(CompanyDto dto) throws DataNotFoundException {
         Company company = new Company();
@@ -36,7 +52,7 @@ public class CompanyMapper {
         if (dto.getPrimaryUserId() == null) {
             throw new DataNotFoundException("Specify Valid User AccountId");
         }
-        UserAccount userAccount = builder.simpleFind(UserAccount.class, dto.getPrimaryUserId());
+        UserAccount userAccount = appService.findById(UserAccount.class, dto.getPrimaryUserId());
         if (userAccount != null) {
             company.setPrimaryUser(userAccount);
         }
@@ -64,7 +80,23 @@ public class CompanyMapper {
 
     public Company createCompany(UserAccountDto userAccount)throws Exception{
         Company company = new Company();
-        Company newCompany = builder.singleResult(Company.class, "emailAddress", userAccount.getEmailAddress());
+        MapSqlParameterSource param = new MapSqlParameterSource();
+        param.addValue(Company._companyAddress, userAccount.getEmailAddress());
+        
+        Company newCompany = jdbc.query(Sql.COMPANY_BY_EMAIL, param, new ResultSetExtractor<Company>() {
+
+			@Override
+			public Company extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.next()) {
+					Company company = new Company();
+					company.setId(rs.getString("id"));
+					company.setCompanyAddress(rs.getString("company_address"));
+					return company;
+				}
+				return null;
+			}
+		});
+        
         if(newCompany != null){
             throw new BadDataException("A user with the email: "+userAccount.getEmailAddress()+" already exist");
         }

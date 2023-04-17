@@ -2,7 +2,9 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.Repository.RoleRepository;
 import com.khoders.asset.Repository.UserRepository;
+import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.CompanyDto;
+import com.khoders.asset.dto.Sql;
 import com.khoders.asset.dto.authpayload.JwtResponse;
 import com.khoders.asset.dto.authpayload.LoginRequest;
 import com.khoders.asset.dto.authpayload.RoleDto;
@@ -16,21 +18,23 @@ import com.khoders.asset.exceptions.BadDataException;
 import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.asset.jwt.JwtService;
 import com.khoders.asset.services.auth.RefreshTokenService;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import com.khoders.resource.utilities.Stringz;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -44,8 +48,14 @@ public class AuthMapper {
     @Autowired private RoleRepository roleRepository;
     @Autowired private UserRepository userRepository;
     @Autowired private RefreshTokenService refreshTokenService;
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
+    @Autowired private NamedParameterJdbcTemplate jdbc;
 
+    @Autowired
+    public AuthMapper(JndiConfig jndiConfig) {
+    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+    }
+    
     public UserAccount createAccount(UserAccountDto dto) throws Exception{
         UserAccount user = new UserAccount();
         if (dto.getId() != null) {
@@ -60,7 +70,7 @@ public class AuthMapper {
         user.setPrimaryNumber(dto.getPrimaryNumber());
         user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
 
-        UserAccount userAccount = builder.simpleFind(UserAccount.class, dto.getEmailAddress());
+        UserAccount userAccount = appService.findById(UserAccount.class, dto.getEmailAddress());
         if (userAccount != null){
             throw new BadDataException("A user with the email address already exist");
         }
@@ -179,18 +189,17 @@ public class AuthMapper {
     }
 
     public List<Company> companies(UserAccount userAccount){
-        Session session = builder.session();
-        try {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
-            Root<Company> root = criteriaQuery.from(Company.class);
-            criteriaQuery.where(builder.and(builder.equal(root.get("primaryUser"), userAccount)));
-            criteriaQuery.orderBy(builder.asc(root.get(Company._companyName)));
-            Query<Company> query = session.createQuery(criteriaQuery);
-            return query.getResultList();
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            return null;
-        }
+    	SqlParameterSource param = new MapSqlParameterSource(Company._primaryUserId, userAccount.getId());
+    	List<Company> companies = jdbc.query(Sql.COMPANY_BY_USERID, param, new RowMapper<Company>() {
+
+			@Override
+			public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Company company = new Company();
+				company.setId(rs.getString("id"));
+				company.setCompanyAddress("company_address");
+				return company;
+			}
+		});
+    	return companies;
     }
 }

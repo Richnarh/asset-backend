@@ -5,17 +5,15 @@ import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Journal;
 import com.khoders.asset.entities.constants.DebitCredit;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JournalMapper {
-    private static final Logger log = LoggerFactory.getLogger(JournalMapper.class);
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Journal toEntity(JournalDto dto)throws Exception{
         Journal journal = new Journal();
@@ -25,7 +23,7 @@ public class JournalMapper {
         if (dto.getAccountId() == null) {
             throw new DataNotFoundException("Specify Valid AccountId");
         }
-        Account account = builder.simpleFind(Account.class, dto.getAccountId());
+        Account account = appService.findById(Account.class, dto.getAccountId());
         if(account != null){
             journal.setAccount(account);
         }

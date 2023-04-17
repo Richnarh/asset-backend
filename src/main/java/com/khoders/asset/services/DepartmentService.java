@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Department;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -9,21 +10,21 @@ import java.util.List;
 @Service
 public class DepartmentService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Department save(Department department) {
-        return builder.save(department);
+        return appService.save(department);
     }
 
     public List<Department> departments() {
-        return builder.findAll(Department.class);
+        return appService.findAll(Department.class);
     }
 
     public Department findById(String departmentId) {
-        return builder.findOne(departmentId, Department.class);
+        return appService.findById(Department.class,departmentId);
     }
 
     public boolean delete(String departmentId) throws Exception {
-        return builder.deleteById(departmentId, Department.class);
+        return appService.deleteById(Department.class,departmentId);
     }
 }

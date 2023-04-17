@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.InventoryItem;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,21 +11,21 @@ import java.util.List;
 @Service
 public class InventoryItemService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public InventoryItem save(InventoryItem inventoryItem) {
-        return builder.save(inventoryItem);
+        return appService.save(inventoryItem);
     }
 
     public List<InventoryItem> inventoryItemList() {
-        return builder.findAll(InventoryItem.class);
+        return appService.findAll(InventoryItem.class);
     }
 
     public InventoryItem findById(String inventoryItemId) {
-        return builder.simpleFind(InventoryItem.class, inventoryItemId);
+        return appService.findById(InventoryItem.class, inventoryItemId);
     }
 
     public boolean delete(String inventoryItemId) throws Exception {
-        return builder.deleteById(inventoryItemId, InventoryItem.class);
+        return appService.deleteById(InventoryItem.class, inventoryItemId);
     }
 }

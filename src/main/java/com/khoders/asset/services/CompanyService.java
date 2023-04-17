@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Company;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +13,21 @@ import java.util.List;
 public class CompanyService {
     private static final Logger log = LoggerFactory.getLogger(CompanyService.class);
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Company saveCompany(Company company) {
-        return builder.save(company);
+        return appService.save(company);
     }
 
     public List<Company> companyList() {
-        return builder.findAll(Company.class);
+        return appService.findAll(Company.class);
     }
 
     public Company findById(String companyId) {
-        return builder.findOne(companyId, Company.class);
+        return appService.findById(Company.class,companyId);
     }
 
     public boolean delete(String companyId) throws Exception {
-        return builder.deleteById(companyId, Company.class);
+    	return appService.deleteById(Company.class, companyId);
     }
 }

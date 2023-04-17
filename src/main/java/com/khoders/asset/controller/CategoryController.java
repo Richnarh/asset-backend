@@ -7,8 +7,8 @@ import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.CategoryMapper;
 import com.khoders.asset.services.CategoryService;
 import com.khoders.asset.utils.ApiEndpoint;
-import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.springapi.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +98,6 @@ public class CategoryController {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), false);
         }
-        return ApiResponse.error(Msg.setMsg("Could Not Delete Category"), false);
+        return ApiResponse.error("Could Not Delete Category", false);
     }
 }

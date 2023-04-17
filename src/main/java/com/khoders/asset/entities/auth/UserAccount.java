@@ -1,7 +1,6 @@
 package com.khoders.asset.entities.auth;
 
 import com.khoders.asset.entities.CompanyRecord;
-import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,12 +10,21 @@ import java.util.Set;
 @Table(name = "user_account")
 public class UserAccount extends CompanyRecord {
 
-    @Column(name = "email_address")
+	
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public static final String _emailAddress = "emailAddress";
+	@Column(name = "email_address")
     private String emailAddress;
 
+	public static final String _primaryNumber = "primaryNumber";
     @Column(name = "primary_number")
     private String primaryNumber;
 
+    public static final String _password = "password";
     @Column(name = "password")
     private String password;
 

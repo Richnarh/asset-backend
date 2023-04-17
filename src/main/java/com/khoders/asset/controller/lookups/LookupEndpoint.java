@@ -1,15 +1,15 @@
 package com.khoders.asset.controller.lookups;
 
 import com.khoders.asset.dto.LookupItem;
-import com.khoders.asset.entities.Category;
 import com.khoders.asset.entities.constants.*;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.resource.enums.ClientType;
 import com.khoders.resource.enums.PaymentMethod;
 import com.khoders.resource.enums.PaymentStatus;
 import com.khoders.resource.enums.Title;
-import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.springapi.ApiResponse;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

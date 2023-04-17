@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.BusinessClient;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,21 +11,21 @@ import java.util.List;
 @Service
 public class BusinessClientService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public BusinessClient save(BusinessClient businessClient) {
-        return builder.save(businessClient);
+        return appService.save(businessClient);
     }
 
     public List<BusinessClient> vendors() {
-        return builder.findAll(BusinessClient.class);
+        return appService.findAll(BusinessClient.class);
     }
 
     public BusinessClient findById(String businessClientId) {
-        return builder.findOne(businessClientId, BusinessClient.class);
+        return appService.findById(BusinessClient.class,businessClientId);
     }
 
     public boolean delete(String businessClientId) throws Exception {
-        return builder.deleteById(businessClientId, BusinessClient.class);
+        return appService.deleteById(BusinessClient.class,businessClientId);
     }
 }

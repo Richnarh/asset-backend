@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Category;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,21 +14,21 @@ import java.util.List;
 public class CategoryService {
     private static final Logger log = LoggerFactory.getLogger(CategoryService.class);
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Category saveCategory(Category category) {
-        return builder.save(category);
+        return appService.save(category);
     }
 
     public List<Category> categoryList() {
-        return builder.findAll(Category.class);
+        return appService.findAll(Category.class);
     }
 
     public Category findById(String id) {
-        return builder.simpleFind(Category.class, id);
+        return appService.findById(Category.class, id);
     }
 
     public boolean delete(String categoryId) throws Exception {
-        return builder.deleteById(categoryId, Category.class);
+        return appService.deleteById(Category.class,categoryId);
     }
 }

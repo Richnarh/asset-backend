@@ -7,11 +7,12 @@ import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.entities.accounting.*;
 import com.khoders.asset.entities.constants.PaymentType;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.enums.PaymentMethod;
 import com.khoders.resource.enums.PaymentStatus;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Component
 public class BillExtractMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
 
     public Bill toEntity(BillDto dto)throws Exception{
         Bill bill = new Bill();
@@ -38,7 +39,7 @@ public class BillExtractMapper {
         if (dto.getBusinessClientId() == null){
             throw new DataNotFoundException("Please Specify Valid Client");
         }
-        BusinessClient businessClient = builder.simpleFind(BusinessClient.class, dto.getBusinessClientId());
+        BusinessClient businessClient = appService.findById(BusinessClient.class, dto.getBusinessClientId());
         if (businessClient != null){
             bill.setBusinessClient(businessClient);
         }
@@ -60,7 +61,7 @@ public class BillExtractMapper {
             if (dto.getAccountId() == null) {
                 throw new DataNotFoundException("Please Specify a Valid Account");
             }
-            Account account = builder.simpleFind(Account.class, dto.getAccountId());
+            Account account = appService.findById(Account.class, dto.getAccountId());
             if (account != null){
                 billItem.setAccount(account);
             }
@@ -123,19 +124,19 @@ public class BillExtractMapper {
             throw new DataNotFoundException("Please Specify Valid AccountId");
         }
         if (dto.getPaymentType().equals(PaymentType.BILL_PAYMENT.name())){
-            Bill bill = builder.simpleFind(Bill.class, dto.getBillId());
+            Bill bill = appService.findById(Bill.class, dto.getBillId());
             if (bill != null){
                 payment.setBill(bill);
             }
         }
         if (dto.getPaymentType().equals(PaymentType.INVOICE_PAYMENT.name())){
-            Invoice invoice = builder.simpleFind(Invoice.class, dto.getInvoiceId());
+            Invoice invoice = appService.findById(Invoice.class, dto.getInvoiceId());
             if (invoice != null){
                 payment.setInvoice(invoice);
             }
         }
 
-        Account account = builder.simpleFind(Account.class, dto.getAccountId());
+        Account account = appService.findById(Account.class, dto.getAccountId());
         if (account != null){
             payment.setAccount(account);
         }

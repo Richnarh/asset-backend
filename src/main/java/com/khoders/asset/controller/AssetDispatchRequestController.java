@@ -8,7 +8,7 @@ import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.AssetDispatchRequestMapper;
 import com.khoders.asset.services.AssetDispatchRequestService;
 import com.khoders.asset.utils.ApiEndpoint;
-import com.khoders.resource.spring.ApiResponse;
+import com.khoders.springapi.ApiResponse;
 import com.khoders.resource.utilities.Msg;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;

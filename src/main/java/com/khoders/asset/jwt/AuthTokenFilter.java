@@ -1,8 +1,6 @@
 package com.khoders.asset.jwt;
 
-import com.khoders.asset.services.auth.AuthService;
 import com.khoders.asset.services.auth.UserDetailsServiceImpl;
-import com.khoders.resource.utilities.SystemUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +21,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     private static final Logger log = LoggerFactory.getLogger(AuthTokenFilter.class);
 
     @Autowired private JwtService jwtService;
-//    @Autowired private AuthService authService;
     @Autowired private UserDetailsServiceImpl userDetailsService;
 
     @Override
@@ -34,7 +31,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                     String username = jwtService.extractUsername(token);
                     UserDetails userDetails = userDetailsService.loadUserByUsername(username);
                     if (jwtService.validateToken(token, userDetails)) {
-                        System.out.println("userDetails filter --- "+ SystemUtils.KJson().toJson(userDetails));
                         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
                         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);

@@ -2,7 +2,7 @@ package com.khoders.asset.advice;
 
 import com.khoders.asset.exceptions.AppError;
 import com.khoders.asset.exceptions.TokenRefreshException;
-import com.khoders.resource.spring.ApiResponse;
+import com.khoders.springapi.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

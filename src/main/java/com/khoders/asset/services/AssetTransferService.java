@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.AssetTransfer;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +13,21 @@ import java.util.List;
 public class AssetTransferService {
     private static final Logger log = LoggerFactory.getLogger(AssetTransferService.class);
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public AssetTransfer saveTransfer(AssetTransfer assetTransfer) {
-        return builder.save(assetTransfer);
+        return appService.save(assetTransfer);
     }
 
     public List<AssetTransfer> transferList() {
-        return builder.findAll(AssetTransfer.class);
+        return appService.findAll(AssetTransfer.class);
     }
 
     public AssetTransfer findById(String id) {
-        return builder.simpleFind(AssetTransfer.class, id);
+        return appService.findById(AssetTransfer.class, id);
     }
 
     public boolean delete(String transferId) throws Exception {
-        return builder.deleteById(transferId, AssetTransfer.class);
+        return appService.deleteById(AssetTransfer.class, transferId);
     }
 }

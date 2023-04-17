@@ -4,7 +4,8 @@ import com.khoders.asset.dto.AssetRequestApprovalDto;
 import com.khoders.asset.entities.AssetRequestApproval;
 import com.khoders.asset.entities.Employee;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AssetRequestApprovalMapper {
-    private static final Logger log = LoggerFactory.getLogger(AssetRequestApprovalMapper.class);
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public AssetRequestApproval toEntity(AssetRequestApprovalDto dto) throws Exception{
         AssetRequestApproval requestApproval = new AssetRequestApproval();
@@ -25,7 +25,7 @@ public class AssetRequestApprovalMapper {
         if (dto.getApprovedById() == null || dto.getApprovedById().equals("")) {
             throw new DataNotFoundException("Specify Valid ApprovedById - (employeeId)");
         }
-        Employee employee = builder.findOne(dto.getApprovedById(), Employee.class);
+        Employee employee = appService.findById(Employee.class, dto.getApprovedById());
         if (employee != null) {
             requestApproval.setApprovedBy(employee);
         }

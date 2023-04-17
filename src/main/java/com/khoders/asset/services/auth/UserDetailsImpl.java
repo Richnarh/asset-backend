@@ -13,7 +13,12 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
-    private Collection<? extends GrantedAuthority> authorities;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private Collection<? extends GrantedAuthority> authorities;
     private String id;
     private String emailAddress;
     @JsonIgnore

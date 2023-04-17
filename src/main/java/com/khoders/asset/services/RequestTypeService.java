@@ -1,7 +1,8 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.maintenance.RequestType;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,21 +11,21 @@ import java.util.List;
 @Service
 public class RequestTypeService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public RequestType save(RequestType requestType) {
-        return builder.save(requestType);
+        return appService.save(requestType);
     }
 
     public List<RequestType> requestTypes() {
-        return builder.findAll(RequestType.class);
+        return appService.findAll(RequestType.class);
     }
 
     public RequestType findById(String requestTypeId) {
-        return builder.findOne(requestTypeId, RequestType.class);
+        return appService.findById(RequestType.class,requestTypeId);
     }
 
     public boolean delete(String requestTypeId) throws Exception {
-        return builder.deleteById(requestTypeId, RequestType.class);
+        return appService.deleteById(RequestType.class,requestTypeId);
     }
 }

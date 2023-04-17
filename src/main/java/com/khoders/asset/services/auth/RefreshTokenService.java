@@ -5,7 +5,8 @@ import com.khoders.asset.Repository.UserRepository;
 import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.exceptions.TokenRefreshException;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class RefreshTokenService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Optional<RefreshToken> findByToken(String token) {
         return tokenRepository.findByToken(token);
@@ -32,12 +33,12 @@ public class RefreshTokenService {
 
     public RefreshToken createRefreshToken(String userId) {
         RefreshToken refreshToken = new RefreshToken();
-        refreshToken.setUserAccount(builder.simpleFind(UserAccount.class, userId));
+        refreshToken.setUserAccount(appService.findById(UserAccount.class, userId));
         refreshToken.setIssuedAt(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)));
         refreshToken.setExpiryDate(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3,ChronoUnit.MINUTES)));
-        refreshToken.setToken(builder.genId());
+        refreshToken.setToken(appService.genId());
 
-        refreshToken = builder.save(refreshToken);
+        refreshToken = appService.save(refreshToken);
         return refreshToken;
     }
 

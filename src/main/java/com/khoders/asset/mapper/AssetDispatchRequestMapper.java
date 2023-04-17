@@ -7,17 +7,15 @@ import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.InventoryItem;
 import com.khoders.asset.entities.constants.ApprovalStatus;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class AssetDispatchRequestMapper {
-    private static final Logger log = LoggerFactory.getLogger(AssetDispatchRequestMapper.class);
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public AssetDispatchRequest toEntity(AssetDispatchRequestDto dto) throws Exception{
         AssetDispatchRequest dispatchRequest = new AssetDispatchRequest();
@@ -39,15 +37,15 @@ public class AssetDispatchRequestMapper {
         if (dto.getInventoryItemId() == null) {
             throw new DataNotFoundException("Please Specify Valid InventoryItemId");
         }
-        Department department = builder.simpleFind(Department.class, dto.getDepartmentId());
+        Department department = appService.findById(Department.class, dto.getDepartmentId());
         if (department != null) {
             dispatchRequest.setDepartment(department);
         }
-        Employee employee = builder.simpleFind(Employee.class, dto.getReceivedById());
+        Employee employee = appService.findById(Employee.class, dto.getReceivedById());
         if (employee != null) {
             dispatchRequest.setReceivedBy(employee);
         }
-        InventoryItem inventoryItem = builder.simpleFind(InventoryItem.class, dto.getInventoryItemId());
+        InventoryItem inventoryItem = appService.findById(InventoryItem.class, dto.getInventoryItemId());
         if (inventoryItem != null) {
             dispatchRequest.setInventoryItem(inventoryItem);
         }

@@ -4,7 +4,8 @@ import com.khoders.asset.dto.maintenance.InstructionStepDto;
 import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.entities.maintenance.InstructionStep;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,7 +14,7 @@ import java.util.List;
 
 @Component
 public class InstructionSetMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
 
     public InstructionSet toEntity(InstructionSetDto dto) throws Exception {
         InstructionSet instructionStep = new InstructionSet();
@@ -47,7 +48,7 @@ public class InstructionSetMapper {
             if (dto.getInstructionStepId() == null){
                 throw new DataNotFoundException("Please Specify Valid Instruction Set");
             }
-            InstructionSet instructionSet = builder.simpleFind(InstructionSet.class, dto.getInstructionStepId());
+            InstructionSet instructionSet = appService.findById(InstructionSet.class, dto.getInstructionStepId());
             if (instructionSet != null){
                 step.setInstructionSet(instructionSet);
             }
@@ -62,7 +63,7 @@ public class InstructionSetMapper {
             InstructionStepDto dto = new InstructionStepDto();
             if (instructionStep.getId() == null) return null;
             dto.setStepName(dto.getStepName());
-            InstructionSet instructionSet = builder.simpleFind(InstructionSet.class, dto.getInstructionStepId());
+            InstructionSet instructionSet = appService.findById(InstructionSet.class, dto.getInstructionStepId());
             if (instructionStep.getInstructionSet() != null){
                 dto.setInstructionStep(instructionSet.getInstructionName());
                 dto.setInstructionStepId(instructionSet.getId());

@@ -5,15 +5,16 @@ import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.GeneralLedger;
 import com.khoders.asset.entities.constants.EntrySource;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GLMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
 
     public GeneralLedger toEntity(GLDto dto)throws Exception{
         GeneralLedger ledger = new GeneralLedger();
@@ -23,7 +24,7 @@ public class GLMapper {
         if (dto.getAccountId() == null) {
             throw new DataNotFoundException("Specify Valid AccountId");
         }
-        Account account = builder.simpleFind(Account.class, dto.getAccountId());
+        Account account = appService.findById(Account.class, dto.getAccountId());
         if(account != null){
             ledger.setAccount(account);
         }

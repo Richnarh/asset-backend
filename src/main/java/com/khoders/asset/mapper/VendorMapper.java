@@ -2,21 +2,14 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.dto.BusinessClientDto;
 import com.khoders.asset.entities.BusinessClient;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.enums.ClientType;
 import com.khoders.resource.enums.Title;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class VendorMapper {
-    private static final Logger log = LoggerFactory.getLogger(VendorMapper.class);
-    @Autowired
-    private CrudBuilder builder;
 
     public BusinessClient toEntity(BusinessClientDto dto) {
         BusinessClient businessClient = new BusinessClient();

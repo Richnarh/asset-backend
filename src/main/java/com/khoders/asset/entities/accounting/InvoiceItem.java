@@ -6,6 +6,7 @@ import javax.persistence.*;
 @Table(name = "invoice_item")
 public class InvoiceItem extends BillInvoice {
     public static final String _invoice = "invoice";
+    public static final String _invoiceId = Invoice._id;
     @JoinColumn(name = "invoice",referencedColumnName = "id")
     @ManyToOne
     private Invoice invoice;

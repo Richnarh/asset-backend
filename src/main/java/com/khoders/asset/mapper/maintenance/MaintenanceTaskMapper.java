@@ -6,15 +6,16 @@ import com.khoders.asset.entities.constants.TaskPriority;
 import com.khoders.asset.entities.maintenance.MaintenanceTask;
 import com.khoders.asset.entities.maintenance.RequestType;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MaintenanceTaskMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
 
     public MaintenanceTask toEntity(MaintenanceTaskDto dto)throws Exception{
         MaintenanceTask task = new MaintenanceTask();
@@ -33,7 +34,7 @@ public class MaintenanceTaskMapper {
         if (dto.getRequestTypeId() == null){
             throw new DataNotFoundException("Please Specify Valid RequestType");
         }
-        RequestType requestType = builder.simpleFind(RequestType.class, dto.getRequestTypeId());
+        RequestType requestType = appService.findById(RequestType.class, dto.getRequestTypeId());
         if (requestType != null){
             task.setRequestType(requestType);
         }

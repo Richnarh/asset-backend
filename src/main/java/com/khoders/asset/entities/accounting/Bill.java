@@ -2,7 +2,6 @@ package com.khoders.asset.entities.accounting;
 
 import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.entities.Ref;
-import com.khoders.resource.enums.Title;
 
 import javax.persistence.*;
 import java.time.LocalDate;

@@ -1,7 +1,32 @@
 package com.khoders.asset.services.auth;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import javax.transaction.Transactional;
+import javax.ws.rs.BadRequestException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+
 import com.khoders.asset.Repository.UserRepository;
+import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.CompanyDto;
+import com.khoders.asset.dto.Sql;
 import com.khoders.asset.dto.authpayload.JwtResponse;
 import com.khoders.asset.dto.authpayload.LoginRequest;
 import com.khoders.asset.dto.authpayload.RoleDto;
@@ -12,37 +37,28 @@ import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.jwt.JwtService;
 import com.khoders.asset.mapper.AuthMapper;
 import com.khoders.asset.mapper.CompanyMapper;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
-import javax.transaction.Transactional;
-import javax.ws.rs.BadRequestException;
-import java.util.*;
+import com.khoders.springapi.AppService;
 
 @Service
 @Transactional
 public class AuthService implements UserDetailsService {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
     @Autowired private UserRepository repository;
     @Autowired private RefreshTokenService refreshTokenService;
     @Autowired private CompanyMapper companyMapper;
     @Autowired private AuthMapper authMapper;
     @Autowired private JwtService jwtService;
+    @Autowired private NamedParameterJdbcTemplate jdbc;
 
     AuthService(){}
+    
+    @Autowired
+    public AuthService(JndiConfig jndiConfig) {
+    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+    }
+    
     @Override
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
         UserAccount user = repository.findByEmailAddress(emailAddress).orElseThrow(() -> new UsernameNotFoundException("User Not Found with emailAddress: " + emailAddress));
@@ -53,9 +69,9 @@ public class AuthService implements UserDetailsService {
         Company company = companyMapper.createCompany(dto);
         UserAccount userAccount = authMapper.createAccount(dto);
         userAccount.setCompany(company);
-        if(builder.save(userAccount) != null){
+        if(appService.save(userAccount) != null){
             company.setPrimaryUser(userAccount);
-            builder.save(company);
+            appService.save(company);
         }
         System.out.println("userAccount -- "+userAccount.getEmailAddress());
         String jwtToken = jwtService.generateToken(userAccount.getEmailAddress());
@@ -64,22 +80,29 @@ public class AuthService implements UserDetailsService {
     }
 
     public UserAccount findById(String id) {
-        return (UserAccount) builder.findOne(id, UserAccount.class);
+        return appService.findById(UserAccount.class, id);
     }
 
     public UserAccount doLogin(LoginRequest dto) {
-        Session session = builder.session();
-        try {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<UserAccount> criteriaQuery = builder.createQuery(UserAccount.class);
-            Root<UserAccount> root = criteriaQuery.from(UserAccount.class);
-            criteriaQuery.where(builder.and(builder.equal(root.get("emailAddress"), dto.getEmailAddress()), builder.equal(root.get("password"), new BCryptPasswordEncoder().encode(dto.getPassword()))));
-            Query<UserAccount> query = session.createQuery(criteriaQuery);
-            return query.getSingleResult();
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            return null;
-        }
+    	MapSqlParameterSource params = new MapSqlParameterSource();
+        params.addValue(UserAccount._emailAddress, dto.getEmailAddress());
+        params.addValue(UserAccount._password, dto.getPassword());
+        UserAccount userAccount = jdbc.query(Sql.INVOICEITEM_BY_INVOICE_ID, params, new ResultSetExtractor<UserAccount>() {
+
+			@Override
+			public UserAccount extractData(ResultSet rs) throws SQLException, DataAccessException {
+				if(rs.next()) {
+					UserAccount account = new UserAccount();
+					account.setId(rs.getString("id"));
+					account.setEmailAddress(rs.getString("email_address"));
+					account.setPrimaryNumber("primary_number");
+					return account;
+				}
+				return null;
+			}
+        	
+		});
+        return userAccount;
     }
 
     public JwtResponse toJwt(UserAccount userAccount, String jwtToken){
@@ -120,18 +143,17 @@ public class AuthService implements UserDetailsService {
     }
 
     public List<Company> companies(UserAccount userAccount){
-        Session session = builder.session();
-        try {
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<Company> criteriaQuery = builder.createQuery(Company.class);
-            Root<Company> root = criteriaQuery.from(Company.class);
-            criteriaQuery.where(builder.and(builder.equal(root.get("primaryUser"), userAccount)));
-            criteriaQuery.orderBy(builder.asc(root.get(Company._companyName)));
-            Query<Company> query = session.createQuery(criteriaQuery);
-            return query.getResultList();
-        } catch (HibernateException e) {
-            e.printStackTrace();
-            return Collections.emptyList();
-        }
+    	SqlParameterSource param = new MapSqlParameterSource(Company._primaryUserId, userAccount.getId());
+    	List<Company> companies = jdbc.query(Sql.COMPANY_BY_USERID, param, new RowMapper<Company>() {
+
+			@Override
+			public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+				Company company = new Company();
+				company.setId(rs.getString("id"));
+				company.setCompanyAddress("company_address");
+				return company;
+			}
+		});
+    	return companies;
     }
 }

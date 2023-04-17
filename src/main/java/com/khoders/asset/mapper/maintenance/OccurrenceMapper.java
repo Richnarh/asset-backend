@@ -8,13 +8,14 @@ import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.entities.maintenance.MaintenanceTask;
 import com.khoders.asset.entities.maintenance.Occurrence;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class OccurrenceMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
 
     public Occurrence toEntity(OccurrenceDto dto)throws Exception{
         Occurrence occurrence = new Occurrence();
@@ -40,27 +41,27 @@ public class OccurrenceMapper {
          if (dto.getMaintenanceTaskId() == null){
             throw new DataNotFoundException("Please Specify Valid MaintenanceTask");
         }
-        Asset asset = builder.simpleFind(Asset.class, dto.getAssetId());
+        Asset asset = appService.findById(Asset.class, dto.getAssetId());
          if (asset != null){
              occurrence.setAsset(asset);
          }
-         Asset equipment = builder.simpleFind(Asset.class, dto.getEquipmentId());
+         Asset equipment = appService.findById(Asset.class, dto.getEquipmentId());
          if (equipment != null){
              occurrence.setEquipment(equipment);
          }
-         Employee employee = builder.simpleFind(Employee.class, dto.getEmployeeId());
+         Employee employee = appService.findById(Employee.class, dto.getEmployeeId());
          if (employee != null){
              occurrence.setEmployee(employee);
          }
-         InstructionSet instructionSet = builder.simpleFind(InstructionSet.class, dto.getInstructionSetId());
+         InstructionSet instructionSet = appService.findById(InstructionSet.class, dto.getInstructionSetId());
          if (instructionSet != null){
              occurrence.setInstructionSet(instructionSet);
          }
-         Location location = builder.simpleFind(Location.class, dto.getLocationId());
+         Location location = appService.findById(Location.class, dto.getLocationId());
          if (location != null){
              occurrence.setLocation(location);
          }
-         MaintenanceTask maintenanceTask = builder.simpleFind(MaintenanceTask.class, dto.getMaintenanceTaskId());
+         MaintenanceTask maintenanceTask = appService.findById(MaintenanceTask.class, dto.getMaintenanceTaskId());
          if (maintenanceTask != null){
              occurrence.setMaintenanceTask(maintenanceTask);
          }

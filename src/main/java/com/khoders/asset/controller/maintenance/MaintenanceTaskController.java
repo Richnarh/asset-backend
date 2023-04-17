@@ -5,8 +5,9 @@ import com.khoders.asset.dto.maintenance.OccurrenceDto;
 import com.khoders.asset.services.MaintenanceTaskService;
 import com.khoders.asset.services.OccurrenceService;
 import com.khoders.asset.utils.ApiEndpoint;
-import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.springapi.ApiResponse;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

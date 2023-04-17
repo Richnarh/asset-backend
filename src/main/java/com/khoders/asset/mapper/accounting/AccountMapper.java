@@ -3,13 +3,11 @@ package com.khoders.asset.mapper.accounting;
 import com.khoders.asset.dto.accounting.AccountDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.constants.AccountType;
-import com.khoders.asset.utils.CrudBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class AccountMapper {
-    @Autowired private CrudBuilder builder;
 
     public Account toEntity(AccountDto dto){
         Account account = new Account();

@@ -5,9 +5,10 @@ import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.maintenance.Occurrence;
 import com.khoders.asset.entities.maintenance.StartWork;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,7 @@ import java.time.LocalTime;
 
 @Component
 public class StartWorkMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired private AppService appService;
 
     public StartWork toEntity(StartWorkDto dto)throws Exception{
         StartWork work = new StartWork();
@@ -30,11 +31,11 @@ public class StartWorkMapper {
         if (dto.getOccurrenceId() == null){
             throw new DataNotFoundException("Please Specify Valid Occurrence");
         }
-        Employee worker = builder.simpleFind(Employee.class, dto.getWorkersId());
+        Employee worker = appService.findById(Employee.class, dto.getWorkersId());
         if (worker != null){
             work.setWorkers(worker);
         }
-        Occurrence occurrence = builder.simpleFind(Occurrence.class, dto.getOccurrenceId());
+        Occurrence occurrence = appService.findById(Occurrence.class, dto.getOccurrenceId());
         if (occurrence != null){
             work.setOccurrence(occurrence);
         }

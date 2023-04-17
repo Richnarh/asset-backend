@@ -2,7 +2,6 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.AssetTransferDto;
 import com.khoders.asset.dto.CompanyDto;
-import com.khoders.asset.dto.LocationDto;
 import com.khoders.asset.entities.AssetTransfer;
 import com.khoders.asset.entities.Company;
 import com.khoders.asset.exceptions.BadDataException;
@@ -11,8 +10,8 @@ import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.CompanyMapper;
 import com.khoders.asset.services.CompanyService;
 import com.khoders.asset.utils.ApiEndpoint;
-import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.springapi.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

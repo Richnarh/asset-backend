@@ -4,22 +4,21 @@ import com.khoders.asset.dto.LookupItem;
 import com.khoders.asset.entities.*;
 import com.khoders.asset.entities.maintenance.RequestType;
 import com.khoders.asset.entities.settings.InvoiceType;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
 @Component
-@Transactional
 public class LookupSetup {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     private static final Logger log = getLogger(LookupSetup.class);
 
@@ -36,7 +35,7 @@ public class LookupSetup {
     }
     public List<LookupItem> categories(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(Category.class).forEach(category ->{
+        appService.findAll(Category.class).forEach(category ->{
             LookupItem item = new LookupItem();
                 item.setId(category.getId());
                 item.setItemName(category.getCategoryName());
@@ -46,7 +45,7 @@ public class LookupSetup {
     }
     public List<LookupItem> department(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(Department.class).forEach(data ->{
+        appService.findAll(Department.class).forEach(data ->{
             LookupItem item = new LookupItem();
                 item.setId(data.getId());
                 item.setItemName(data.getDepartmentName());
@@ -56,7 +55,7 @@ public class LookupSetup {
     }
     public List<LookupItem> location(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(Location.class).forEach(data ->{
+        appService.findAll(Location.class).forEach(data ->{
             LookupItem item = new LookupItem();
                 item.setId(data.getId());
                 item.setItemName(data.getLocationName());
@@ -66,7 +65,7 @@ public class LookupSetup {
     }
     public List<LookupItem> employees(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(Employee.class).forEach(data ->{
+        appService.findAll(Employee.class).forEach(data ->{
             LookupItem item = new LookupItem();
                 item.setId(data.getId());
                 item.setItemName(data.getFirstName() +" "+data.getSurname());
@@ -76,7 +75,7 @@ public class LookupSetup {
     }
     public List<LookupItem> businessClient(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(BusinessClient.class).forEach(data ->{
+        appService.findAll(BusinessClient.class).forEach(data ->{
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getFirstname() +" "+data.getLastname());
@@ -86,7 +85,7 @@ public class LookupSetup {
     }
     public List<LookupItem> invoiceType(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(InvoiceType.class).forEach(data ->{
+        appService.findAll(InvoiceType.class).forEach(data ->{
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getTypeName());
@@ -96,7 +95,7 @@ public class LookupSetup {
     }
     public List<LookupItem> requestType(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(RequestType.class).forEach(data ->{
+        appService.findAll(RequestType.class).forEach(data ->{
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getRequestName());
@@ -106,7 +105,7 @@ public class LookupSetup {
     }
     public List<LookupItem> companies(){
         List<LookupItem> itemList = new LinkedList<>();
-        builder.findAll(Company.class).forEach(data ->{
+        appService.findAll(Company.class).forEach(data ->{
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getCompanyName());

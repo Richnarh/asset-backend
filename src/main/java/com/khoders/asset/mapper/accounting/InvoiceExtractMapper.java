@@ -4,10 +4,11 @@ import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.dto.accounting.InvoiceItemDto;
 import com.khoders.asset.entities.accounting.*;
 import com.khoders.asset.exceptions.DataNotFoundException;
-import com.khoders.asset.utils.CrudBuilder;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import com.khoders.resource.utilities.SystemUtils;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Component
 public class InvoiceExtractMapper {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Invoice toEntity(InvoiceDto dto)throws Exception{
         Invoice invoice = new Invoice();
@@ -54,7 +55,7 @@ public class InvoiceExtractMapper {
                 if (dto.getAccountId() == null){
                     throw new DataNotFoundException("Specify Valid AccountId");
                 }
-                Account account = builder.simpleFind(Account.class, dto.getAccountId());
+                Account account = appService.findById(Account.class, dto.getAccountId());
                 if (account != null){
                     invoiceItem.setAccount(account);
                 }
