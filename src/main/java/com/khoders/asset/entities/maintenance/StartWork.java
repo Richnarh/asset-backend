@@ -10,7 +10,7 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "start_work")
 public class StartWork extends Ref {
-    @JoinColumn(name = "workers",referencedColumnName = "id")
+    @JoinColumn(name = "workers", referencedColumnName = "id")
     @ManyToOne
     private Employee workers;
 

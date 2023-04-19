@@ -27,7 +27,7 @@ public class DepartmentController {
     private DepartmentMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Department> create(@RequestBody DepartmentDto dto) throws Exception{
+    public ResponseEntity<Department> create(@RequestBody DepartmentDto dto) throws Exception {
         try {
             Department entity = mapper.toEntity(dto);
             Department department = departmentService.save(entity);
@@ -55,7 +55,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{departmentId}")
-    public ResponseEntity<Department> findSingle(@PathVariable(value = "departmentId") String departmentId) throws Exception{
+    public ResponseEntity<Department> findSingle(@PathVariable(value = "departmentId") String departmentId) throws Exception {
         try {
             Department department = departmentService.findById(departmentId);
             if (department == null) {
@@ -69,7 +69,7 @@ public class DepartmentController {
     }
 
     @PutMapping
-    public ResponseEntity<Department> update(@RequestBody DepartmentDto dto)throws Exception {
+    public ResponseEntity<Department> update(@RequestBody DepartmentDto dto) throws Exception {
         try {
             Department department = departmentService.findById(dto.getId());
             if (department == null) {

@@ -17,7 +17,7 @@ public class AssetDispatchRequestMapper {
     @Autowired
     private AppService appService;
 
-    public AssetDispatchRequest toEntity(AssetDispatchRequestDto dto) throws Exception{
+    public AssetDispatchRequest toEntity(AssetDispatchRequestDto dto) throws Exception {
         AssetDispatchRequest dispatchRequest = new AssetDispatchRequest();
         if (dto.getId() != null) {
             dispatchRequest.setId(dto.getId());

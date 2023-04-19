@@ -24,21 +24,25 @@ public class InventoryController {
         InventoryDto inventory = inventoryService.saveInventory(dto);
         return ApiResponse.created(Msg.CREATED, inventory);
     }
+
     @PutMapping
     public ResponseEntity<InventoryDto> update(@RequestBody InventoryDto dto) throws Exception {
         InventoryDto inventory = inventoryService.saveInventory(dto);
         return ApiResponse.ok(Msg.CREATED, inventory);
     }
+
     @GetMapping("/list")
     public ResponseEntity<List<InventoryDto>> list() {
-        List<InventoryDto> dtoList =  inventoryService.inventoryList();
+        List<InventoryDto> dtoList = inventoryService.inventoryList();
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
+
     @GetMapping("/{inventoryId}")
     public ResponseEntity<InventoryDto> findSingle(@PathVariable(value = "inventoryId") String inventoryId) {
         InventoryDto inventory = inventoryService.findById(inventoryId);
         return ApiResponse.ok(Msg.RECORD_FOUND, inventory);
     }
+
     @DeleteMapping("/{inventoryId}")
     public ResponseEntity<Object> delete(@PathVariable(value = "inventoryId") String inventoryId) {
         try {

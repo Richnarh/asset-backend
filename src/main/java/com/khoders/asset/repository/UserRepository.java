@@ -1,4 +1,4 @@
-package com.khoders.asset.Repository;
+package com.khoders.asset.repository;
 
 import com.khoders.asset.entities.auth.UserAccount;
 import org.springframework.data.jpa.repository.JpaRepository;

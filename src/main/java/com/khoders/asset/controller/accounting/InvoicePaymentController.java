@@ -17,23 +17,27 @@ import java.util.List;
 @Tag(name = "Invoice Payment - Endpoint")
 @RequestMapping(ApiEndpoint.INVOICE_PAYMENT_ENDPOINT)
 public class InvoicePaymentController {
-    @Autowired private AccountService accountService;
+    @Autowired
+    private AccountService accountService;
 
     @PostMapping
     public ResponseEntity<PaymentDto> save(@RequestBody PaymentDto dto) throws Exception {
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.created(Msg.CREATED, paymentDto);
     }
+
     @PutMapping
     public ResponseEntity<PaymentDto> update(@RequestBody PaymentDto dto) throws Exception {
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.ok(Msg.UPDATED, paymentDto);
     }
+
     @GetMapping("/{type}")
-    public ResponseEntity<PaymentDto> findByInvoice(@PathVariable(value = "invoiceId") String invoiceId, @PathVariable(value = "type") String type){
+    public ResponseEntity<PaymentDto> findByInvoice(@PathVariable(value = "invoiceId") String invoiceId, @PathVariable(value = "type") String type) {
         List<PaymentDto> dtoList = accountService.find(invoiceId, type);
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
+
     @DeleteMapping("/{paymentId}")
     public ResponseEntity<Object> delete(@PathVariable("paymentId") String paymentId) throws Exception {
         try {

@@ -1,6 +1,6 @@
 package com.khoders.asset.dto.authpayload;
 
-public class RoleDto{
+public class RoleDto {
     private String id;
     private String roleName;
 
@@ -15,6 +15,7 @@ public class RoleDto{
     public String getRoleName() {
         return roleName;
     }
+
     public void setRoleName(String roleName) {
         this.roleName = roleName;
     }

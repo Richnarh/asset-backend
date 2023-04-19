@@ -16,28 +16,32 @@ import java.util.List;
 @Tag(name = "Bill Payment - Endpoint")
 @RequestMapping(ApiEndpoint.BILL_PAYMENT_ENDPOINT)
 public class BillPaymentController {
-    @Autowired private AccountService accountService;
+    @Autowired
+    private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<PaymentDto> save(@RequestBody PaymentDto dto)throws Exception{
+    public ResponseEntity<PaymentDto> save(@RequestBody PaymentDto dto) throws Exception {
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.created(Msg.CREATED, paymentDto);
     }
+
     @PutMapping
-    public ResponseEntity<PaymentDto> update(@RequestBody PaymentDto dto)throws Exception{
+    public ResponseEntity<PaymentDto> update(@RequestBody PaymentDto dto) throws Exception {
         PaymentDto paymentDto = accountService.savePayment(dto);
         return ApiResponse.ok(Msg.UPDATED, paymentDto);
     }
+
     @GetMapping("/{type}")
-    public ResponseEntity<PaymentDto> findByBill(@PathVariable(value = "billId") String billId, @PathVariable(value = "type") String type){
-        List<PaymentDto> dtoList = accountService.find(billId,type);
+    public ResponseEntity<PaymentDto> findByBill(@PathVariable(value = "billId") String billId, @PathVariable(value = "type") String type) {
+        List<PaymentDto> dtoList = accountService.find(billId, type);
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
+
     @DeleteMapping("/{paymentId}")
-    public ResponseEntity<Object> delete(@PathVariable("paymentId") String paymentId){
+    public ResponseEntity<Object> delete(@PathVariable("paymentId") String paymentId) {
         try {
-        	accountService.deletePayment(paymentId);
-        	return ApiResponse.ok(Msg.DELETED, true);
+            accountService.deletePayment(paymentId);
+            return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {
             e.printStackTrace();
             return ApiResponse.error(e.getMessage(), false);

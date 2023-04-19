@@ -27,7 +27,7 @@ public class LocationController {
     private LocationMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Location> create(@RequestBody LocationDto dto) throws Exception{
+    public ResponseEntity<Location> create(@RequestBody LocationDto dto) throws Exception {
         try {
             Location entity = mapper.toEntity(dto);
             Location location = locationService.save(entity);
@@ -69,7 +69,7 @@ public class LocationController {
     }
 
     @PutMapping
-    public ResponseEntity<Location> update(@RequestBody LocationDto dto)throws Exception {
+    public ResponseEntity<Location> update(@RequestBody LocationDto dto) throws Exception {
         try {
             Location loc = locationService.findById(dto.getId());
             if (loc == null) {

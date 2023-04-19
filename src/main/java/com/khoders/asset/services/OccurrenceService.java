@@ -16,36 +16,41 @@ import java.util.List;
 
 @Service
 public class OccurrenceService {
-    @Autowired private AppService appService;
-    @Autowired private OccurrenceMapper mapper;
+    @Autowired
+    private AppService appService;
+    @Autowired
+    private OccurrenceMapper mapper;
 
-    public OccurrenceDto toEntity(OccurrenceDto dto)throws Exception{
-        if (dto.getId() != null){
+    public OccurrenceDto toEntity(OccurrenceDto dto) throws Exception {
+        if (dto.getId() != null) {
             Occurrence occurrence = appService.findById(Occurrence.class, dto.getId());
-            if (occurrence == null){
-                throw new DataNotFoundException("Occurrence with ID: "+ dto.getId() +" Not Found");
+            if (occurrence == null) {
+                throw new DataNotFoundException("Occurrence with ID: " + dto.getId() + " Not Found");
             }
         }
         Occurrence occurrence = mapper.toEntity(dto);
-        if (appService.save(occurrence) != null){
+        if (appService.save(occurrence) != null) {
             return mapper.toDto(occurrence);
         }
         return null;
     }
-    public List<OccurrenceDto> occurrenceList(){
+
+    public List<OccurrenceDto> occurrenceList() {
         List<OccurrenceDto> dtoList = new LinkedList<>();
         List<Occurrence> occurrences = appService.findAll(Occurrence.class);
-        if (occurrences.isEmpty()){
+        if (occurrences.isEmpty()) {
             ApiResponse.ok(Msg.RECORD_NOT_FOUND, dtoList);
         }
-        for (Occurrence occurrence:occurrences){
+        for (Occurrence occurrence : occurrences) {
             dtoList.add(mapper.toDto(occurrence));
         }
         return dtoList;
     }
-    public OccurrenceDto findById(String occurrenceId){
+
+    public OccurrenceDto findById(String occurrenceId) {
         return mapper.toDto(appService.findById(Occurrence.class, occurrenceId));
     }
+
     public boolean delete(String occurrenceId) throws Exception {
         return appService.deleteById(Occurrence.class, occurrenceId);
     }

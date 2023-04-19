@@ -14,11 +14,11 @@ import java.util.stream.Collectors;
 
 public class UserDetailsImpl implements UserDetails {
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private Collection<? extends GrantedAuthority> authorities;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    private Collection<? extends GrantedAuthority> authorities;
     private String id;
     private String emailAddress;
     @JsonIgnore
@@ -38,11 +38,11 @@ public class UserDetailsImpl implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
                 .collect(Collectors.toList());
 
-        System.out.println("authorities --- "+ SystemUtils.KJson().toJson(authorities));
-        System.out.println("password p --- "+ user.getPassword());
-        UserDetailsImpl userDetails = new UserDetailsImpl(user.getId(),user.getEmailAddress(),user.getPassword(),authorities);
-        System.out.println("userDetails --- "+ SystemUtils.KJson().toJson(userDetails));
-        System.out.println("Authorities --- "+userDetails.authorities);
+        System.out.println("authorities --- " + SystemUtils.KJson().toJson(authorities));
+        System.out.println("password p --- " + user.getPassword());
+        UserDetailsImpl userDetails = new UserDetailsImpl(user.getId(), user.getEmailAddress(), user.getPassword(), authorities);
+        System.out.println("userDetails --- " + SystemUtils.KJson().toJson(userDetails));
+        System.out.println("Authorities --- " + userDetails.authorities);
         return userDetails;
     }
 
@@ -85,18 +85,22 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isAccountNonExpired() {
         return true;
     }
+
     @Override
     public boolean isAccountNonLocked() {
         return true;
     }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
+
     @Override
     public boolean isEnabled() {
         return true;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

@@ -27,23 +27,24 @@ import com.khoders.springapi.AppService;
 public class InstructionSetService {
     private AppService appService;
     private InstructionSetMapper mapper;
-    @Autowired private NamedParameterJdbcTemplate jdbc;
-    
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
+
     @Autowired
     public InstructionSetService(JndiConfig jndiConfig) {
-    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
     }
-    
+
     public InstructionSetDto save(InstructionSetDto dto) throws Exception {
-        if (dto.getId() != null){
+        if (dto.getId() != null) {
             InstructionSet instruction = appService.findById(InstructionSet.class, dto.getId());
-            if (instruction == null){
-                throw new DataNotFoundException("InstructionSet with ID: "+ dto.getId() +" Not Found");
+            if (instruction == null) {
+                throw new DataNotFoundException("InstructionSet with ID: " + dto.getId() + " Not Found");
             }
         }
         InstructionSet instructionSet = mapper.toEntity(dto);
-        if (appService.save(instructionSet) != null){
-            for (InstructionStep instructionStep: instructionSet.getInstructionStepList()){
+        if (appService.save(instructionSet) != null) {
+            for (InstructionStep instructionStep : instructionSet.getInstructionStepList()) {
                 instructionStep.setInstructionSet(instructionSet);
                 appService.save(instructionStep);
             }
@@ -51,22 +52,22 @@ public class InstructionSetService {
         return mapper.toDto(instructionSet);
     }
 
-    public List<InstructionSetDto> instructionSetList()throws Exception{
+    public List<InstructionSetDto> instructionSetList() throws Exception {
 
         List<InstructionStep> instructionStepList;
         List<InstructionSetDto> instructionList = new LinkedList<>();
         List<InstructionSet> instructionSetList = appService.findAll(InstructionSet.class);
-        if (instructionSetList.isEmpty()){
+        if (instructionSetList.isEmpty()) {
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
         }
-        for (InstructionSet instructionSet:instructionSetList){
-        	SqlParameterSource param = new MapSqlParameterSource(InstructionStep._instructionSetId, instructionSet.getId());
-        	instructionStepList = jdbc.query(Sql.INSTRUCTIONSET_BY_ID, param, BeanPropertyRowMapper.newInstance(InstructionStep.class));
+        for (InstructionSet instructionSet : instructionSetList) {
+            SqlParameterSource param = new MapSqlParameterSource(InstructionStep._instructionSetId, instructionSet.getId());
+            instructionStepList = jdbc.query(Sql.INSTRUCTION_SET_BY_ID, param, BeanPropertyRowMapper.newInstance(InstructionStep.class));
             instructionSet.setInstructionStepList(instructionStepList);
             instructionSetList = new LinkedList<>();
             instructionSetList.add(instructionSet);
         }
-        for (InstructionSet instructionSet:instructionSetList){
+        for (InstructionSet instructionSet : instructionSetList) {
             instructionList.add(mapper.toDto(instructionSet));
         }
         return instructionList;
@@ -76,15 +77,15 @@ public class InstructionSetService {
         List<InstructionStep> instructionStepList;
 
         InstructionSet instructionSet = appService.findById(InstructionSet.class, instructionSetId);
-        if (instructionSet == null){
+        if (instructionSet == null) {
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
         }
         SqlParameterSource param = new MapSqlParameterSource(InstructionStep._instructionSetId, instructionSet.getId());
-    	instructionStepList = jdbc.query(Sql.INSTRUCTIONSET_BY_ID, param, BeanPropertyRowMapper.newInstance(InstructionStep.class));
+        instructionStepList = jdbc.query(Sql.INSTRUCTION_SET_BY_ID, param, BeanPropertyRowMapper.newInstance(InstructionStep.class));
         instructionSet.setInstructionStepList(instructionStepList);
         return mapper.toDto(instructionSet);
     }
-    
+
     public boolean delete(String instructionSetId) throws Exception {
         return appService.deleteById(InstructionSet.class, instructionSetId);
     }

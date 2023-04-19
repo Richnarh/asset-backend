@@ -17,31 +17,38 @@ import java.util.List;
 @Tag(name = "Journal - Endpoint")
 @RequestMapping(ApiEndpoint.JOURNAL_ENDPOINT)
 public class JournalController {
-    @Autowired private JournalService journalService;
+    @Autowired
+    private JournalService journalService;
 
     @PostMapping
     public ResponseEntity<JournalDto> create(@RequestBody JournalDto dto) throws Exception {
         JournalDto itemDto = journalService.save(dto);
         return ApiResponse.created(Msg.CREATED, itemDto);
     }
+
     @PutMapping
     public ResponseEntity<JournalDto> update(@RequestBody JournalDto dto) throws Exception {
         return ApiResponse.ok(Msg.UPDATED, journalService.save(dto).getId());
     }
+
     @GetMapping("/list")
-    public ResponseEntity<List<JournalDto>> list(){
-        try{
+    public ResponseEntity<List<JournalDto>> list() {
+        try {
             return ApiResponse.ok(Msg.RECORD_FOUND, journalService.journalList());
-        }catch (Exception e){e.printStackTrace();}
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, null);
     }
+
     @GetMapping("/{journalId}")
-    public ResponseEntity<JournalDto> findById(@PathVariable("journalId") String journalId){
+    public ResponseEntity<JournalDto> findById(@PathVariable("journalId") String journalId) {
         JournalDto dto = journalService.findById(journalId);
         return ApiResponse.ok(Msg.RECORD_FOUND, dto);
     }
+
     @DeleteMapping("/{journalId}")
-    public ResponseEntity<?> delete(@PathVariable("accountId") String accountId)throws Exception{
+    public ResponseEntity<?> delete(@PathVariable("accountId") String accountId) throws Exception {
         try {
             if (journalService.delete(accountId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {

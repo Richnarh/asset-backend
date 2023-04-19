@@ -19,7 +19,7 @@ public class InventoryExtractMapper {
     @Autowired
     private AppService appService;
 
-    public Inventory toEntity(InventoryDto dto) throws Exception{
+    public Inventory toEntity(InventoryDto dto) throws Exception {
         Inventory inventory = new Inventory();
         if (dto.getId() != null) {
             inventory.setId(dto.getId());
@@ -36,15 +36,15 @@ public class InventoryExtractMapper {
         if (dto.getBusinessClientId() == null) {
             throw new DataNotFoundException("Please Specify Valid VendorId");
         }
-        Location location = appService.findById(Location.class,dto.getReceivedAtId());
+        Location location = appService.findById(Location.class, dto.getReceivedAtId());
         if (location != null) {
             inventory.setReceivedAt(location);
         }
-        Employee employee = appService.findById(Employee.class,dto.getReceivedById());
+        Employee employee = appService.findById(Employee.class, dto.getReceivedById());
         if (employee != null) {
             inventory.setReceivedBy(employee);
         }
-        BusinessClient businessClient = appService.findById(BusinessClient.class,dto.getBusinessClientId());
+        BusinessClient businessClient = appService.findById(BusinessClient.class, dto.getBusinessClientId());
         if (businessClient != null) {
             inventory.setBusinessClient(businessClient);
         }
@@ -53,9 +53,9 @@ public class InventoryExtractMapper {
         return inventory;
     }
 
-    public List<InventoryItem> toEntity(List<InventoryItemDto> itemDtoList)throws Exception {
+    public List<InventoryItem> toEntity(List<InventoryItemDto> itemDtoList) throws Exception {
         List<InventoryItem> inventoryItemList = new LinkedList<>();
-        for(InventoryItemDto dto: itemDtoList){
+        for (InventoryItemDto dto : itemDtoList) {
             InventoryItem inventoryItem = new InventoryItem();
             if (dto.getId() != null) {
                 inventoryItem.setId(dto.getId());
@@ -71,11 +71,11 @@ public class InventoryExtractMapper {
             if (dto.getInventory() == null) {
                 throw new DataNotFoundException("Please Specify Valid InventoryId");
             }
-            Category category = appService.findById(Category.class,dto.getProductCategoryId());
+            Category category = appService.findById(Category.class, dto.getProductCategoryId());
             if (category != null) {
                 inventoryItem.setProductCategory(category);
             }
-            Inventory inventory = appService.findById(Inventory.class,dto.getInventory());
+            Inventory inventory = appService.findById(Inventory.class, dto.getInventory());
             if (inventory != null) {
                 inventoryItem.setInventory(inventory);
             }

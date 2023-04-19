@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class OpenApiConfig {
     @Bean
-    public OpenAPI customOpenApi(){
+    public OpenAPI customOpenApi() {
         return new OpenAPI().components(new Components()).info(new Info()
                 .title("EAM Software - Khoders Technologies")
                 .description("Swagger Configuration for Application")

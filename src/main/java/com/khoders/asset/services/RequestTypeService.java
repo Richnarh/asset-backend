@@ -22,10 +22,10 @@ public class RequestTypeService {
     }
 
     public RequestType findById(String requestTypeId) {
-        return appService.findById(RequestType.class,requestTypeId);
+        return appService.findById(RequestType.class, requestTypeId);
     }
 
     public boolean delete(String requestTypeId) throws Exception {
-        return appService.deleteById(RequestType.class,requestTypeId);
+        return appService.deleteById(RequestType.class, requestTypeId);
     }
 }

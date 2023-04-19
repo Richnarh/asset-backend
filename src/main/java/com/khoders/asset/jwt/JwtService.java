@@ -36,6 +36,7 @@ public class JwtService {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
+
     private Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
@@ -54,12 +55,12 @@ public class JwtService {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)))
-                .setExpiration(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3,ChronoUnit.MINUTES)))
+                .setExpiration(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3, ChronoUnit.MINUTES)))
                 .signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
 
-        public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
@@ -67,7 +68,7 @@ public class JwtService {
     public String generateTokenFromEmailAddress(String emailAddress) {
         return Jwts.builder().setSubject(emailAddress)
                 .setIssuedAt(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)))
-                .setExpiration(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3,ChronoUnit.MINUTES))).signWith(SignatureAlgorithm.HS256, jwtSecret)
+                .setExpiration(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3, ChronoUnit.MINUTES))).signWith(SignatureAlgorithm.HS256, jwtSecret)
                 .compact();
     }
 

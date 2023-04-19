@@ -14,9 +14,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class GLMapper {
-    @Autowired private AppService appService;
+    @Autowired
+    private AppService appService;
 
-    public GeneralLedger toEntity(GLDto dto)throws Exception{
+    public GeneralLedger toEntity(GLDto dto) throws Exception {
         GeneralLedger ledger = new GeneralLedger();
         if (dto.getId() != null) {
             ledger.setId(dto.getId());
@@ -25,7 +26,7 @@ public class GLMapper {
             throw new DataNotFoundException("Specify Valid AccountId");
         }
         Account account = appService.findById(Account.class, dto.getAccountId());
-        if(account != null){
+        if (account != null) {
             ledger.setAccount(account);
         }
         ledger.setCredit(dto.getCredit());
@@ -36,7 +37,7 @@ public class GLMapper {
         return ledger;
     }
 
-    public GLDto toDto(GeneralLedger ledger){
+    public GLDto toDto(GeneralLedger ledger) {
         GLDto dto = new GLDto();
         if (ledger == null) {
             return null;
@@ -46,7 +47,7 @@ public class GLMapper {
         dto.setDescription(ledger.getDescription());
         dto.setEntryDate(DateUtil.parseLocalDateString(ledger.getEntryDate(), Pattern.ddMMyyyy));
         dto.setEntrySource(ledger.getEntrySource().getLabel());
-        if(ledger.getAccount() != null){
+        if (ledger.getAccount() != null) {
             dto.setAccountName(ledger.getAccount().getAccountName());
             dto.setAccountId(ledger.getAccount().getId());
         }

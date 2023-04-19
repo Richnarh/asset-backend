@@ -20,7 +20,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 
 
@@ -28,11 +27,13 @@ import org.springframework.stereotype.Component;
 public class CompanyMapper {
     @Autowired
     private AppService appService;
-    @Autowired private CompanyService companyService;
-    @Autowired private NamedParameterJdbcTemplate jdbc;
-    
+    @Autowired
+    private CompanyService companyService;
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
+
     public CompanyMapper(JndiConfig jndiConfig) {
-    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
     }
 
     public Company toEntity(CompanyDto dto) throws DataNotFoundException {
@@ -47,7 +48,8 @@ public class CompanyMapper {
         company.setWebsite(dto.getWebsite());
         try {
             company.setCompanyType(CompanyType.valueOf(dto.getCompanyType()));
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
 
         if (dto.getPrimaryUserId() == null) {
             throw new DataNotFoundException("Specify Valid User AccountId");
@@ -78,27 +80,27 @@ public class CompanyMapper {
         return dto;
     }
 
-    public Company createCompany(UserAccountDto userAccount)throws Exception{
+    public Company createCompany(UserAccountDto userAccount) throws Exception {
         Company company = new Company();
         MapSqlParameterSource param = new MapSqlParameterSource();
         param.addValue(Company._companyAddress, userAccount.getEmailAddress());
-        
+
         Company newCompany = jdbc.query(Sql.COMPANY_BY_EMAIL, param, new ResultSetExtractor<Company>() {
 
-			@Override
-			public Company extractData(ResultSet rs) throws SQLException, DataAccessException {
-				if(rs.next()) {
-					Company company = new Company();
-					company.setId(rs.getString("id"));
-					company.setCompanyAddress(rs.getString("company_address"));
-					return company;
-				}
-				return null;
-			}
-		});
-        
-        if(newCompany != null){
-            throw new BadDataException("A user with the email: "+userAccount.getEmailAddress()+" already exist");
+            @Override
+            public Company extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs.next()) {
+                    Company company = new Company();
+                    company.setId(rs.getString("id"));
+                    company.setCompanyAddress(rs.getString("company_address"));
+                    return company;
+                }
+                return null;
+            }
+        });
+
+        if (newCompany != null) {
+            throw new BadDataException("A user with the email: " + userAccount.getEmailAddress() + " already exist");
         }
         company.setCompanyType(CompanyType.PARENT_COMPANY);
         company.setCompanyName(userAccount.getCompanyName());

@@ -22,10 +22,10 @@ public class EmployeeService {
     }
 
     public Employee findById(String employeeId) {
-        return appService.findById(Employee.class,employeeId);
+        return appService.findById(Employee.class, employeeId);
     }
 
     public boolean delete(String employeeId) throws Exception {
-        return appService.deleteById(Employee.class,employeeId);
+        return appService.deleteById(Employee.class, employeeId);
     }
 }

@@ -26,7 +26,7 @@ public class RequestTypeController {
     private RequestTypeMapper mapper;
 
     @PostMapping
-    public ResponseEntity<RequestTypeDto> create(@RequestBody RequestTypeDto dto)throws Exception {
+    public ResponseEntity<RequestTypeDto> create(@RequestBody RequestTypeDto dto) throws Exception {
         try {
             RequestType entity = mapper.toEntity(dto);
             RequestType requestType = typeService.save(entity);
@@ -66,8 +66,9 @@ public class RequestTypeController {
             return ApiResponse.error(e.getMessage(), false);
         }
     }
+
     @PutMapping
-    public ResponseEntity<RequestType> update(@RequestBody RequestTypeDto dto) throws Exception{
+    public ResponseEntity<RequestType> update(@RequestBody RequestTypeDto dto) throws Exception {
         try {
             RequestType requestType = typeService.findById(dto.getId());
             if (requestType == null) {

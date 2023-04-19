@@ -11,10 +11,11 @@ public enum SocialMediaType implements MsgResolver {
     private final String code;
     private final String label;
 
-    SocialMediaType(String code, String label){
-        this.code=code;
-        this.label=label;
+    SocialMediaType(String code, String label) {
+        this.code = code;
+        this.label = label;
     }
+
     @Override
     public String getCode() {
         return code;

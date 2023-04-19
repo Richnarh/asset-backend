@@ -28,7 +28,7 @@ public class BusinessClientController {
     private VendorMapper mapper;
 
     @PostMapping
-    public ResponseEntity<BusinessClient> create(@RequestBody BusinessClientDto dto) throws Exception{
+    public ResponseEntity<BusinessClient> create(@RequestBody BusinessClientDto dto) throws Exception {
         try {
             BusinessClient entity = mapper.toEntity(dto);
             BusinessClient businessClient = clientService.save(entity);
@@ -56,7 +56,7 @@ public class BusinessClientController {
     }
 
     @GetMapping("/{businessClientId}")
-    public ResponseEntity<BusinessClient> findSingle(@PathVariable(value = "businessClientId") String businessClientId) throws Exception{
+    public ResponseEntity<BusinessClient> findSingle(@PathVariable(value = "businessClientId") String businessClientId) throws Exception {
         try {
             BusinessClient businessClient = clientService.findById(businessClientId);
             if (businessClient == null) {
@@ -70,7 +70,7 @@ public class BusinessClientController {
     }
 
     @PutMapping
-    public ResponseEntity<BusinessClient> update(@RequestBody BusinessClientDto dto) throws Exception{
+    public ResponseEntity<BusinessClient> update(@RequestBody BusinessClientDto dto) throws Exception {
         try {
             BusinessClient businessClient = clientService.findById(dto.getId());
             if (businessClient == null) {
@@ -89,7 +89,7 @@ public class BusinessClientController {
     }
 
     @DeleteMapping("/{businessClientId}")
-    public ResponseEntity<Object> delete(@PathVariable(value = "businessClientId") String businessClientId) throws Exception{
+    public ResponseEntity<Object> delete(@PathVariable(value = "businessClientId") String businessClientId) throws Exception {
         try {
             if (clientService.delete(businessClientId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {

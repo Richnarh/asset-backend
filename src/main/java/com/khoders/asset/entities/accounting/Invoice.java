@@ -10,7 +10,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "invoices")
-public class Invoice  extends Ref {
+public class Invoice extends Ref {
     @JoinColumn(name = "business_client", referencedColumnName = "id")
     @ManyToOne
     private BusinessClient businessClient;

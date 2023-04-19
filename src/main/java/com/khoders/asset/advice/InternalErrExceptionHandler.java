@@ -13,8 +13,8 @@ import java.util.Date;
 @RestControllerAdvice
 public class InternalErrExceptionHandler {
     @ExceptionHandler(InternalErrException.class)
-    public ResponseEntity<AppError> handleException(InternalErrException ex){
-        AppError error = new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(),new Date(), ex.getMessage());
+    public ResponseEntity<AppError> handleException(InternalErrException ex) {
+        AppError error = new AppError(HttpStatus.INTERNAL_SERVER_ERROR.value(), new Date(), ex.getMessage());
         return ApiResponse.error(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

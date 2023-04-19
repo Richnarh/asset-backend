@@ -1,4 +1,5 @@
 package com.khoders.asset.entities;
+
 import javax.persistence.*;
 
 @Entity
@@ -6,11 +7,11 @@ import javax.persistence.*;
 public class InventoryItem extends Ref {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Column(name = "product_name")
+    @Column(name = "product_name")
     private String productName;
 
     @JoinColumn(name = "category", referencedColumnName = "id")

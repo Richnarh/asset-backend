@@ -15,7 +15,7 @@ public class JournalMapper {
     @Autowired
     private AppService appService;
 
-    public Journal toEntity(JournalDto dto)throws Exception{
+    public Journal toEntity(JournalDto dto) throws Exception {
         Journal journal = new Journal();
         if (dto.getId() != null) {
             journal.setId(dto.getId());
@@ -24,7 +24,7 @@ public class JournalMapper {
             throw new DataNotFoundException("Specify Valid AccountId");
         }
         Account account = appService.findById(Account.class, dto.getAccountId());
-        if(account != null){
+        if (account != null) {
             journal.setAccount(account);
         }
         journal.setAmount(dto.getAmount());
@@ -33,18 +33,19 @@ public class JournalMapper {
         journal.setDescription(dto.getDescription());
         try {
             journal.setDebitCredit(DebitCredit.valueOf(dto.getDebitCredit()));
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
 
         return journal;
     }
 
-    public JournalDto toDto(Journal journal){
+    public JournalDto toDto(Journal journal) {
         JournalDto dto = new JournalDto();
         if (journal == null) {
             return null;
         }
         dto.setId(journal.getId());
-        if(journal.getAccount() != null) {
+        if (journal.getAccount() != null) {
             dto.setAccountName(journal.getAccount().getAccountName());
             dto.setAccountId(journal.getAccount().getId());
         }

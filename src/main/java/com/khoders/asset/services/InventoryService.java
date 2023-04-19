@@ -22,62 +22,67 @@ import com.khoders.springapi.AppService;
 
 @Service
 public class InventoryService {
-    @Autowired private AppService appService;
-    @Autowired private InventoryExtractMapper extractMapper;
-    @Autowired private NamedParameterJdbcTemplate jdbc;
-    
     @Autowired
-    public InventoryService(JndiConfig jndiConfig) {
-    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-    }
-    
-    public InventoryDto saveInventory(InventoryDto dto)throws Exception{
-        if (dto.getId() != null){
+    private AppService appService;
+    @Autowired
+    private InventoryExtractMapper extractMapper;
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
+
+//    @Autowired
+//    public InventoryService(JndiConfig jndiConfig) {
+//        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+//    }
+
+    public InventoryDto saveInventory(InventoryDto dto) throws Exception {
+        if (dto.getId() != null) {
             Inventory inventory = appService.findById(Inventory.class, dto.getId());
-            if (inventory == null){
-                throw new DataNotFoundException("Inventory with ID: "+ dto.getId() +" Not Found");
+            if (inventory == null) {
+                throw new DataNotFoundException("Inventory with ID: " + dto.getId() + " Not Found");
             }
         }
         Inventory inventory = extractMapper.toEntity(dto);
-        if (appService.save(inventory) != null){
-            for(InventoryItem inventoryItem: inventory.getInventoryItemList()){
+        if (appService.save(inventory) != null) {
+            for (InventoryItem inventoryItem : inventory.getInventoryItemList()) {
                 inventoryItem.setInventory(inventory);
                 appService.save(inventoryItem);
             }
         }
         return extractMapper.toDto(inventory);
     }
-    public List<InventoryDto> inventoryList(){
+
+    public List<InventoryDto> inventoryList() {
         List<InventoryItem> inventoryItemList;
         List<InventoryDto> dtoList = new LinkedList<>();
 
         List<Inventory> inventoryList = appService.findAll(Inventory.class);
-        if (inventoryList != null && !inventoryList.isEmpty()){
-        	
+        if (inventoryList != null && !inventoryList.isEmpty()) {
+
             try {
-                for (Inventory inventory:inventoryList){
-                	SqlParameterSource param = new MapSqlParameterSource(InventoryItem._inventoryId, inventory.getId());
-                	inventoryItemList = jdbc.query(Sql.INVENTORYITEM_INV_ID, param, BeanPropertyRowMapper.newInstance(InventoryItem.class));
+                for (Inventory inventory : inventoryList) {
+                    SqlParameterSource param = new MapSqlParameterSource(InventoryItem._inventoryId, inventory.getId());
+                    inventoryItemList = jdbc.query(Sql.INVENTORY_ITEM_INV_ID, param, BeanPropertyRowMapper.newInstance(InventoryItem.class));
                     inventory.setInventoryItemList(inventoryItemList);
                     inventoryList = new LinkedList<>();
                     inventoryList.add(inventory);
                 }
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-            for (Inventory inventory : inventoryList){
+            for (Inventory inventory : inventoryList) {
                 dtoList.add(extractMapper.toDto(inventory));
             }
             return dtoList;
         }
         return Collections.emptyList();
     }
-    public InventoryDto findById(String inventoryId){
+
+    public InventoryDto findById(String inventoryId) {
         List<InventoryItem> inventoryItemList = new LinkedList<>();
         Inventory inventory = appService.findById(Inventory.class, inventoryId);
-        if (inventory != null){
-        	SqlParameterSource param = new MapSqlParameterSource(InventoryItem._inventoryId, inventory.getId());
-        	inventoryItemList = jdbc.query(Sql.INVENTORYITEM_INV_ID, param, BeanPropertyRowMapper.newInstance(InventoryItem.class));
+        if (inventory != null) {
+            SqlParameterSource param = new MapSqlParameterSource(InventoryItem._inventoryId, inventory.getId());
+            inventoryItemList = jdbc.query(Sql.INVENTORY_ITEM_INV_ID, param, BeanPropertyRowMapper.newInstance(InventoryItem.class));
             inventory.setInventoryItemList(inventoryItemList);
             return extractMapper.toDto(inventory);
         }

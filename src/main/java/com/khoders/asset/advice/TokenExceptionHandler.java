@@ -14,7 +14,7 @@ import java.util.Date;
 public class TokenExceptionHandler {
     @ExceptionHandler(value = TokenRefreshException.class)
     public ResponseEntity<AppError> handleTokenRefreshException(TokenRefreshException ex) {
-        AppError error =  new AppError(
+        AppError error = new AppError(
                 HttpStatus.FORBIDDEN.value(),
                 new Date(),
                 ex.getMessage());

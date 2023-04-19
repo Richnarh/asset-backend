@@ -16,7 +16,7 @@ public class AssetTransferMapper {
     @Autowired
     private AppService appService;
 
-    public AssetTransfer toEntity(AssetTransferDto dto) throws Exception{
+    public AssetTransfer toEntity(AssetTransferDto dto) throws Exception {
         AssetTransfer assetTransfer = new AssetTransfer();
         if (dto.getId() != null) {
             assetTransfer.setId(dto.getId());

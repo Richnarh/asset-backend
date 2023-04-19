@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.transaction.Transactional;
 import javax.ws.rs.BadRequestException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.khoders.asset.Repository.UserRepository;
+import com.khoders.asset.repository.UserRepository;
 import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.dto.Sql;
@@ -42,23 +41,30 @@ import com.khoders.resource.utilities.Pattern;
 import com.khoders.springapi.AppService;
 
 @Service
-@Transactional
 public class AuthService implements UserDetailsService {
-    @Autowired private AppService appService;
-    @Autowired private UserRepository repository;
-    @Autowired private RefreshTokenService refreshTokenService;
-    @Autowired private CompanyMapper companyMapper;
-    @Autowired private AuthMapper authMapper;
-    @Autowired private JwtService jwtService;
-    @Autowired private NamedParameterJdbcTemplate jdbc;
-
-    AuthService(){}
-    
     @Autowired
-    public AuthService(JndiConfig jndiConfig) {
-    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+    private AppService appService;
+    @Autowired
+    private UserRepository repository;
+    @Autowired
+    private RefreshTokenService refreshTokenService;
+    @Autowired
+    private CompanyMapper companyMapper;
+    @Autowired
+    private AuthMapper authMapper;
+    @Autowired
+    private JwtService jwtService;
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
+
+    AuthService() {
     }
-    
+
+//    @Autowired
+//    public AuthService(JndiConfig jndiConfig) {
+//        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+//    }
+
     @Override
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
         UserAccount user = repository.findByEmailAddress(emailAddress).orElseThrow(() -> new UsernameNotFoundException("User Not Found with emailAddress: " + emailAddress));
@@ -69,14 +75,14 @@ public class AuthService implements UserDetailsService {
         Company company = companyMapper.createCompany(dto);
         UserAccount userAccount = authMapper.createAccount(dto);
         userAccount.setCompany(company);
-        if(appService.save(userAccount) != null){
+        if (appService.save(userAccount) != null) {
             company.setPrimaryUser(userAccount);
             appService.save(company);
         }
-        System.out.println("userAccount -- "+userAccount.getEmailAddress());
+        System.out.println("userAccount -- " + userAccount.getEmailAddress());
         String jwtToken = jwtService.generateToken(userAccount.getEmailAddress());
 
-        return toJwt(userAccount,jwtToken);
+        return toJwt(userAccount, jwtToken);
     }
 
     public UserAccount findById(String id) {
@@ -84,35 +90,34 @@ public class AuthService implements UserDetailsService {
     }
 
     public UserAccount doLogin(LoginRequest dto) {
-    	MapSqlParameterSource params = new MapSqlParameterSource();
+        MapSqlParameterSource params = new MapSqlParameterSource();
         params.addValue(UserAccount._emailAddress, dto.getEmailAddress());
         params.addValue(UserAccount._password, dto.getPassword());
-        UserAccount userAccount = jdbc.query(Sql.INVOICEITEM_BY_INVOICE_ID, params, new ResultSetExtractor<UserAccount>() {
+        return jdbc.query(Sql.INVOICE_ITEM_BY_INVOICE_ID, params, new ResultSetExtractor<UserAccount>() {
 
-			@Override
-			public UserAccount extractData(ResultSet rs) throws SQLException, DataAccessException {
-				if(rs.next()) {
-					UserAccount account = new UserAccount();
-					account.setId(rs.getString("id"));
-					account.setEmailAddress(rs.getString("email_address"));
-					account.setPrimaryNumber("primary_number");
-					return account;
-				}
-				return null;
-			}
-        	
-		});
-        return userAccount;
+            @Override
+            public UserAccount extractData(ResultSet rs) throws SQLException, DataAccessException {
+                if (rs.next()) {
+                    UserAccount account = new UserAccount();
+                    account.setId(rs.getString("id"));
+                    account.setEmailAddress(rs.getString("email_address"));
+                    account.setPrimaryNumber("primary_number");
+                    return account;
+                }
+                return null;
+            }
+
+        });
     }
 
-    public JwtResponse toJwt(UserAccount userAccount, String jwtToken){
+    public JwtResponse toJwt(UserAccount userAccount, String jwtToken) {
         JwtResponse jwtResponse = new JwtResponse();
 
-        if (userAccount == null){
+        if (userAccount == null) {
             throw new BadRequestException("Something went wrong with the system, Contact Developer with server log");
         }
         Set<RoleDto> roles = new HashSet<>();
-        userAccount.getRoles().forEach(item ->{
+        userAccount.getRoles().forEach(item -> {
             RoleDto dto = new RoleDto();
             dto.setId(item.getId());
             dto.setRoleName(item.getRoleName().name());
@@ -121,7 +126,7 @@ public class AuthService implements UserDetailsService {
 
         List<Company> companies = companies(userAccount);
         List<CompanyDto> companyList = new LinkedList<>();
-        for (Company company:companies){
+        for (Company company : companies) {
             CompanyDto dto = new CompanyDto();
             dto.setId(company.getId());
             dto.setCompanyName(company.getCompanyName());
@@ -142,18 +147,17 @@ public class AuthService implements UserDetailsService {
         return jwtResponse;
     }
 
-    public List<Company> companies(UserAccount userAccount){
-    	SqlParameterSource param = new MapSqlParameterSource(Company._primaryUserId, userAccount.getId());
-    	List<Company> companies = jdbc.query(Sql.COMPANY_BY_USERID, param, new RowMapper<Company>() {
+    public List<Company> companies(UserAccount userAccount) {
+        SqlParameterSource param = new MapSqlParameterSource(Company._primaryUserId, userAccount.getId());
+        return jdbc.query(Sql.COMPANY_BY_USER_ID, param, new RowMapper<Company>() {
 
-			@Override
-			public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
-				Company company = new Company();
-				company.setId(rs.getString("id"));
-				company.setCompanyAddress("company_address");
-				return company;
-			}
-		});
-    	return companies;
+            @Override
+            public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Company company = new Company();
+                company.setId(rs.getString("id"));
+                company.setCompanyAddress("company_address");
+                return company;
+            }
+        });
     }
 }

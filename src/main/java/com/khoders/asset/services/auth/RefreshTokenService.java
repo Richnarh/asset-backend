@@ -1,7 +1,7 @@
 package com.khoders.asset.services.auth;
 
-import com.khoders.asset.Repository.RefreshTokenRepository;
-import com.khoders.asset.Repository.UserRepository;
+import com.khoders.asset.repository.RefreshTokenRepository;
+import com.khoders.asset.repository.UserRepository;
 import com.khoders.asset.entities.auth.RefreshToken;
 import com.khoders.asset.entities.auth.UserAccount;
 import com.khoders.asset.exceptions.TokenRefreshException;
@@ -35,7 +35,7 @@ public class RefreshTokenService {
         RefreshToken refreshToken = new RefreshToken();
         refreshToken.setUserAccount(appService.findById(UserAccount.class, userId));
         refreshToken.setIssuedAt(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS)));
-        refreshToken.setExpiryDate(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3,ChronoUnit.MINUTES)));
+        refreshToken.setExpiryDate(Date.from(Instant.now().truncatedTo(ChronoUnit.SECONDS).plus(3, ChronoUnit.MINUTES)));
         refreshToken.setToken(appService.genId());
 
         refreshToken = appService.save(refreshToken);

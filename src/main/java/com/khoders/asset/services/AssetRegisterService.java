@@ -26,10 +26,10 @@ public class AssetRegisterService {
     }
 
     public Asset findById(String assetId) {
-        return appService.findById(Asset.class,assetId);
+        return appService.findById(Asset.class, assetId);
     }
 
     public boolean delete(String assetId) throws Exception {
-        return appService.deleteById(Asset.class,assetId);
+        return appService.deleteById(Asset.class, assetId);
     }
 }

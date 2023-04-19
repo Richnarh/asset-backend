@@ -34,7 +34,7 @@ public class AuthController {
     private JwtService jwtService;
 
     @PostMapping("/signup")
-    public ResponseEntity<JwtResponse> signup(@RequestBody UserAccountDto dto) throws Exception{
+    public ResponseEntity<JwtResponse> signup(@RequestBody UserAccountDto dto) throws Exception {
         try {
             JwtResponse user = authService.save(dto);
             if (user == null) {
@@ -48,15 +48,15 @@ public class AuthController {
     }
 
     @PostMapping(value = "/login")
-    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest)throws Exception {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) throws Exception {
         try {
             return ApiResponse.ok("Login success", mapper.toJwtResponse(loginRequest));
         } catch (Exception e) {
             throw new InterruptedException(e.getMessage());
         }
     }
-    
-    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest refreshRequest){
+
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody TokenRefreshRequest refreshRequest) {
         String requestRefreshToken = refreshRequest.getRefreshToken();
         return refreshTokenService.findByToken(requestRefreshToken)
                 .map(refreshTokenService::verifyExpiration)
@@ -71,7 +71,7 @@ public class AuthController {
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @GetMapping(value = "/{userId}")
-    public ResponseEntity<UserAccount> findUser(@PathVariable(value = "userId") String userId) throws Exception{
+    public ResponseEntity<UserAccount> findUser(@PathVariable(value = "userId") String userId) throws Exception {
         try {
             UserAccount user = authService.findById(userId);
             if (user == null) {

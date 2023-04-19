@@ -16,7 +16,7 @@ public class AssetRequestApprovalMapper {
     @Autowired
     private AppService appService;
 
-    public AssetRequestApproval toEntity(AssetRequestApprovalDto dto) throws Exception{
+    public AssetRequestApproval toEntity(AssetRequestApprovalDto dto) throws Exception {
         AssetRequestApproval requestApproval = new AssetRequestApproval();
         if (dto.getId() != null) {
             requestApproval.setId(dto.getId());

@@ -17,32 +17,37 @@ import java.util.List;
 @Tag(name = "Occurrence - Endpoint")
 @RequestMapping(ApiEndpoint.OCCURRENCE_ENDPOINT)
 public class OccurrenceController {
-    @Autowired private OccurrenceService occurrenceService;
+    @Autowired
+    private OccurrenceService occurrenceService;
 
     @PostMapping
     public ResponseEntity<OccurrenceDto> save(@RequestBody OccurrenceDto dto) throws Exception {
         return ApiResponse.created(Msg.CREATED, occurrenceService.toEntity(dto));
     }
+
     @PutMapping
     public ResponseEntity<OccurrenceDto> update(@RequestBody OccurrenceDto dto) throws Exception {
         return ApiResponse.ok(Msg.UPDATED, occurrenceService.toEntity(dto).getId());
     }
+
     @GetMapping("/list")
-    public ResponseEntity<List<OccurrenceDto>> list(){
+    public ResponseEntity<List<OccurrenceDto>> list() {
         List<OccurrenceDto> dtoList = occurrenceService.occurrenceList();
 
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
+
     @GetMapping("/{occurrenceId}")
-    public ResponseEntity<OccurrenceDto> findById(@PathVariable("occurrenceId") String occurrenceId){
+    public ResponseEntity<OccurrenceDto> findById(@PathVariable("occurrenceId") String occurrenceId) {
         OccurrenceDto dto = occurrenceService.findById(occurrenceId);
-        if (dto == null){
+        if (dto == null) {
             ApiResponse.ok(Msg.RECORD_NOT_FOUND, null);
         }
         return ApiResponse.ok(Msg.RECORD_FOUND, dto);
     }
+
     @DeleteMapping("/{occurrenceId}")
-    public ResponseEntity<?> delete(@PathVariable("occurrenceId") String occurrenceId){
+    public ResponseEntity<?> delete(@PathVariable("occurrenceId") String occurrenceId) {
         try {
             if (occurrenceService.delete(occurrenceId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {

@@ -27,7 +27,7 @@ public class AssetTransferController {
     private AssetTransferMapper mapper;
 
     @PostMapping
-    public ResponseEntity<AssetTransfer> createAssetTransfer(@RequestBody AssetTransferDto dto) throws Exception{
+    public ResponseEntity<AssetTransfer> createAssetTransfer(@RequestBody AssetTransferDto dto) throws Exception {
         try {
             AssetTransfer entity = mapper.toEntity(dto);
             AssetTransfer assetTransfer = transferService.saveTransfer(entity);
@@ -61,7 +61,7 @@ public class AssetTransferController {
     }
 
     @GetMapping("/{transferId}")
-    public ResponseEntity<AssetTransfer> findTransfer(@PathVariable(value = "transferId") String transferId) throws Exception{
+    public ResponseEntity<AssetTransfer> findTransfer(@PathVariable(value = "transferId") String transferId) throws Exception {
         try {
             AssetTransfer transfer = transferService.findById(transferId);
             if (transfer == null) {
@@ -88,7 +88,7 @@ public class AssetTransferController {
     }
 
     @DeleteMapping("/delete/{transferId}")
-    public ResponseEntity<Object> delete(@PathVariable(value = "transferId") String transferId)throws Exception {
+    public ResponseEntity<Object> delete(@PathVariable(value = "transferId") String transferId) throws Exception {
         try {
             if (transferService.delete(transferId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {

@@ -18,30 +18,33 @@ public class JournalService {
     private AppService appService;
     private JournalMapper journalMapper;
 
-    public JournalDto save(JournalDto dto)throws Exception{
-        if (dto.getId() != null){
+    public JournalDto save(JournalDto dto) throws Exception {
+        if (dto.getId() != null) {
             Journal journal = appService.findById(Journal.class, dto.getId());
-            if (journal == null){
-                throw new DataNotFoundException("Journal with ID: "+ dto.getId() +" Not Found");
+            if (journal == null) {
+                throw new DataNotFoundException("Journal with ID: " + dto.getId() + " Not Found");
             }
         }
-        Journal  journal = journalMapper.toEntity(dto);
-        if (appService.save(journal) != null){
+        Journal journal = journalMapper.toEntity(dto);
+        if (appService.save(journal) != null) {
             return journalMapper.toDto(journal);
         }
         return null;
     }
-    public List<JournalDto> journalList(){
+
+    public List<JournalDto> journalList() {
         List<JournalDto> dtoList = new LinkedList<>();
         List<Journal> journalList = appService.findAll(Journal.class);
-        for (Journal journal:journalList){
+        for (Journal journal : journalList) {
             dtoList.add(journalMapper.toDto(journal));
         }
         return dtoList;
     }
-    public JournalDto findById(String journalId){
+
+    public JournalDto findById(String journalId) {
         return journalMapper.toDto(appService.findById(Journal.class, journalId));
     }
+
     public boolean delete(String journalId) throws Exception {
         return appService.deleteById(Journal.class, journalId);
     }

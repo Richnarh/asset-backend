@@ -7,16 +7,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class RequestTypeMapper {
 
-    public RequestType toEntity(RequestTypeDto dto){
+    public RequestType toEntity(RequestTypeDto dto) {
         RequestType requestType = new RequestType();
-        if (dto.getId() != null){
+        if (dto.getId() != null) {
             requestType.setId(dto.getId());
         }
         requestType.setRequestName(dto.getRequestName());
         requestType.setDescription(dto.getDescription());
         return requestType;
     }
-    public RequestTypeDto toDto(RequestType requestType){
+
+    public RequestTypeDto toDto(RequestType requestType) {
         RequestTypeDto dto = new RequestTypeDto();
         if (requestType.getId() == null) return null;
         dto.setId(requestType.getId());

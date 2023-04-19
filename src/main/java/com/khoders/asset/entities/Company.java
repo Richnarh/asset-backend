@@ -10,7 +10,11 @@ import javax.persistence.*;
 @Table(name = "company")
 public class Company extends SpringBaseModel {
 
-    public static final String _companyName="companyName";
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    public static final String _companyName = "companyName";
     @Column(name = "company_name")
     private String companyName;
 
@@ -30,7 +34,7 @@ public class Company extends SpringBaseModel {
     @Column(name = "zipcode")
     private String zipCode;
 
-    public static final String _companyAddress="companyAddress";
+    public static final String _companyAddress = "companyAddress";
     @Column(name = "company_address")
     private String companyAddress;
 

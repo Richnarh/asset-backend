@@ -17,39 +17,43 @@ import java.util.List;
 public class StartWorkService {
     @Autowired
     private AppService appService;
-    @Autowired private StartWorkMapper startWorkMapper;
+    @Autowired
+    private StartWorkMapper startWorkMapper;
 
-    public StartWorkDto toEntity(StartWorkDto dto)throws Exception{
-        if (dto.getId() != null){
+    public StartWorkDto toEntity(StartWorkDto dto) throws Exception {
+        if (dto.getId() != null) {
             StartWork startWork = appService.findById(StartWork.class, dto.getId());
-            if (startWork == null){
-                throw new DataNotFoundException("StartWork with ID: "+ dto.getId() +" Not Found");
+            if (startWork == null) {
+                throw new DataNotFoundException("StartWork with ID: " + dto.getId() + " Not Found");
             }
         }
         StartWork startWork = startWorkMapper.toEntity(dto);
-        if (appService.save(startWork) != null){
+        if (appService.save(startWork) != null) {
             return startWorkMapper.toDto(startWork);
         }
         return null;
     }
+
     public List<StartWorkDto> startWorkList() throws Exception {
         List<StartWorkDto> dtoList = new LinkedList<>();
         List<StartWork> startWorkList = appService.findAll(StartWork.class);
-        if (startWorkList.isEmpty()){
+        if (startWorkList.isEmpty()) {
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
         }
-        for (StartWork startWork:startWorkList){
+        for (StartWork startWork : startWorkList) {
             dtoList.add(startWorkMapper.toDto(startWork));
         }
         return dtoList;
     }
-    public StartWorkDto findById(String startWorkId)throws Exception{
+
+    public StartWorkDto findById(String startWorkId) throws Exception {
         StartWork startWork = appService.findById(StartWork.class, startWorkId);
-        if (startWork == null){
+        if (startWork == null) {
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
         }
         return startWorkMapper.toDto(startWork);
     }
+
     public boolean delete(String startWorkId) throws Exception {
         return appService.deleteById(StartWork.class, startWorkId);
     }

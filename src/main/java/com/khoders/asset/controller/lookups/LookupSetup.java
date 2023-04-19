@@ -15,6 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import static org.slf4j.LoggerFactory.getLogger;
+
 @Component
 public class LookupSetup {
     @Autowired
@@ -22,10 +23,10 @@ public class LookupSetup {
 
     private static final Logger log = getLogger(LookupSetup.class);
 
-    public static <E extends Enum<E>> List<LookupItem> PrepareEnum(E[] eEnum){
+    public static <E extends Enum<E>> List<LookupItem> PrepareEnum(E[] eEnum) {
         List<LookupItem> dtoList = new LinkedList<>();
-        for (int i=0; i <= Arrays.asList(eEnum).size() - 1; i++){
-            log.info("Index: {}  --- Enum: {} ",i,eEnum[i]);
+        for (int i = 0; i <= Arrays.asList(eEnum).size() - 1; i++) {
+            log.info("Index: {}  --- Enum: {} ", i, eEnum[i]);
             LookupItem item = new LookupItem();
             item.setId(eEnum[i].name());
             item.setItemName(eEnum[i].toString());
@@ -33,59 +34,65 @@ public class LookupSetup {
         }
         return dtoList;
     }
-    public List<LookupItem> categories(){
+
+    public List<LookupItem> categories() {
         List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(Category.class).forEach(category ->{
+        appService.findAll(Category.class).forEach(category -> {
             LookupItem item = new LookupItem();
-                item.setId(category.getId());
-                item.setItemName(category.getCategoryName());
-                itemList.add(item);
-            });
-        return itemList;
-    }
-    public List<LookupItem> department(){
-        List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(Department.class).forEach(data ->{
-            LookupItem item = new LookupItem();
-                item.setId(data.getId());
-                item.setItemName(data.getDepartmentName());
-                itemList.add(item);
-            });
-        return itemList;
-    }
-    public List<LookupItem> location(){
-        List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(Location.class).forEach(data ->{
-            LookupItem item = new LookupItem();
-                item.setId(data.getId());
-                item.setItemName(data.getLocationName());
-                itemList.add(item);
-            });
-        return itemList;
-    }
-    public List<LookupItem> employees(){
-        List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(Employee.class).forEach(data ->{
-            LookupItem item = new LookupItem();
-                item.setId(data.getId());
-                item.setItemName(data.getFirstName() +" "+data.getSurname());
-                itemList.add(item);
-            });
-        return itemList;
-    }
-    public List<LookupItem> businessClient(){
-        List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(BusinessClient.class).forEach(data ->{
-            LookupItem item = new LookupItem();
-            item.setId(data.getId());
-            item.setItemName(data.getFirstname() +" "+data.getLastname());
+            item.setId(category.getId());
+            item.setItemName(category.getCategoryName());
             itemList.add(item);
         });
         return itemList;
     }
-    public List<LookupItem> invoiceType(){
+
+    public List<LookupItem> department() {
         List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(InvoiceType.class).forEach(data ->{
+        appService.findAll(Department.class).forEach(data -> {
+            LookupItem item = new LookupItem();
+            item.setId(data.getId());
+            item.setItemName(data.getDepartmentName());
+            itemList.add(item);
+        });
+        return itemList;
+    }
+
+    public List<LookupItem> location() {
+        List<LookupItem> itemList = new LinkedList<>();
+        appService.findAll(Location.class).forEach(data -> {
+            LookupItem item = new LookupItem();
+            item.setId(data.getId());
+            item.setItemName(data.getLocationName());
+            itemList.add(item);
+        });
+        return itemList;
+    }
+
+    public List<LookupItem> employees() {
+        List<LookupItem> itemList = new LinkedList<>();
+        appService.findAll(Employee.class).forEach(data -> {
+            LookupItem item = new LookupItem();
+            item.setId(data.getId());
+            item.setItemName(data.getFirstName() + " " + data.getSurname());
+            itemList.add(item);
+        });
+        return itemList;
+    }
+
+    public List<LookupItem> businessClient() {
+        List<LookupItem> itemList = new LinkedList<>();
+        appService.findAll(BusinessClient.class).forEach(data -> {
+            LookupItem item = new LookupItem();
+            item.setId(data.getId());
+            item.setItemName(data.getFirstname() + " " + data.getLastname());
+            itemList.add(item);
+        });
+        return itemList;
+    }
+
+    public List<LookupItem> invoiceType() {
+        List<LookupItem> itemList = new LinkedList<>();
+        appService.findAll(InvoiceType.class).forEach(data -> {
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getTypeName());
@@ -93,9 +100,10 @@ public class LookupSetup {
         });
         return itemList;
     }
-    public List<LookupItem> requestType(){
+
+    public List<LookupItem> requestType() {
         List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(RequestType.class).forEach(data ->{
+        appService.findAll(RequestType.class).forEach(data -> {
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getRequestName());
@@ -103,9 +111,10 @@ public class LookupSetup {
         });
         return itemList;
     }
-    public List<LookupItem> companies(){
+
+    public List<LookupItem> companies() {
         List<LookupItem> itemList = new LinkedList<>();
-        appService.findAll(Company.class).forEach(data ->{
+        appService.findAll(Company.class).forEach(data -> {
             LookupItem item = new LookupItem();
             item.setId(data.getId());
             item.setItemName(data.getCompanyName());

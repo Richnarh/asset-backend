@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class AssetRequestApprovalService {
     @Autowired
@@ -21,10 +22,10 @@ public class AssetRequestApprovalService {
     }
 
     public AssetRequestApproval findById(String requestApprovalId) {
-        return appService.findById(AssetRequestApproval.class,requestApprovalId);
+        return appService.findById(AssetRequestApproval.class, requestApprovalId);
     }
 
     public boolean delete(String requestApprovalId) throws Exception {
-        return appService.deleteById(AssetRequestApproval.class,requestApprovalId);
+        return appService.deleteById(AssetRequestApproval.class, requestApprovalId);
     }
 }

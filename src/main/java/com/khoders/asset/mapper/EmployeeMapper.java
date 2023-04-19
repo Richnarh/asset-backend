@@ -19,7 +19,7 @@ public class EmployeeMapper {
     @Autowired
     private AppService appService;
 
-    public Employee toEntity(EmployeeDto dto) throws Exception{
+    public Employee toEntity(EmployeeDto dto) throws Exception {
         Employee employee = new Employee();
         if (dto.getId() != null) {
             employee.setId(dto.getId());

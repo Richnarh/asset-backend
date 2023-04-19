@@ -25,25 +25,28 @@ import com.khoders.springapi.AppService;
 @Transactional
 @Service
 public class InvoiceService {
-    @Autowired private AppService appService;
-    @Autowired private InvoiceExtractMapper extractMapper;
-    @Autowired private NamedParameterJdbcTemplate jdbc;
-    
+    @Autowired
+    private AppService appService;
+    @Autowired
+    private InvoiceExtractMapper extractMapper;
+    @Autowired
+    private NamedParameterJdbcTemplate jdbc;
+
     @Autowired
     public InvoiceService(JndiConfig jndiConfig) {
-    	this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
+        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
     }
-    
-    public InvoiceDto saveInvoice(InvoiceDto dto)throws Exception{
-        if (dto.getId() != null){
+
+    public InvoiceDto saveInvoice(InvoiceDto dto) throws Exception {
+        if (dto.getId() != null) {
             Invoice invoice = appService.findById(Invoice.class, dto.getId());
-            if (invoice == null){
-                throw new DataNotFoundException("Invoice with ID: "+ dto.getId() +" Not Found");
+            if (invoice == null) {
+                throw new DataNotFoundException("Invoice with ID: " + dto.getId() + " Not Found");
             }
         }
         Invoice invoice = extractMapper.toEntity(dto);
-        if (appService.save(invoice) != null){
-            for(InvoiceItem invoiceItem: invoice.getInvoiceItemList()){
+        if (appService.save(invoice) != null) {
+            for (InvoiceItem invoiceItem : invoice.getInvoiceItemList()) {
                 invoiceItem.setInvoice(invoice);
                 appService.save(invoiceItem);
             }
@@ -55,34 +58,34 @@ public class InvoiceService {
         List<InvoiceItem> invoiceItemList;
         List<InvoiceDto> dtoList = new LinkedList<>();
         List<Invoice> invoiceList = appService.findAll(Invoice.class);
-        if (invoiceList.isEmpty()){
+        if (invoiceList.isEmpty()) {
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
         }
-        for (Invoice invoice:invoiceList){
-        	SqlParameterSource param = new MapSqlParameterSource(InvoiceItem._invoiceId, invoice.getId());
-        	invoiceItemList = jdbc.query(Sql.INVOICEITEM_BY_INVOICE_ID, param, BeanPropertyRowMapper.newInstance(InvoiceItem.class));
+        for (Invoice invoice : invoiceList) {
+            SqlParameterSource param = new MapSqlParameterSource(InvoiceItem._invoiceId, invoice.getId());
+            invoiceItemList = jdbc.query(Sql.INVOICE_ITEM_BY_INVOICE_ID, param, BeanPropertyRowMapper.newInstance(InvoiceItem.class));
             invoice.setInvoiceItemList(invoiceItemList);
             invoiceList = new LinkedList<>();
             invoiceList.add(invoice);
         }
-        for (Invoice invoice:invoiceList){
+        for (Invoice invoice : invoiceList) {
             dtoList.add(extractMapper.toDto(invoice));
         }
         return dtoList;
     }
 
-    public InvoiceDto findById(String invoiceId)throws Exception{
+    public InvoiceDto findById(String invoiceId) throws Exception {
         List<InvoiceItem> invoiceItemList;
         Invoice invoice = appService.findById(Invoice.class, invoiceId);
-        if (invoice == null){
+        if (invoice == null) {
             throw new DataNotFoundException(Msg.RECORD_NOT_FOUND);
         }
         SqlParameterSource param = new MapSqlParameterSource(InvoiceItem._invoiceId, invoice.getId());
-    	invoiceItemList = jdbc.query(Sql.INVOICEITEM_BY_INVOICE_ID, param, BeanPropertyRowMapper.newInstance(InvoiceItem.class));
+        invoiceItemList = jdbc.query(Sql.INVOICE_ITEM_BY_INVOICE_ID, param, BeanPropertyRowMapper.newInstance(InvoiceItem.class));
         invoice.setInvoiceItemList(invoiceItemList);
         return extractMapper.toDto(invoice);
     }
-    
+
     public boolean delete(String invoiceId) throws Exception {
         return appService.deleteById(Invoice.class, invoiceId);
     }

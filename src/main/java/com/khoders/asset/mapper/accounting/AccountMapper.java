@@ -9,15 +9,15 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountMapper {
 
-    public Account toEntity(AccountDto dto){
+    public Account toEntity(AccountDto dto) {
         Account account = new Account();
-        if (dto.getId() != null){
+        if (dto.getId() != null) {
             account.setId(dto.getId());
         }
         account.setAccountCode(dto.getAccountCode());
         account.setAccountName(dto.getAccountName());
         account.setDescription(dto.getDescription());
-        if (dto.isSubAccount()){
+        if (dto.isSubAccount()) {
             account.setParentAccount(dto.getAccountName());
         }
         try {
@@ -27,7 +27,7 @@ public class AccountMapper {
         return account;
     }
 
-    public AccountDto tDto(Account account){
+    public AccountDto tDto(Account account) {
         AccountDto dto = new AccountDto();
         if (account.getId() == null) return null;
         dto.setId(account.getId());

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -24,10 +25,10 @@ public class CompanyService {
     }
 
     public Company findById(String companyId) {
-        return appService.findById(Company.class,companyId);
+        return appService.findById(Company.class, companyId);
     }
 
     public boolean delete(String companyId) throws Exception {
-    	return appService.deleteById(Company.class, companyId);
+        return appService.deleteById(Company.class, companyId);
     }
 }

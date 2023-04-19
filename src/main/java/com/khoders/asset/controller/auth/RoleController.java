@@ -28,7 +28,7 @@ public class RoleController {
     private RoleMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Role> create(@Valid @RequestBody RoleDto dto) throws Exception{
+    public ResponseEntity<Role> create(@Valid @RequestBody RoleDto dto) throws Exception {
         try {
             Role entity = mapper.toEntity(dto);
             Role role = roleService.save(entity);
@@ -70,7 +70,7 @@ public class RoleController {
     }
 
     @PutMapping
-    public ResponseEntity<Role> update(@RequestBody RoleDto dto)throws Exception {
+    public ResponseEntity<Role> update(@RequestBody RoleDto dto) throws Exception {
         try {
             Role role = roleService.findById(dto.getId());
             if (role == null) {
@@ -84,7 +84,7 @@ public class RoleController {
             return ApiResponse.ok(Msg.UPDATED, mapper.toDto(userRole));
         } catch (Exception e) {
             e.printStackTrace();
-           throw new InterruptedException(e.getMessage());
+            throw new InterruptedException(e.getMessage());
         }
     }
 

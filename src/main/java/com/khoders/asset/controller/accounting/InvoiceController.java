@@ -18,7 +18,8 @@ import java.util.List;
 @Tag(name = "Invoice - Endpoint")
 @RequestMapping(ApiEndpoint.INVOICE_ENDPOINT)
 public class InvoiceController {
-    @Autowired private InvoiceService invoiceService;
+    @Autowired
+    private InvoiceService invoiceService;
 
     @PostMapping
     @Operation(summary = "Save Invoice")
@@ -26,26 +27,30 @@ public class InvoiceController {
         InvoiceDto invoiceDto = invoiceService.saveInvoice(dto);
         return ApiResponse.created(Msg.CREATED, invoiceDto);
     }
+
     @PutMapping
     public ResponseEntity<InvoiceDto> update(@RequestBody InvoiceDto dto) throws Exception {
         InvoiceDto invoiceDto = invoiceService.saveInvoice(dto);
         return ApiResponse.created(Msg.UPDATED, invoiceDto.getId());
     }
+
     @GetMapping("/list")
     public ResponseEntity<List<InvoiceDto>> findAll() throws Exception {
         List<InvoiceDto> dtoList = invoiceService.invoiceList();
-        if (dtoList.isEmpty()){
+        if (dtoList.isEmpty()) {
             ApiResponse.ok(Msg.RECORD_NOT_FOUND, new InvoiceDto());
         }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
+
     @GetMapping("/{invoiceId}")
     public ResponseEntity<InvoiceDto> findById(@PathVariable(value = "invoiceId") String invoiceId) throws Exception {
         InvoiceDto itemDto = invoiceService.findById(invoiceId);
         return ApiResponse.ok(Msg.RECORD_FOUND, itemDto);
     }
+
     @DeleteMapping("/{invoiceId}")
-    public ResponseEntity<?> delete(@PathVariable("invoiceId") String invoiceId)throws Exception{
+    public ResponseEntity<?> delete(@PathVariable("invoiceId") String invoiceId) throws Exception {
         try {
             if (invoiceService.delete(invoiceId)) return ApiResponse.ok(Msg.DELETED, true);
         } catch (Exception e) {

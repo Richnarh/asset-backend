@@ -14,8 +14,8 @@ import java.util.Date;
 @RestControllerAdvice
 public class BadDataExceptionHandler {
     @ExceptionHandler(BadDataException.class)
-    public ResponseEntity<AppError> handleException(BadDataException ex){
-        AppError error = new AppError(HttpStatus.BAD_REQUEST.value(),new Date(), ex.getMessage());
+    public ResponseEntity<AppError> handleException(BadDataException ex) {
+        AppError error = new AppError(HttpStatus.BAD_REQUEST.value(), new Date(), ex.getMessage());
         return ApiResponse.error(error, HttpStatus.BAD_REQUEST);
     }
 }

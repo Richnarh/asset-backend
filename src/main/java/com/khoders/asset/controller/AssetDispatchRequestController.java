@@ -28,7 +28,7 @@ public class AssetDispatchRequestController {
     private AssetDispatchRequestMapper mapper;
 
     @PostMapping
-    public ResponseEntity<AssetDispatchRequest> create(@RequestBody AssetDispatchRequestDto dto) throws Exception{
+    public ResponseEntity<AssetDispatchRequest> create(@RequestBody AssetDispatchRequestDto dto) throws Exception {
         try {
             AssetDispatchRequest entity = mapper.toEntity(dto);
             AssetDispatchRequest dispatchRequest = requestService.save(entity);
@@ -70,7 +70,7 @@ public class AssetDispatchRequestController {
     }
 
     @PutMapping
-    public ResponseEntity<AssetDispatchRequest> update(@RequestBody AssetDispatchRequestDto dto) throws Exception{
+    public ResponseEntity<AssetDispatchRequest> update(@RequestBody AssetDispatchRequestDto dto) throws Exception {
         try {
             AssetDispatchRequest dispatchRequest = requestService.findById(dto.getId());
             if (dispatchRequest == null) {

@@ -13,8 +13,8 @@ import java.util.Date;
 @RestControllerAdvice
 public class DataNotFoundExceptionHandler {
     @ExceptionHandler(DataNotFoundException.class)
-    public ResponseEntity<AppError> handleException(DataNotFoundException ex){
-        AppError error = new AppError(HttpStatus.NOT_FOUND.value(),new Date(), ex.getMessage());
+    public ResponseEntity<AppError> handleException(DataNotFoundException ex) {
+        AppError error = new AppError(HttpStatus.NOT_FOUND.value(), new Date(), ex.getMessage());
         return ApiResponse.error(error, HttpStatus.NOT_FOUND);
     }
 }

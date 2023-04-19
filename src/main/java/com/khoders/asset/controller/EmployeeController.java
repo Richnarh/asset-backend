@@ -27,7 +27,7 @@ public class EmployeeController {
     private EmployeeMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Employee> create(@RequestBody EmployeeDto dto)throws Exception {
+    public ResponseEntity<Employee> create(@RequestBody EmployeeDto dto) throws Exception {
         try {
             Employee entity = mapper.toEntity(dto);
             Employee Employee = employeeService.save(entity);
@@ -69,7 +69,7 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public ResponseEntity<Employee> update(@RequestBody EmployeeDto dto) throws Exception{
+    public ResponseEntity<Employee> update(@RequestBody EmployeeDto dto) throws Exception {
         try {
             Employee employee = employeeService.findById(dto.getId());
             if (employee == null) {

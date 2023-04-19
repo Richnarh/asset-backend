@@ -31,7 +31,7 @@ public class CategoryController {
     private CategoryMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody CategoryDto dto)throws Exception {
+    public ResponseEntity<Category> createCategory(@RequestBody CategoryDto dto) throws Exception {
         try {
             Category entity = mapper.toEntity(dto);
             Category category = categoryService.saveCategory(entity);
@@ -46,7 +46,7 @@ public class CategoryController {
     }
 
     @PutMapping
-    public ResponseEntity<Category> updateCategory(@RequestBody CategoryDto dto) throws Exception{
+    public ResponseEntity<Category> updateCategory(@RequestBody CategoryDto dto) throws Exception {
         try {
             Category category = categoryService.findById(dto.getId());
             if (category == null) {
@@ -77,7 +77,7 @@ public class CategoryController {
     }
 
     @GetMapping("/{categoryId}")
-    public ResponseEntity<Category> findSingle(@PathVariable(value = "categoryId") String categoryId)throws Exception {
+    public ResponseEntity<Category> findSingle(@PathVariable(value = "categoryId") String categoryId) throws Exception {
         try {
             Category category = categoryService.findById(categoryId);
             if (category == null) {

@@ -79,7 +79,7 @@ public class CompanyController {
     }
 
     @GetMapping("/{companyId}")
-    public ResponseEntity<Company> findSingle(@PathVariable(value = "companyId") String companyId) throws Exception{
+    public ResponseEntity<Company> findSingle(@PathVariable(value = "companyId") String companyId) throws Exception {
         try {
             Company company = companyService.findById(companyId);
             if (company == null) {
