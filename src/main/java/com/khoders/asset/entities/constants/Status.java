@@ -11,9 +11,9 @@ public enum Status implements MsgResolver {
     private final String code;
     private final String label;
 
-    Status(String code, String label){
-        this.code=code;
-        this.label=label;
+    Status(String code, String label) {
+        this.code = code;
+        this.label = label;
     }
 
     @Override

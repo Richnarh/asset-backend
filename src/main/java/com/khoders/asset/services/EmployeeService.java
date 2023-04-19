@@ -1,34 +1,31 @@
 package com.khoders.asset.services;
 
-import com.khoders.asset.entities.Employee;
-import com.khoders.asset.utils.CrudBuilder;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.khoders.asset.entities.Employee;
+import com.khoders.springapi.AppService;
+
 @Service
 public class EmployeeService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Employee save(Employee department) {
-        return builder.save(department);
+        return appService.save(department);
     }
 
     public List<Employee> employees() {
-        return builder.findAll(Employee.class);
+        return appService.findAll(Employee.class);
     }
 
     public Employee findById(String employeeId) {
-        return builder.findOne(employeeId, Employee.class);
+        return appService.findById(Employee.class, employeeId);
     }
 
-    public boolean delete(String employeeId) {
-        return builder.deleteById(employeeId, Employee.class);
+    public boolean delete(String employeeId) throws Exception {
+        return appService.deleteById(Employee.class, employeeId);
     }
 }

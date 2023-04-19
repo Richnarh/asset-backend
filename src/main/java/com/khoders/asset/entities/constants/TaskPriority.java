@@ -3,7 +3,7 @@ package com.khoders.asset.entities.constants;
 import com.khoders.resource.utilities.MsgResolver;
 
 public enum TaskPriority implements MsgResolver {
-    HIGHEST("HIGHEST","Highest"),
+    HIGHEST("HIGHEST", "Highest"),
     HIGH("HIGH", "High"),
     MEDIUM("MEDIUM", "Medium"),
     LOW("LOW", "Low");
@@ -11,9 +11,9 @@ public enum TaskPriority implements MsgResolver {
     private final String code;
     private final String label;
 
-    TaskPriority(String code, String label){
-        this.code=code;
-        this.label=label;
+    TaskPriority(String code, String label) {
+        this.code = code;
+        this.label = label;
     }
 
     @Override

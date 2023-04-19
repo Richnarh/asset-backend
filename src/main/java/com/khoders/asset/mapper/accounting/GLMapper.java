@@ -4,18 +4,20 @@ import com.khoders.asset.dto.accounting.GLDto;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.GeneralLedger;
 import com.khoders.asset.entities.constants.EntrySource;
-import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class GLMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired
+    private AppService appService;
 
-    public GeneralLedger toEntity(GLDto dto){
+    public GeneralLedger toEntity(GLDto dto) throws Exception {
         GeneralLedger ledger = new GeneralLedger();
         if (dto.getId() != null) {
             ledger.setId(dto.getId());
@@ -23,8 +25,8 @@ public class GLMapper {
         if (dto.getAccountId() == null) {
             throw new DataNotFoundException("Specify Valid AccountId");
         }
-        Account account = builder.simpleFind(Account.class, dto.getAccountId());
-        if(account != null){
+        Account account = appService.findById(Account.class, dto.getAccountId());
+        if (account != null) {
             ledger.setAccount(account);
         }
         ledger.setCredit(dto.getCredit());
@@ -35,7 +37,7 @@ public class GLMapper {
         return ledger;
     }
 
-    public GLDto toDto(GeneralLedger ledger){
+    public GLDto toDto(GeneralLedger ledger) {
         GLDto dto = new GLDto();
         if (ledger == null) {
             return null;
@@ -45,7 +47,7 @@ public class GLMapper {
         dto.setDescription(ledger.getDescription());
         dto.setEntryDate(DateUtil.parseLocalDateString(ledger.getEntryDate(), Pattern.ddMMyyyy));
         dto.setEntrySource(ledger.getEntrySource().getLabel());
-        if(ledger.getAccount() != null){
+        if (ledger.getAccount() != null) {
             dto.setAccountName(ledger.getAccount().getAccountName());
             dto.setAccountId(ledger.getAccount().getId());
         }

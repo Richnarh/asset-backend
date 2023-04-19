@@ -1,34 +1,31 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.Location;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
 @Service
 public class LocationService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public Location save(Location location) {
-        return builder.save(location);
+        return appService.save(location);
     }
 
     public List<Location> locations() {
-        return builder.findAll(Location.class);
+        return appService.findAll(Location.class);
     }
 
     public Location findById(String locationId) {
-        return builder.simpleFind(Location.class, locationId);
+        return appService.findById(Location.class, locationId);
     }
 
-    public boolean delete(String locationId) {
-        return builder.deleteById(locationId, Location.class);
+    public boolean delete(String locationId) throws Exception {
+        return appService.deleteById(Location.class, locationId);
     }
 }

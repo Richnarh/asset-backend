@@ -5,19 +5,20 @@ import com.khoders.asset.entities.Employee;
 import com.khoders.asset.entities.constants.Status;
 import com.khoders.asset.entities.maintenance.MaintenanceRequest;
 import com.khoders.asset.entities.maintenance.RequestType;
-import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MaintenanceRequestMapper {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
-    public MaintenanceRequest toEntity(MaintenanceRequestDto dto) {
+    public MaintenanceRequest toEntity(MaintenanceRequestDto dto) throws Exception {
         MaintenanceRequest request = new MaintenanceRequest();
         if (dto.getId() != null) {
             request.setId(dto.getId());
@@ -35,11 +36,11 @@ public class MaintenanceRequestMapper {
         if (dto.getAssignedUserId() == null || dto.getAssignedUserId().equals("")) {
             throw new DataNotFoundException("Specify Valid AssignedUserId");
         }
-        RequestType requestType = builder.simpleFind(RequestType.class, dto.getRequestTypeId());
+        RequestType requestType = appService.findById(RequestType.class, dto.getRequestTypeId());
         if (requestType != null) {
             request.setRequestType(requestType);
         }
-        Employee employee = builder.simpleFind(Employee.class, dto.getAssignedUserId());
+        Employee employee = appService.findById(Employee.class, dto.getAssignedUserId());
         if (requestType != null) {
             request.setAssignedUser(employee);
         }

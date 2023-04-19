@@ -1,34 +1,31 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.AssetRequestApproval;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
 @Service
 public class AssetRequestApprovalService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public AssetRequestApproval save(AssetRequestApproval requestApproval) {
-        return builder.save(requestApproval);
+        return appService.save(requestApproval);
     }
 
     public List<AssetRequestApproval> requestApprovals() {
-        return builder.findAll(AssetRequestApproval.class);
+        return appService.findAll(AssetRequestApproval.class);
     }
 
     public AssetRequestApproval findById(String requestApprovalId) {
-        return builder.findOne(requestApprovalId, AssetRequestApproval.class);
+        return appService.findById(AssetRequestApproval.class, requestApprovalId);
     }
 
-    public boolean delete(String requestApprovalId) {
-        return builder.deleteById(requestApprovalId, AssetRequestApproval.class);
+    public boolean delete(String requestApprovalId) throws Exception {
+        return appService.deleteById(AssetRequestApproval.class, requestApprovalId);
     }
 }

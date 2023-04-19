@@ -3,13 +3,12 @@ package com.khoders.asset.mapper;
 import com.khoders.asset.dto.EmployeeDto;
 import com.khoders.asset.entities.Department;
 import com.khoders.asset.entities.Employee;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.resource.enums.Title;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,11 +16,10 @@ import java.time.LocalDateTime;
 
 @Component
 public class EmployeeMapper {
-    private static final Logger log = LoggerFactory.getLogger(EmployeeMapper.class);
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
-    public Employee toEntity(EmployeeDto dto) {
+    public Employee toEntity(EmployeeDto dto) throws Exception {
         Employee employee = new Employee();
         if (dto.getId() != null) {
             employee.setId(dto.getId());
@@ -42,7 +40,7 @@ public class EmployeeMapper {
             throw new DataNotFoundException("Specify Valid DepartmentId");
         }
 
-        Department department = builder.simpleFind(Department.class, dto.getDepartmentId());
+        Department department = appService.findById(Department.class, dto.getDepartmentId());
         if (department != null) {
             employee.setDepartment(department);
         }

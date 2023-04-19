@@ -3,11 +3,12 @@ package com.khoders.asset.mapper.accounting;
 import com.khoders.asset.dto.accounting.InvoiceDto;
 import com.khoders.asset.dto.accounting.InvoiceItemDto;
 import com.khoders.asset.entities.accounting.*;
-import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import com.khoders.resource.utilities.SystemUtils;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,16 +18,16 @@ import java.util.List;
 @Component
 public class InvoiceExtractMapper {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
-    public Invoice toEntity(InvoiceDto dto){
+    public Invoice toEntity(InvoiceDto dto) throws Exception {
         Invoice invoice = new Invoice();
-        if (dto.getId() != null){
+        if (dto.getId() != null) {
             invoice.setId(dto.getId());
         }
-        if (dto.getInvoiceNo() == null){
+        if (dto.getInvoiceNo() == null) {
             invoice.setInvoiceNo(SystemUtils.generateRefNo());
-        }else{
+        } else {
             invoice.setInvoiceNo(dto.getInvoiceNo());
         }
         invoice.setBalanceOverDue(dto.getBalanceOverDue());
@@ -34,38 +35,38 @@ public class InvoiceExtractMapper {
         invoice.setDueDate(DateUtil.parseLocalDate(dto.getDueDate(), Pattern._yyyyMMdd));
         invoice.setCustomerNotes(dto.getCustomerNotes());
         invoice.setTermsCondition(dto.getTermsCondition());
-        if (dto.getBusinessClientId() == null){
+        if (dto.getBusinessClientId() == null) {
             throw new DataNotFoundException("Specify Valid ClientId");
         }
         invoice.setInvoiceItemList(toEntity(dto.getInvoiceItemList()));
         return invoice;
     }
 
-    public List<InvoiceItem> toEntity(List<InvoiceItemDto> itemDtoList){
+    public List<InvoiceItem> toEntity(List<InvoiceItemDto> itemDtoList) throws Exception {
         List<InvoiceItem> invoiceItemList = new LinkedList<>();
-        for (InvoiceItemDto dto :itemDtoList){
+        for (InvoiceItemDto dto : itemDtoList) {
             InvoiceItem invoiceItem = new InvoiceItem();
             if (dto.getId() != null) {
                 invoiceItem.setId(dto.getId());
             }
-                invoiceItem.setQuantity(dto.getQuantity());
-                invoiceItem.setProduct(dto.getProduct());
-                invoiceItem.setUnitPrice(dto.getUnitPrice());
-                if (dto.getAccountId() == null){
-                    throw new DataNotFoundException("Specify Valid AccountId");
-                }
-                Account account = builder.simpleFind(Account.class, dto.getAccountId());
-                if (account != null){
-                    invoiceItem.setAccount(account);
-                }
-                invoiceItemList.add(invoiceItem);
+            invoiceItem.setQuantity(dto.getQuantity());
+            invoiceItem.setProduct(dto.getProduct());
+            invoiceItem.setUnitPrice(dto.getUnitPrice());
+            if (dto.getAccountId() == null) {
+                throw new DataNotFoundException("Specify Valid AccountId");
+            }
+            Account account = appService.findById(Account.class, dto.getAccountId());
+            if (account != null) {
+                invoiceItem.setAccount(account);
+            }
+            invoiceItemList.add(invoiceItem);
         }
         return invoiceItemList;
     }
 
-    public List<InvoiceItemDto> toDto(List<InvoiceItem> invoiceItemList){
+    public List<InvoiceItemDto> toDto(List<InvoiceItem> invoiceItemList) {
         List<InvoiceItemDto> itemDtoList = new LinkedList<>();
-        for (InvoiceItem invoiceItem: invoiceItemList){
+        for (InvoiceItem invoiceItem : invoiceItemList) {
             InvoiceItemDto dto = new InvoiceItemDto();
             if (invoiceItem.getId() == null) return null;
             dto.setId(invoiceItem.getId());
@@ -73,11 +74,11 @@ public class InvoiceExtractMapper {
             dto.setUnitPrice(invoiceItem.getUnitPrice());
             dto.setTotalAmount(invoiceItem.getTotalAmount());
             dto.setProduct(invoiceItem.getProduct());
-            if (invoiceItem.getInvoice() != null){
+            if (invoiceItem.getInvoice() != null) {
                 dto.setInvoiceId(invoiceItem.getInvoice().getId());
                 dto.setInvoice(invoiceItem.getInvoice().getInvoiceNo());
             }
-            if (invoiceItem.getAccount() != null){
+            if (invoiceItem.getAccount() != null) {
                 dto.setAccountId(invoiceItem.getAccount().getId());
                 dto.setAccountName(invoiceItem.getAccount().getAccountName());
             }
@@ -86,9 +87,9 @@ public class InvoiceExtractMapper {
         return itemDtoList;
     }
 
-    public InvoiceDto toDto(Invoice invoice){
+    public InvoiceDto toDto(Invoice invoice) {
         InvoiceDto dto = new InvoiceDto();
-        if (invoice.getId() == null){
+        if (invoice.getId() == null) {
             return null;
         }
         dto.setId(invoice.getId());
@@ -99,11 +100,11 @@ public class InvoiceExtractMapper {
         dto.setMemo(invoice.getMemo());
         dto.setTermsCondition(invoice.getTermsCondition());
         dto.setTotalAmount(invoice.getTotalAmount());
-        if (invoice.getBusinessClient() != null){
+        if (invoice.getBusinessClient() != null) {
             dto.setBusinessClientId(invoice.getBusinessClient().getId());
             dto.setBusinessClient(invoice.getBusinessClient().getEmailAddress());
         }
         dto.setInvoiceItemList(toDto(invoice.getInvoiceItemList()));
-      return dto;
+        return dto;
     }
 }

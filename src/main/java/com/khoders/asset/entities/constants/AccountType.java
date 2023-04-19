@@ -14,10 +14,12 @@ public enum AccountType implements MsgResolver {
         this.code = code;
         this.label = label;
     }
+
     @Override
     public String toString() {
         return label;
     }
+
     @Override
     public String getCode() {
         return code;

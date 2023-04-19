@@ -9,11 +9,13 @@ import javax.persistence.Table;
 @Table(name = "payments")
 public class Payment extends BillInvoicePayment {
     public static final String _bill = "bill";
+    public static final String _billId = Bill._id;
     @JoinColumn(name = "bills", referencedColumnName = "id")
     @ManyToOne
     private Bill bill;
 
     public static final String _invoice = "invoice";
+    public static final String _invoiceId = Invoice._id;
     @JoinColumn(name = "invoice", referencedColumnName = "id")
     @ManyToOne
     private Invoice invoice;

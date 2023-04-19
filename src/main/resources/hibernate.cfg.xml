@@ -10,45 +10,10 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/asset</property>
         <property name="hibernate.connection.username">khoders</property>
         <property name="hibernate.connection.password">1234</property>
-        <property name="hibernate.dialet">org.hibernate.dialet.MySQL5Dialet</property>
+        <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
-
-        <mapping class="com.khoders.asset.entities.auth.UserAccount"/>
-        <mapping class="com.khoders.asset.entities.auth.Role"/>
-        <mapping class="com.khoders.asset.entities.auth.RefreshToken"/>
-
-        <mapping class="com.khoders.asset.entities.Location"/>
-        <mapping class="com.khoders.asset.entities.AssetTransfer"/>
-        <mapping class="com.khoders.asset.entities.Category"/>
-        <mapping class="com.khoders.asset.entities.Company"/>
-        <mapping class="com.khoders.asset.entities.Employee"/>
-        <mapping class="com.khoders.asset.entities.Department"/>
-        <mapping class="com.khoders.asset.entities.AssetRequestApproval"/>
-        <mapping class="com.khoders.asset.entities.Inventory"/>
-        <mapping class="com.khoders.asset.entities.InventoryItem"/>
-        <mapping class="com.khoders.asset.entities.Asset"/>
-        <mapping class="com.khoders.asset.entities.AssetDispatchRequest"/>
-        <mapping class="com.khoders.asset.entities.maintenance.Occurrence"/>
-        <mapping class="com.khoders.asset.entities.maintenance.InstructionSet"/>
-        <mapping class="com.khoders.asset.entities.maintenance.RequestType"/>
-        <mapping class="com.khoders.asset.entities.maintenance.MaintenanceTask"/>
-        <mapping class="com.khoders.asset.entities.maintenance.MaintenanceRequest"/>
-        <mapping class="com.khoders.asset.entities.maintenance.StartWork"/>
-        <mapping class="com.khoders.asset.entities.BusinessClient"/>
-
-        <mapping class="com.khoders.asset.entities.accounting.Account"/>
-        <mapping class="com.khoders.asset.entities.accounting.Invoice"/>
-        <mapping class="com.khoders.asset.entities.accounting.InvoiceItem"/>
-        <mapping class="com.khoders.asset.entities.accounting.Bill"/>
-        <mapping class="com.khoders.asset.entities.accounting.BillItem"/>
-        <mapping class="com.khoders.asset.entities.accounting.Expense"/>
-        <mapping class="com.khoders.asset.entities.accounting.ExpenseItem"/>
-        <mapping class="com.khoders.asset.entities.accounting.Payment"/>
-        <mapping class="com.khoders.asset.entities.accounting.InvoicePayment"/>
-        <mapping class="com.khoders.asset.entities.accounting.Journal"/>
-        <mapping class="com.khoders.asset.entities.accounting.GeneralLedger"/>
     </session-factory>
 
 </hibernate-configuration>

@@ -14,9 +14,9 @@ public enum FileType implements MsgResolver {
     private final String code;
     private final String label;
 
-    FileType(String code, String label){
-        this.code=code;
-        this.label=label;
+    FileType(String code, String label) {
+        this.code = code;
+        this.label = label;
     }
 
     @Override

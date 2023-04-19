@@ -1,4 +1,5 @@
 package com.khoders.asset.dto.maintenance;
+
 import com.khoders.asset.dto.BaseDto;
 
 public class MaintenanceTaskDto extends BaseDto {

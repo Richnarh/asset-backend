@@ -1,34 +1,31 @@
 package com.khoders.asset.services;
 
 import com.khoders.asset.entities.InventoryItem;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
 @Service
 public class InventoryItemService {
     @Autowired
-    private CrudBuilder builder;
+    private AppService appService;
 
     public InventoryItem save(InventoryItem inventoryItem) {
-        return builder.save(inventoryItem);
+        return appService.save(inventoryItem);
     }
 
     public List<InventoryItem> inventoryItemList() {
-        return builder.findAll(InventoryItem.class);
+        return appService.findAll(InventoryItem.class);
     }
 
     public InventoryItem findById(String inventoryItemId) {
-        return builder.simpleFind(InventoryItem.class, inventoryItemId);
+        return appService.findById(InventoryItem.class, inventoryItemId);
     }
 
-    public boolean delete(String inventoryItemId) {
-        return builder.deleteById(inventoryItemId, InventoryItem.class);
+    public boolean delete(String inventoryItemId) throws Exception {
+        return appService.deleteById(InventoryItem.class, inventoryItemId);
     }
 }

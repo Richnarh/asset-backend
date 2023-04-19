@@ -1,5 +1,7 @@
 package com.khoders.asset.entities.maintenance;
+
 import com.khoders.asset.entities.Ref;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,7 +11,8 @@ public class InstructionStep extends Ref {
     @Lob
     private String stepName;
 
-    public static final String _instructionSet="instructionSet";
+    public static final String _instructionSet = "instructionSet";
+    public static final String _instructionSetId = InstructionSet._id;
     @JoinColumn(name = "instruction_set", referencedColumnName = "id")
     @ManyToOne
     private InstructionSet instructionSet;

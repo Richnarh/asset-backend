@@ -2,11 +2,13 @@ package com.khoders.asset.controller.maintenance;
 
 import com.khoders.asset.dto.maintenance.MaintenanceRequestDto;
 import com.khoders.asset.entities.maintenance.MaintenanceRequest;
+import com.khoders.asset.exceptions.BadDataException;
 import com.khoders.asset.mapper.maintenance.MaintenanceRequestMapper;
 import com.khoders.asset.services.MaintenanceRequestService;
 import com.khoders.asset.utils.ApiEndpoint;
-import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.springapi.ApiResponse;
+
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,21 +27,22 @@ public class MaintenanceRequestController {
     private MaintenanceRequestMapper mapper;
 
     @PostMapping
-    public ResponseEntity<MaintenanceRequest> create(@RequestBody MaintenanceRequestDto dto) {
+    public ResponseEntity<MaintenanceRequest> create(@RequestBody MaintenanceRequestDto dto) throws Exception {
         try {
             MaintenanceRequest entity = mapper.toEntity(dto);
             MaintenanceRequest request = requestService.save(entity);
             if (request == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(request));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InterruptedException(e.getMessage());
         }
     }
+
     @PutMapping
-    public ResponseEntity<MaintenanceRequest> update(@RequestBody MaintenanceRequestDto dto) {
+    public ResponseEntity<MaintenanceRequest> update(@RequestBody MaintenanceRequestDto dto) throws Exception {
         try {
             MaintenanceRequest request = requestService.findById(dto.getId());
             if (request == null) {
@@ -48,14 +51,15 @@ public class MaintenanceRequestController {
             MaintenanceRequest entity = mapper.toEntity(dto);
             MaintenanceRequest maintenanceRequest = requestService.save(request);
             if (maintenanceRequest == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, mapper.toDto(maintenanceRequest));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InterruptedException(e.getMessage());
         }
     }
+
     @GetMapping("/list")
     public ResponseEntity<List<MaintenanceRequest>> list() {
         List<MaintenanceRequest> requestList = requestService.maintenanceRequestList();
@@ -68,6 +72,7 @@ public class MaintenanceRequestController {
         }
         return ApiResponse.ok(Msg.RECORD_FOUND, dtoList);
     }
+
     @GetMapping("/{requestId}")
     public ResponseEntity<MaintenanceRequest> findSingle(@PathVariable(value = "requestId") String requestId) {
         try {

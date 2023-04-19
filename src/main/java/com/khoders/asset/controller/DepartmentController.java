@@ -2,11 +2,13 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.DepartmentDto;
 import com.khoders.asset.entities.Department;
+import com.khoders.asset.exceptions.BadDataException;
+import com.khoders.asset.exceptions.InternalErrException;
 import com.khoders.asset.mapper.DepartmentMapper;
 import com.khoders.asset.services.DepartmentService;
 import com.khoders.asset.utils.ApiEndpoint;
-import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.springapi.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +27,17 @@ public class DepartmentController {
     private DepartmentMapper mapper;
 
     @PostMapping
-    public ResponseEntity<Department> create(@RequestBody DepartmentDto dto) {
+    public ResponseEntity<Department> create(@RequestBody DepartmentDto dto) throws Exception {
         try {
             Department entity = mapper.toEntity(dto);
             Department department = departmentService.save(entity);
             if (department == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(department));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
@@ -53,7 +55,7 @@ public class DepartmentController {
     }
 
     @GetMapping("/{departmentId}")
-    public ResponseEntity<Department> findSingle(@PathVariable(value = "departmentId") String departmentId) {
+    public ResponseEntity<Department> findSingle(@PathVariable(value = "departmentId") String departmentId) throws Exception {
         try {
             Department department = departmentService.findById(departmentId);
             if (department == null) {
@@ -62,12 +64,12 @@ public class DepartmentController {
             return ApiResponse.ok(Msg.RECORD_FOUND, mapper.toDto(department));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), false);
+            throw new InternalErrException(e.getMessage());
         }
     }
 
     @PutMapping
-    public ResponseEntity<Department> update(@RequestBody DepartmentDto dto) {
+    public ResponseEntity<Department> update(@RequestBody DepartmentDto dto) throws Exception {
         try {
             Department department = departmentService.findById(dto.getId());
             if (department == null) {
@@ -75,12 +77,12 @@ public class DepartmentController {
             }
             Department dept = departmentService.save(department);
             if (dept == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, true);
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InternalErrException(e.getMessage());
         }
     }
 

@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "business_client")
-public class BusinessClient extends Ref{
+public class BusinessClient extends Ref {
     @Column(name = "client_type")
     private ClientType clientType;
 

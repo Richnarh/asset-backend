@@ -6,12 +6,13 @@ import com.khoders.asset.dto.accounting.PaymentDto;
 import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.entities.accounting.*;
 import com.khoders.asset.entities.constants.PaymentType;
-import com.khoders.asset.utils.CrudBuilder;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.resource.enums.PaymentMethod;
 import com.khoders.resource.enums.PaymentStatus;
-import com.khoders.resource.exception.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -20,48 +21,49 @@ import java.util.List;
 
 @Component
 public class BillExtractMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired
+    private AppService appService;
 
-    public Bill toEntity(BillDto dto){
+    public Bill toEntity(BillDto dto) throws Exception {
         Bill bill = new Bill();
-        if (dto.getId() !=null){
+        if (dto.getId() != null) {
             bill.setId(dto.getId());
         }
         bill.setBillDate(DateUtil.parseLocalDate(dto.getBillDate(), Pattern._yyyyMMdd));
         bill.setBalanceOverDue(dto.getBalanceOverDue());
         bill.setMemo(dto.getMemo());
-        if (dto.getReceiptNo() == null){
+        if (dto.getReceiptNo() == null) {
             throw new DataNotFoundException("Bill Receipt is Required");
         }
         bill.setReceiptNo(dto.getReceiptNo());
         bill.setTotalAmount(dto.getTotalAmount());
-        if (dto.getBusinessClientId() == null){
+        if (dto.getBusinessClientId() == null) {
             throw new DataNotFoundException("Please Specify Valid Client");
         }
-        BusinessClient businessClient = builder.simpleFind(BusinessClient.class, dto.getBusinessClientId());
-        if (businessClient != null){
+        BusinessClient businessClient = appService.findById(BusinessClient.class, dto.getBusinessClientId());
+        if (businessClient != null) {
             bill.setBusinessClient(businessClient);
         }
         bill.setBillItemList(toEntity(dto.getBillItemList()));
         return bill;
     }
 
-    public List<BillItem> toEntity(List<BillItemDto> itemDtoList){
+    public List<BillItem> toEntity(List<BillItemDto> itemDtoList) throws Exception {
         List<BillItem> billItemList = new LinkedList<>();
-         for(BillItemDto dto: itemDtoList){
+        for (BillItemDto dto : itemDtoList) {
             BillItem billItem = new BillItem();
-            if (dto.getId() != null){
+            if (dto.getId() != null) {
                 billItem.setId(dto.getId());
             }
             billItem.setProduct(dto.getProduct());
             billItem.setQuantity(dto.getQuantity());
             billItem.setUnitPrice(dto.getUnitPrice());
-            billItem.setTotalAmount(dto.getQuantity()*dto.getUnitPrice());
+            billItem.setTotalAmount(dto.getQuantity() * dto.getUnitPrice());
             if (dto.getAccountId() == null) {
                 throw new DataNotFoundException("Please Specify a Valid Account");
             }
-            Account account = builder.simpleFind(Account.class, dto.getAccountId());
-            if (account != null){
+            Account account = appService.findById(Account.class, dto.getAccountId());
+            if (account != null) {
                 billItem.setAccount(account);
             }
             billItemList.add(billItem);
@@ -69,7 +71,7 @@ public class BillExtractMapper {
         return billItemList;
     }
 
-    public BillDto toDto(Bill bill){
+    public BillDto toDto(Bill bill) {
         BillDto dto = new BillDto();
         if (bill.getId() == null) return null;
         dto.setId(bill.getId());
@@ -79,7 +81,7 @@ public class BillExtractMapper {
         dto.setReceiptNo(bill.getReceiptNo());
         dto.setTotalAmount(bill.getTotalAmount());
         dto.setValueDate(DateUtil.parseLocalDateString(bill.getValueDate(), Pattern.ddMMyyyy));
-        if (bill.getBusinessClient() != null){
+        if (bill.getBusinessClient() != null) {
             dto.setBusinessClientId(bill.getBusinessClient().getId());
             dto.setBusinessClient(bill.getBusinessClient().getEmailAddress());
         }
@@ -87,9 +89,9 @@ public class BillExtractMapper {
         return dto;
     }
 
-    public List<BillItemDto> toDto(List<BillItem> billItemList){
+    public List<BillItemDto> toDto(List<BillItem> billItemList) {
         List<BillItemDto> dtoList = new LinkedList<>();
-        for (BillItem billItem:billItemList){
+        for (BillItem billItem : billItemList) {
             BillItemDto dto = new BillItemDto();
             if (billItem.getId() == null) return null;
             dto.setId(billItem.getId());
@@ -98,11 +100,11 @@ public class BillExtractMapper {
             dto.setUnitPrice(billItem.getUnitPrice());
             dto.setValueDate(DateUtil.parseLocalDateString(billItem.getValueDate(), Pattern.ddMMyyyy));
             dto.setQuantity(billItem.getQuantity());
-            if (billItem.getBill() != null){
+            if (billItem.getBill() != null) {
                 dto.setBillId(billItem.getBill().getId());
                 dto.setBill(billItem.getBill().getReceiptNo());
             }
-            if (billItem.getAccount() != null){
+            if (billItem.getAccount() != null) {
                 dto.setAccountId(billItem.getAccount().getId());
                 dto.setAccountName(billItem.getAccount().getAccountName());
             }
@@ -111,44 +113,47 @@ public class BillExtractMapper {
         return dtoList;
     }
 
-    public Payment toEntity(PaymentDto dto){
+    public Payment toEntity(PaymentDto dto) throws Exception {
         Payment payment = new Payment();
-        if (dto.getId() != null){
+        if (dto.getId() != null) {
             payment.setId(dto.getId());
         }
-        if (dto.getBillId() == null){
+        if (dto.getBillId() == null) {
             throw new DataNotFoundException("Please Specify Valid BillId");
         }
-        if (dto.getAccountId() == null){
+        if (dto.getAccountId() == null) {
             throw new DataNotFoundException("Please Specify Valid AccountId");
         }
-        if (dto.getPaymentType().equals(PaymentType.BILL_PAYMENT.name())){
-            Bill bill = builder.simpleFind(Bill.class, dto.getBillId());
-            if (bill != null){
+        if (dto.getPaymentType().equals(PaymentType.BILL_PAYMENT.name())) {
+            Bill bill = appService.findById(Bill.class, dto.getBillId());
+            if (bill != null) {
                 payment.setBill(bill);
             }
         }
-        if (dto.getPaymentType().equals(PaymentType.INVOICE_PAYMENT.name())){
-            Invoice invoice = builder.simpleFind(Invoice.class, dto.getInvoiceId());
-            if (invoice != null){
+        if (dto.getPaymentType().equals(PaymentType.INVOICE_PAYMENT.name())) {
+            Invoice invoice = appService.findById(Invoice.class, dto.getInvoiceId());
+            if (invoice != null) {
                 payment.setInvoice(invoice);
             }
         }
 
-        Account account = builder.simpleFind(Account.class, dto.getAccountId());
-        if (account != null){
+        Account account = appService.findById(Account.class, dto.getAccountId());
+        if (account != null) {
             payment.setAccount(account);
         }
         payment.setAmount(dto.getAmount());
         try {
             payment.setPaymentMethod(PaymentMethod.valueOf(dto.getPaymentMethod()));
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         try {
             payment.setPaymentStatus(PaymentStatus.valueOf(dto.getPaymentStatus()));
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         try {
             payment.setPaymentType(PaymentType.valueOf(dto.getPaymentType()));
-        }catch (Exception ignored){}
+        } catch (Exception ignored) {
+        }
         payment.setPaidDate(DateUtil.parseLocalDate(dto.getPaidDate(), Pattern._yyyyMMdd));
         payment.setReferenceNo(dto.getReferenceNo());
         payment.setAmountRemaining(dto.getAmountRemaining());
@@ -156,15 +161,15 @@ public class BillExtractMapper {
         return payment;
     }
 
-    public PaymentDto toDto(Payment payment){
+    public PaymentDto toDto(Payment payment) {
         PaymentDto dto = new PaymentDto();
         if (payment.getId() == null) return null;
         dto.setId(payment.getId());
-        if (payment.getAccount() != null){
+        if (payment.getAccount() != null) {
             dto.setAccountId(payment.getAccount().getId());
             dto.setAccountName(payment.getAccount().getAccountName());
         }
-        if (payment.getBill() != null){
+        if (payment.getBill() != null) {
             dto.setBillId(payment.getBill().getId());
             dto.setBill(payment.getReferenceNo());
         }

@@ -1,7 +1,7 @@
 package com.khoders.asset.entities.auth;
 
+
 import com.khoders.asset.entities.CompanyRecord;
-import com.khoders.resource.spring.SpringBaseModel;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -10,21 +10,21 @@ import java.util.Set;
 @Entity
 @Table(name = "user_account")
 public class UserAccount extends CompanyRecord {
-
+    public static final String _emailAddress = "emailAddress";
     @Column(name = "email_address")
     private String emailAddress;
 
+    public static final String _primaryNumber = "primaryNumber";
     @Column(name = "primary_number")
     private String primaryNumber;
 
+    public static final String _password = "password";
     @Column(name = "password")
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(	name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_account"),
-            inverseJoinColumns = @JoinColumn(name = "roles"))
-    private Set<Role> roles = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "roles",referencedColumnName = "id")
+    private Set<Role> roles;
 
     public String getEmailAddress() {
         return emailAddress;

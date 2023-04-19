@@ -1,10 +1,12 @@
 package com.khoders.asset.mapper.maintenance;
+
 import com.khoders.asset.dto.maintenance.InstructionSetDto;
 import com.khoders.asset.dto.maintenance.InstructionStepDto;
 import com.khoders.asset.entities.maintenance.InstructionSet;
 import com.khoders.asset.entities.maintenance.InstructionStep;
-import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.asset.exceptions.DataNotFoundException;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,11 +15,12 @@ import java.util.List;
 
 @Component
 public class InstructionSetMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired
+    private AppService appService;
 
-    public InstructionSet toEntity(InstructionSetDto dto){
+    public InstructionSet toEntity(InstructionSetDto dto) throws Exception {
         InstructionSet instructionStep = new InstructionSet();
-        if (dto.getId() != null){
+        if (dto.getId() != null) {
             instructionStep.setId(dto.getId());
         }
         instructionStep.setInstructionName(dto.getInstructionName());
@@ -26,7 +29,7 @@ public class InstructionSetMapper {
         return instructionStep;
     }
 
-    public InstructionSetDto toDto(InstructionSet set){
+    public InstructionSetDto toDto(InstructionSet set) {
         InstructionSetDto dto = new InstructionSetDto();
         if (set.getId() == null) return null;
         dto.setId(set.getId());
@@ -36,19 +39,19 @@ public class InstructionSetMapper {
         return dto;
     }
 
-    public List<InstructionStep> toEntity(List<InstructionStepDto> stepDtoList){
+    public List<InstructionStep> toEntity(List<InstructionStepDto> stepDtoList) throws Exception {
         List<InstructionStep> instructionStepList = new LinkedList<>();
-        for (InstructionStepDto dto:stepDtoList){
+        for (InstructionStepDto dto : stepDtoList) {
             InstructionStep step = new InstructionStep();
-            if (dto.getId() != null){
+            if (dto.getId() != null) {
                 step.setId(dto.getId());
             }
             step.setStepName(dto.getStepName());
-            if (dto.getInstructionStepId() == null){
+            if (dto.getInstructionStepId() == null) {
                 throw new DataNotFoundException("Please Specify Valid Instruction Set");
             }
-            InstructionSet instructionSet = builder.simpleFind(InstructionSet.class, dto.getInstructionStepId());
-            if (instructionSet != null){
+            InstructionSet instructionSet = appService.findById(InstructionSet.class, dto.getInstructionStepId());
+            if (instructionSet != null) {
                 step.setInstructionSet(instructionSet);
             }
             instructionStepList.add(step);
@@ -56,14 +59,14 @@ public class InstructionSetMapper {
         return instructionStepList;
     }
 
-    public List<InstructionStepDto> toDto(List<InstructionStep> instructionStepList){
+    public List<InstructionStepDto> toDto(List<InstructionStep> instructionStepList) {
         List<InstructionStepDto> dtoList = new LinkedList<>();
-        for (InstructionStep instructionStep:instructionStepList){
+        for (InstructionStep instructionStep : instructionStepList) {
             InstructionStepDto dto = new InstructionStepDto();
             if (instructionStep.getId() == null) return null;
             dto.setStepName(dto.getStepName());
-            InstructionSet instructionSet = builder.simpleFind(InstructionSet.class, dto.getInstructionStepId());
-            if (instructionStep.getInstructionSet() != null){
+            InstructionSet instructionSet = appService.findById(InstructionSet.class, dto.getInstructionStepId());
+            if (instructionStep.getInstructionSet() != null) {
                 dto.setInstructionStep(instructionSet.getInstructionName());
                 dto.setInstructionStepId(instructionSet.getId());
             }

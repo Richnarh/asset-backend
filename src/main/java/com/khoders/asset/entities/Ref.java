@@ -1,7 +1,7 @@
 package com.khoders.asset.entities;
 
 import com.khoders.asset.entities.auth.UserAccount;
-import com.khoders.resource.spring.SpringBaseModel;
+import com.khoders.springapi.spring.SpringBaseModel;
 
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

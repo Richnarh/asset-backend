@@ -2,11 +2,12 @@ package com.khoders.asset.controller;
 
 import com.khoders.asset.dto.maintenance.RequestTypeDto;
 import com.khoders.asset.entities.maintenance.RequestType;
+import com.khoders.asset.exceptions.BadDataException;
 import com.khoders.asset.mapper.maintenance.RequestTypeMapper;
 import com.khoders.asset.services.RequestTypeService;
 import com.khoders.asset.utils.ApiEndpoint;
-import com.khoders.resource.spring.ApiResponse;
 import com.khoders.resource.utilities.Msg;
+import com.khoders.springapi.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,17 +26,17 @@ public class RequestTypeController {
     private RequestTypeMapper mapper;
 
     @PostMapping
-    public ResponseEntity<RequestTypeDto> create(@RequestBody RequestTypeDto dto) {
+    public ResponseEntity<RequestTypeDto> create(@RequestBody RequestTypeDto dto) throws Exception {
         try {
             RequestType entity = mapper.toEntity(dto);
             RequestType requestType = typeService.save(entity);
             if (requestType == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.created(Msg.CREATED, mapper.toDto(requestType));
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InterruptedException(e.getMessage());
         }
     }
 
@@ -65,8 +66,9 @@ public class RequestTypeController {
             return ApiResponse.error(e.getMessage(), false);
         }
     }
+
     @PutMapping
-    public ResponseEntity<RequestType> update(@RequestBody RequestTypeDto dto) {
+    public ResponseEntity<RequestType> update(@RequestBody RequestTypeDto dto) throws Exception {
         try {
             RequestType requestType = typeService.findById(dto.getId());
             if (requestType == null) {
@@ -74,12 +76,12 @@ public class RequestTypeController {
             }
             RequestType request = typeService.save(requestType);
             if (request == null) {
-                return ApiResponse.error(Msg.UNKNOWN_ERROR, null);
+                throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
             return ApiResponse.ok(Msg.UPDATED, true);
         } catch (Exception e) {
             e.printStackTrace();
-            return ApiResponse.error(e.getMessage(), null);
+            throw new InterruptedException(e.getMessage());
         }
     }
 

@@ -8,10 +8,12 @@ public enum CompanyType implements MsgResolver {
 
     private final String code;
     private final String label;
-    private CompanyType(String code, String label){
-        this.code=code;
-        this.label=label;
+
+    private CompanyType(String code, String label) {
+        this.code = code;
+        this.label = label;
     }
+
     @Override
     public String getCode() {
         return code;

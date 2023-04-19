@@ -6,10 +6,11 @@ import com.khoders.asset.entities.BusinessClient;
 import com.khoders.asset.entities.accounting.Account;
 import com.khoders.asset.entities.accounting.Expense;
 import com.khoders.asset.entities.accounting.ExpenseItem;
-import com.khoders.asset.utils.CrudBuilder;
-import com.khoders.resource.exception.DataNotFoundException;
+import com.khoders.asset.exceptions.DataNotFoundException;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
+import com.khoders.springapi.AppService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,66 +19,68 @@ import java.util.List;
 
 @Component
 public class ExpenseMapper {
-    @Autowired private CrudBuilder builder;
+    @Autowired
+    private AppService appService;
 
-    public Expense toEntity(ExpenseDto dto){
+    public Expense toEntity(ExpenseDto dto) throws Exception {
         Expense expense = new Expense();
-        if (dto.getId() != null){
+        if (dto.getId() != null) {
             expense.setId(dto.getId());
         }
         expense.setExpenseDate(DateUtil.parseLocalDate(dto.getExpenseDate(), Pattern._yyyyMMdd));
         expense.setReceiptNo(dto.getReceiptNo());
-        if (dto.getAccountId() == null){
+        if (dto.getAccountId() == null) {
             throw new DataNotFoundException("Please Specify Valid AccountId");
         }
-        if (dto.getBusinessClientId() == null){
+        if (dto.getBusinessClientId() == null) {
             throw new DataNotFoundException("Please Specify Valid Client/Vendor");
         }
-        Account account = builder.simpleFind(Account.class, dto.getAccountId());
-        if (account != null){
+        Account account = appService.findById(Account.class, dto.getAccountId());
+        if (account != null) {
             expense.setAccount(account);
         }
-        BusinessClient businessClient = builder.simpleFind(BusinessClient.class, dto.getBusinessClientId());
-        if (businessClient != null){
+        BusinessClient businessClient = appService.findById(BusinessClient.class, dto.getBusinessClientId());
+        if (businessClient != null) {
             expense.setBusinessClient(businessClient);
         }
         expense.setExpenseItemList(dto.getExpenseItemList());
         return expense;
     }
 
-    public ExpenseDto toDto(Expense expense){
+    public ExpenseDto toDto(Expense expense) {
         ExpenseDto dto = new ExpenseDto();
         if (expense.getId() == null) return null;
         dto.setId(expense.getId());
         dto.setReceiptNo(expense.getReceiptNo());
         dto.setExpenseDate(DateUtil.parseLocalDateString(expense.getExpenseDate(), Pattern.ddMMyyyy));
-        if (expense.getAccount() != null){
+        if (expense.getAccount() != null) {
             dto.setAccountId(expense.getAccount().getId());
             dto.setAccountName(expense.getAccount().getAccountName());
         }
-        if (expense.getBusinessClient() != null){
+        if (expense.getBusinessClient() != null) {
             dto.setBusinessClientId(expense.getBusinessClient().getId());
-            dto.setBusinessClient(expense.getBusinessClient().getPhoneNumber() +" "+expense.getBusinessClient().getFirstname());
+            dto.setBusinessClient(expense.getBusinessClient().getPhoneNumber() + " " + expense.getBusinessClient().getFirstname());
         }
         dto.setExpenseItemList(expense.getExpenseItemList());
         return dto;
     }
-    public List<ExpenseItem> toEntity(List<ExpenseItemDto> itemDtoList){
+
+    public List<ExpenseItem> toEntity(List<ExpenseItemDto> itemDtoList) throws Exception {
         List<ExpenseItem> expenseItemList = new LinkedList<>();
-        for (ExpenseItemDto dto:itemDtoList){
+        for (ExpenseItemDto dto : itemDtoList) {
             ExpenseItem expenseItem = new ExpenseItem();
-            if (dto.getId()!=null){
+            if (dto.getId() != null) {
                 expenseItem.setId(dto.getId());
             }
             expenseItem.setProduct(dto.getProduct());
             expenseItem.setQuantity(dto.getQuantity());
             expenseItem.setUnitPrice(dto.getUnitPrice());
             expenseItem.setTotalAmount(dto.getTotalAmount());
-            if (dto.getAccountId() == null){
+            if (dto.getAccountId() == null) {
                 throw new DataNotFoundException("Please Specify Valid AccountId");
             }
-            Account account = builder.simpleFind(Account.class, dto.getAccountId());
-            if (account != null){
+            Account account = appService.findById(Account.class, dto.getAccountId());
+            if (account != null) {
                 expenseItem.setAccount(account);
             }
             expenseItemList.add(expenseItem);
@@ -85,17 +88,17 @@ public class ExpenseMapper {
         return expenseItemList;
     }
 
-    public List<ExpenseItemDto> toDto(List<ExpenseItem> expenseItemList){
+    public List<ExpenseItemDto> toDto(List<ExpenseItem> expenseItemList) {
         List<ExpenseItemDto> dtoList = new LinkedList<>();
-        for (ExpenseItem expenseItem:expenseItemList){
+        for (ExpenseItem expenseItem : expenseItemList) {
             ExpenseItemDto dto = new ExpenseItemDto();
-            if (expenseItem.getId() == null)return null;
+            if (expenseItem.getId() == null) return null;
             dto.setId(expenseItem.getId());
             dto.setProduct(expenseItem.getProduct());
             dto.setQuantity(expenseItem.getQuantity());
             dto.setUnitPrice(expenseItem.getUnitPrice());
             dto.setTotalAmount(expenseItem.getTotalAmount());
-            if (expenseItem.getAccount() != null){
+            if (expenseItem.getAccount() != null) {
                 dto.setAccountId(expenseItem.getAccount().getId());
                 dto.setAccountName(expenseItem.getAccount().getAccountName());
             }
