@@ -12,7 +12,6 @@ import com.khoders.springapi.AppService;
 public class EmployeeService {
     @Autowired
     private AppService appService;
-
     public Employee save(Employee department) {
         return appService.save(department);
     }

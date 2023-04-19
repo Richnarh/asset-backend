@@ -16,7 +16,6 @@ public class MaintenanceRequestService {
     public MaintenanceRequest save(MaintenanceRequest maintenanceRequest) {
         return appService.save(maintenanceRequest);
     }
-
     public List<MaintenanceRequest> maintenanceRequestList() {
         return appService.findAll(MaintenanceRequest.class);
     }

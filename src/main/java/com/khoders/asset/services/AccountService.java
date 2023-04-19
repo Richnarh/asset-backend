@@ -36,12 +36,6 @@ public class AccountService {
     private AccountMapper mapper;
     @Autowired
     private NamedParameterJdbcTemplate jdbc;
-
-    @Autowired
-    public AccountService(JndiConfig jndiConfig) {
-        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-    }
-
     public BillDto saveBill(BillDto dto) throws Exception {
         if (dto.getId() != null) {
             Bill bill = appService.findById(Bill.class, dto.getId());

@@ -4,14 +4,9 @@ import com.khoders.asset.entities.Asset;
 import com.khoders.springapi.AppService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 
-@Transactional
-@Repository
 @Service
 public class AssetRegisterService {
     @Autowired

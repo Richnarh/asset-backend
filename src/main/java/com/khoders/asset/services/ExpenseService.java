@@ -1,6 +1,5 @@
 package com.khoders.asset.services;
 
-import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.Sql;
 import com.khoders.asset.dto.accounting.ExpenseDto;
 import com.khoders.asset.entities.accounting.Expense;
@@ -12,14 +11,11 @@ import com.khoders.springapi.AppService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,11 +27,6 @@ public class ExpenseService {
     private ExpenseMapper expenseMapper;
     @Autowired
     private NamedParameterJdbcTemplate jdbc;
-
-    @Autowired
-    public ExpenseService(JndiConfig jndiConfig) {
-        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-    }
 
     public ExpenseDto save(ExpenseDto dto) throws Exception {
         if (dto.getId() != null) {
@@ -94,15 +85,5 @@ public class ExpenseService {
     public boolean delete(String expenseId) throws Exception {
         appService.deleteById(Expense.class, expenseId);
         return true;
-    }
-
-    public final class ExpenseItemRows implements RowMapper<ExpenseItem> {
-
-        @Override
-        public ExpenseItem mapRow(ResultSet rs, int rowNum) throws SQLException {
-            ExpenseItem expense = new ExpenseItem();
-            return null;
-        }
-
     }
 }

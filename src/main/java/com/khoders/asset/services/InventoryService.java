@@ -11,7 +11,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
-import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.InventoryDto;
 import com.khoders.asset.dto.Sql;
 import com.khoders.asset.entities.Inventory;
@@ -28,11 +27,6 @@ public class InventoryService {
     private InventoryExtractMapper extractMapper;
     @Autowired
     private NamedParameterJdbcTemplate jdbc;
-
-//    @Autowired
-//    public InventoryService(JndiConfig jndiConfig) {
-//        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-//    }
 
     public InventoryDto saveInventory(InventoryDto dto) throws Exception {
         if (dto.getId() != null) {
@@ -76,7 +70,6 @@ public class InventoryService {
         }
         return Collections.emptyList();
     }
-
     public InventoryDto findById(String inventoryId) {
         List<InventoryItem> inventoryItemList = new LinkedList<>();
         Inventory inventory = appService.findById(Inventory.class, inventoryId);

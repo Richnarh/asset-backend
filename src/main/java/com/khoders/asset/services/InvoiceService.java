@@ -32,11 +32,6 @@ public class InvoiceService {
     @Autowired
     private NamedParameterJdbcTemplate jdbc;
 
-    @Autowired
-    public InvoiceService(JndiConfig jndiConfig) {
-        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-    }
-
     public InvoiceDto saveInvoice(InvoiceDto dto) throws Exception {
         if (dto.getId() != null) {
             Invoice invoice = appService.findById(Invoice.class, dto.getId());

@@ -12,11 +12,9 @@ import java.util.List;
 public class LocationService {
     @Autowired
     private AppService appService;
-
     public Location save(Location location) {
         return appService.save(location);
     }
-
     public List<Location> locations() {
         return appService.findAll(Location.class);
     }

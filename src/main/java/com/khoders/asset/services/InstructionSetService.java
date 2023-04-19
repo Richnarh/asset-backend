@@ -3,8 +3,6 @@ package com.khoders.asset.services;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -12,7 +10,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Service;
 
-import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.Sql;
 import com.khoders.asset.dto.maintenance.InstructionSetDto;
 import com.khoders.asset.entities.maintenance.InstructionSet;
@@ -22,18 +19,12 @@ import com.khoders.asset.mapper.maintenance.InstructionSetMapper;
 import com.khoders.resource.utilities.Msg;
 import com.khoders.springapi.AppService;
 
-@Transactional
 @Service
 public class InstructionSetService {
     private AppService appService;
     private InstructionSetMapper mapper;
     @Autowired
     private NamedParameterJdbcTemplate jdbc;
-
-    @Autowired
-    public InstructionSetService(JndiConfig jndiConfig) {
-        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-    }
 
     public InstructionSetDto save(InstructionSetDto dto) throws Exception {
         if (dto.getId() != null) {

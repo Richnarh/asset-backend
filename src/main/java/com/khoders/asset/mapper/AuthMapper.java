@@ -2,7 +2,6 @@ package com.khoders.asset.mapper;
 
 import com.khoders.asset.repository.RoleRepository;
 import com.khoders.asset.repository.UserRepository;
-import com.khoders.asset.config.JndiConfig;
 import com.khoders.asset.dto.CompanyDto;
 import com.khoders.asset.dto.Sql;
 import com.khoders.asset.dto.authpayload.JwtResponse;
@@ -58,12 +57,6 @@ public class AuthMapper {
     private AppService appService;
     @Autowired
     private NamedParameterJdbcTemplate jdbc;
-
-    @Autowired
-    public AuthMapper(JndiConfig jndiConfig) {
-        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-    }
-
     public UserAccount createAccount(UserAccountDto dto) throws Exception {
         UserAccount user = new UserAccount();
         if (dto.getId() != null) {
