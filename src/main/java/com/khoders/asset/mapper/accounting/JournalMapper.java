@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 public class JournalMapper {
     @Autowired
     private AppService appService;
-
     public Journal toEntity(JournalDto dto) throws Exception {
         Journal journal = new Journal();
         if (dto.getId() != null) {
@@ -31,11 +30,7 @@ public class JournalMapper {
         journal.setCredit(dto.getCredit());
         journal.setDebit(dto.getDebit());
         journal.setDescription(dto.getDescription());
-        try {
-            journal.setDebitCredit(DebitCredit.valueOf(dto.getDebitCredit()));
-        } catch (Exception ignored) {
-        }
-
+        journal.setDebitCredit(DebitCredit.valueOf(dto.getDebitCredit()));
         return journal;
     }
 

@@ -60,11 +60,6 @@ public class AuthService implements UserDetailsService {
     AuthService() {
     }
 
-//    @Autowired
-//    public AuthService(JndiConfig jndiConfig) {
-//        this.jdbc = new NamedParameterJdbcTemplate(jndiConfig.dataSource());
-//    }
-
     @Override
     public UserDetails loadUserByUsername(String emailAddress) throws UsernameNotFoundException {
         UserAccount user = repository.findByEmailAddress(emailAddress).orElseThrow(() -> new UsernameNotFoundException("User Not Found with emailAddress: " + emailAddress));
