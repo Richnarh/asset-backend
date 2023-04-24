@@ -17,6 +17,8 @@ import com.khoders.entities.auth.VerificationToken;
 import com.khoders.resource.utilities.DateUtil;
 import com.khoders.resource.utilities.Pattern;
 import com.khoders.springapi.AppService;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.ResultSetExtractor;
@@ -145,6 +147,9 @@ public class AuthService implements UserDetailsService {
                 Company company = new Company();
                 company.setId(rs.getString("id"));
                 company.setCompanyAddress("company_address");
+                company.setWebsite("website");
+                company.setTelephone("telephone");
+                company.setZipCode("zipcode");
                 return company;
             }
         });
@@ -152,5 +157,25 @@ public class AuthService implements UserDetailsService {
     public void saveUserVerificationToken(UserAccount userAccount, String verificationToken) {
         VerificationToken token = new VerificationToken(verificationToken,userAccount);
         appService.save(token);
+    }
+    public VerificationToken findByToken(String verifyToken){
+        DetachedCriteria criteria = DetachedCriteria.forClass(VerificationToken.class);
+        criteria.add(Restrictions.eq("token", verifyToken));
+        return appService.findSingleByCriteria(criteria);
+    }
+    public String validateToken(String verifyToken) {
+        VerificationToken token = findByToken(verifyToken);
+        if(token == null){
+            return "Invalid verification token";
+        }
+        UserAccount user = token.getUserAccount();
+        Calendar calendar = Calendar.getInstance();
+        if((token.getExpirationTime().getTime() - calendar.getTime().getTime()) <= 0){
+            appService.delete(token);
+            return "Token already expired";
+        }
+        user.setEnabled(true);
+        appService.save(user);
+        return "valid";
     }
 }

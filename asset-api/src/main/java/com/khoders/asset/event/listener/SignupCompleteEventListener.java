@@ -21,7 +21,7 @@ public class SignupCompleteEventListener implements ApplicationListener<SignupCo
         UserAccount userAccount = event.getUserAccount();
         String verificationToken = appService.genId();
         authService.saveUserVerificationToken(userAccount,verificationToken);
-        String url = event.getApplicationUrl()+"auth/verify-email?token="+verificationToken;
+        String url = event.getApplicationUrl()+"/auth/verify-email?token="+verificationToken;
         System.out.println("Verification URL: "+url);
         log.info("Click the link to verify your registration: {}",url);
     }

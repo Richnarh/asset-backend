@@ -22,6 +22,8 @@ import com.khoders.resource.utilities.Pattern;
 import com.khoders.resource.utilities.Stringz;
 import com.khoders.resource.utilities.SystemUtils;
 import com.khoders.springapi.AppService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -33,14 +35,11 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Component
 public class AuthMapper {
-
+    private static final Logger log = LoggerFactory.getLogger(AuthMapper.class);
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -69,8 +68,8 @@ public class AuthMapper {
         user.setPrimaryNumber(dto.getPrimaryNumber());
         user.setPassword(new BCryptPasswordEncoder().encode(dto.getPassword()));
 
-        UserAccount userAccount = appService.findById(UserAccount.class, dto.getEmailAddress());
-        if (userAccount != null) {
+        Optional<UserAccount> userAccount = userRepository.findByEmailAddress(dto.getEmailAddress());
+        if (userAccount.isPresent()) {
             throw new BadDataException("A user with the email address already exist");
         }
         Set<String> strRoles = dto.getUserRoles();

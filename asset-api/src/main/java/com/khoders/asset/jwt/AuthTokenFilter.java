@@ -1,6 +1,6 @@
 package com.khoders.asset.jwt;
 
-import com.khoders.asset.services.auth.UserDetailsServiceImpl;
+import com.khoders.asset.services.auth.UseSignupDetailsServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private UseSignupDetailsServiceImpl userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {

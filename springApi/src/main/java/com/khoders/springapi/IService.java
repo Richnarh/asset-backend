@@ -19,6 +19,6 @@ public interface IService extends HibernateOperations{
     <T> boolean deleteById(Class<T> t, Serializable id);
     <T>List<T> findAll(Class<T> t);
     <T> T findById(Class<T> t, Serializable id);
-    <T> T findById(DetachedCriteria criteria);
+    <T> T findSingleByCriteria(DetachedCriteria criteria);
     long countCriteria(DetachedCriteria criteria);
 }

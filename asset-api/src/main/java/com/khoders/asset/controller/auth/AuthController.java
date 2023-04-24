@@ -12,6 +12,7 @@ import com.khoders.asset.services.auth.RefreshTokenService;
 import com.khoders.asset.utils.ApiEndpoint;
 import com.khoders.entities.auth.RefreshToken;
 import com.khoders.entities.auth.UserAccount;
+import com.khoders.entities.auth.VerificationToken;
 import com.khoders.resource.utilities.Msg;
 import com.khoders.springapi.ApiResponse;
 import com.khoders.springapi.AppService;
@@ -43,7 +44,7 @@ public class AuthController {
             if (user == null) {
                 throw new BadDataException(Msg.UNKNOWN_ERROR);
             }
-            UserAccount userAccount = appService.findById(UserAccount.class, user.getUserAccountId());
+            UserAccount userAccount = appService.findById(UserAccount.class, user.getId());
             publisher.publishEvent(new SignupCompleteEvent(userAccount,applicationUrl(request)));
             return ApiResponse.created("Registration successful", user);
         } catch (Exception e) {
@@ -51,7 +52,18 @@ public class AuthController {
             throw new InternalErrException(e.getMessage());
         }
     }
-
+    @GetMapping("/verify-email")
+    public String verifyEmail(@RequestParam("token") String token){
+        VerificationToken theToken = authService.findByToken(token);
+        if(theToken.getUserAccount().isEnabled()){
+            return "This account already verified, please login.";
+        }
+        String verifyResult = authService.validateToken(token);
+        if(verifyResult.equalsIgnoreCase("valid")){
+            return "Email verified successfully. Now you can login";
+        }
+        return "Invalid verification token";
+    }
     private String applicationUrl(HttpServletRequest request) {
         return "http://"+request.getServerName() +":"+request.getServerPort()+request.getContextPath();
     }

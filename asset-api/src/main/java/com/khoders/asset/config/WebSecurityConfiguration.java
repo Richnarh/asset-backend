@@ -2,7 +2,7 @@ package com.khoders.asset.config;
 
 import com.khoders.asset.jwt.AuthTokenFilter;
 import com.khoders.asset.jwt.JwtAuthenticationEntryPoint;
-import com.khoders.asset.services.auth.UserDetailsServiceImpl;
+import com.khoders.asset.services.auth.UseSignupDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,17 +23,14 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
-
     @Autowired
     private JwtAuthenticationEntryPoint authenticationEntryPoint;
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
-
+    private UseSignupDetailsServiceImpl signupDetailsService;
     @Bean
     public AuthTokenFilter authTokenFilter() {
         return new AuthTokenFilter();
     }
-
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
@@ -41,9 +38,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+        auth.userDetailsService(signupDetailsService).passwordEncoder(bCryptPasswordEncoder());
     }
-
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {

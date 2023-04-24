@@ -2,7 +2,6 @@ package com.khoders.asset.services.auth;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khoders.entities.auth.UserAccount;
-import com.khoders.resource.utilities.SystemUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,38 +11,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-public class UserDetailsImpl implements UserDetails {
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-
+public class UserSignupDetails implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
     private String id;
     private String emailAddress;
     @JsonIgnore
     private String password;
 
-    public UserDetailsImpl(String id, String emailAddress, String password, Collection<? extends GrantedAuthority> authorities) {
+    public UserSignupDetails(String id, String emailAddress, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.emailAddress = emailAddress;
         this.password = password;
         this.authorities = authorities;
-
-
     }
 
-    public static UserDetailsImpl build(UserAccount user) {
+    public static UserSignupDetails build(UserAccount user) {
         List<GrantedAuthority> authorities = user.getRoles().stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRoleName().name()))
                 .collect(Collectors.toList());
-
-        System.out.println("authorities --- " + SystemUtils.KJson().toJson(authorities));
-        System.out.println("password p --- " + user.getPassword());
-        UserDetailsImpl userDetails = new UserDetailsImpl(user.getId(), user.getEmailAddress(), user.getPassword(), authorities);
-        System.out.println("userDetails --- " + SystemUtils.KJson().toJson(userDetails));
-        System.out.println("Authorities --- " + userDetails.authorities);
-        return userDetails;
+        return new UserSignupDetails(user.getId(), user.getEmailAddress(), user.getPassword(), authorities);
     }
 
     @Override
@@ -73,12 +59,12 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return emailAddress;
     }
 
     @Override
@@ -107,7 +93,7 @@ public class UserDetailsImpl implements UserDetails {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        UserDetailsImpl user = (UserDetailsImpl) o;
+        UserSignupDetails user = (UserSignupDetails) o;
         return Objects.equals(id, user.id);
     }
 }

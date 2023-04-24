@@ -116,7 +116,7 @@ public class AppService extends HibernateTemplate implements IService {
     }
 
     @Override
-    public <T> T findById(DetachedCriteria criteria) throws DataAccessException {
+    public <T> T findSingleByCriteria(DetachedCriteria criteria) throws DataAccessException {
         return (T) DataAccessUtils.singleResult(findByCriteria(criteria, 0, 1));
     }
     @Override

@@ -1,13 +1,13 @@
 package com.khoders.entities.auth;
 
-import com.khoders.entities.Ref;
+import com.khoders.springapi.spring.SpringBaseModel;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity(name = "verification_token")
-public class VerificationToken extends Ref {
+public class VerificationToken extends SpringBaseModel {
     public static final String _token = "token";
     @Column(name = "token")
     private String token;
@@ -40,7 +40,6 @@ public class VerificationToken extends Ref {
         calendar.add(Calendar.MINUTE,EXPIRATION_TIME);
         return new Date(calendar.getTime().getTime());
     }
-
     public String getToken() {
         return token;
     }
@@ -48,21 +47,15 @@ public class VerificationToken extends Ref {
     public void setToken(String token) {
         this.token = token;
     }
-
     public Date getExpirationTime() {
         return expirationTime;
     }
-
     public void setExpirationTime(Date expirationTime) {
         this.expirationTime = expirationTime;
     }
-
-    @Override
     public UserAccount getUserAccount() {
         return userAccount;
     }
-
-    @Override
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
     }
