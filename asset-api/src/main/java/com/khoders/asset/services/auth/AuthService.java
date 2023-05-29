@@ -116,6 +116,7 @@ public class AuthService implements UserDetailsService {
         });
 
         List<Company> companies = companies(userAccount);
+        System.out.println("companies: "+companies.toString());
         List<CompanyDto> companyList = new LinkedList<>();
         for (Company company : companies) {
             CompanyDto dto = new CompanyDto();
@@ -127,6 +128,8 @@ public class AuthService implements UserDetailsService {
 
         jwtResponse.setAccessToken(jwtToken);
         jwtResponse.setId(userAccount.getId());
+        jwtResponse.setCompanyId(userAccount.getCompany().getId());
+        jwtResponse.setUserAccountId(userAccount.getId());
         jwtResponse.setValueDate(DateUtil.parseLocalDateString(userAccount.getValueDate(), Pattern.ddMMyyyy));
         jwtResponse.setRoleList(roles);
         jwtResponse.setCompanyList(companyList);
@@ -139,17 +142,19 @@ public class AuthService implements UserDetailsService {
     }
 
     public List<Company> companies(UserAccount userAccount) {
+        System.out.println("IdValue: "+userAccount.getId());
         SqlParameterSource param = new MapSqlParameterSource(Company._primaryUserId, userAccount.getId());
         return jdbc.query(Sql.COMPANY_BY_USER_ID, param, new RowMapper<Company>() {
-
             @Override
             public Company mapRow(ResultSet rs, int rowNum) throws SQLException {
                 Company company = new Company();
                 company.setId(rs.getString("id"));
-                company.setCompanyAddress("company_address");
-                company.setWebsite("website");
-                company.setTelephone("telephone");
-                company.setZipCode("zipcode");
+                company.setCompanyAddress(rs.getString("company_address"));
+                company.setWebsite(rs.getString("website"));
+                company.setTelephone(rs.getString("telephone"));
+                company.setZipCode(rs.getString("zipcode"));
+                company.setEmailAddress(rs.getString("email_address"));
+                System.out.println("company: "+company.toString());
                 return company;
             }
         });
@@ -159,9 +164,7 @@ public class AuthService implements UserDetailsService {
         appService.save(token);
     }
     public VerificationToken findByToken(String verifyToken){
-        DetachedCriteria criteria = DetachedCriteria.forClass(VerificationToken.class);
-        criteria.add(Restrictions.eq("token", verifyToken));
-        return appService.findSingleByCriteria(criteria);
+        return appService.findObj(VerificationToken.class, VerificationToken._token, verifyToken);
     }
     public String validateToken(String verifyToken) {
         VerificationToken token = findByToken(verifyToken);
@@ -176,6 +179,7 @@ public class AuthService implements UserDetailsService {
         }
         user.setEnabled(true);
         appService.save(user);
+        System.out.println("Saved Verification_______");
         return "valid";
     }
 }

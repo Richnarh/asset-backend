@@ -1,6 +1,5 @@
 package com.khoders.asset.config;
 
-import Zenoph.Notify.Enums.AuthModel;
 import Zenoph.Notify.Request.SMSRequest;
 import com.twilio.Twilio;
 import org.slf4j.Logger;
@@ -25,7 +24,7 @@ public class AppInit {
         try{
             SMSRequest.setHost(smsConfig.getSmsHost());
         }catch (Exception e){
-            log.error("init sms: {} ", e.getMessage());
+            log.error("error: {} ", e.getMessage());
         }
     }
 }

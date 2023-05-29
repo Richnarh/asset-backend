@@ -8,6 +8,7 @@ package com.khoders.springapi;
 import com.khoders.springapi.spring.SpringBaseModel;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
@@ -52,7 +53,10 @@ public class AppService extends HibernateTemplate implements IService {
         delete(entity);
         return true;
     }
-
+    @Override
+    public Serializable save(Object o) throws DataAccessException{
+        return super.save(o);
+    }
     @Override
     public void delete(Object entity) throws DataAccessException {
         super.delete(entity);
@@ -81,11 +85,11 @@ public class AppService extends HibernateTemplate implements IService {
         model.setLastModifiedDate(LocalDateTime.now());
         if (model.getId() == null) {
             model.setId(genId());
-            super.persist(model);
+            save(model);
         } else if (findById(model.getClass(), model.getId()) != null) {
-            super.merge(model);
+            super.update(model);
         } else {
-            super.persist(model);
+            save(model);
         }
         return (T) model;
     }
@@ -123,7 +127,11 @@ public class AppService extends HibernateTemplate implements IService {
     public List<?> findByCriteria(final DetachedCriteria criteria, final int firstResult, final int maxResults)throws DataAccessException {
             return super.findByCriteria(criteria, firstResult, maxResults);
     }
-
+    public <T> T findObj(Class<T> clazz,String fieldName, Object fieldValue){
+        DetachedCriteria criteria = DetachedCriteria.forClass(clazz);
+        criteria.add(Restrictions.eq(fieldName, fieldValue));
+        return findSingleByCriteria(criteria);
+    }
     @Override
     public long countCriteria(DetachedCriteria criteria) throws DataAccessException {
         return DataAccessUtils.longResult(findByCriteria(criteria));

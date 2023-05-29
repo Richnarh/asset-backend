@@ -21,6 +21,9 @@ public class VerificationToken extends SpringBaseModel {
     @OneToOne
     private UserAccount userAccount;
 
+    public VerificationToken() {
+    }
+
     public VerificationToken(String token, UserAccount userAccount) {
         super();
         this.token = token;
