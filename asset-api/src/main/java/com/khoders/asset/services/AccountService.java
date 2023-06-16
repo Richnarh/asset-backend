@@ -78,7 +78,7 @@ public class AccountService {
     }
 
     public BillDto findById(String billId) {
-        List<BillItem> billItemList;
+        List<BillItem> billItemList = new LinkedList<>();;
 
         Bill bill = appService.load(Bill.class, billId);
 
@@ -89,13 +89,14 @@ public class AccountService {
     }
 
     public AccountDto saveAccount(AccountDto dto) throws Exception {
+        Account account = null;
         if (dto.getId() != null) {
-            Account account = appService.findById(Account.class, dto.getId());
+            account = appService.findById(Account.class, dto.getId());
             if (account == null) {
                 throw new DataNotFoundException("Account with ID: " + dto.getId() + " Not Found");
             }
         }
-        Account account = mapper.toEntity(dto);
+        account = mapper.toEntity(dto);
         if (appService.save(account) != null) {
             return mapper.tDto(account);
         }
@@ -158,11 +159,9 @@ public class AccountService {
     public boolean delete(String accountId) throws Exception {
         return appService.deleteById(Account.class, accountId);
     }
-
     public boolean deleteBill(String billId) throws Exception {
         return appService.deleteById(Bill.class, billId);
     }
-
     public boolean deletePayment(String paymentId) throws Exception {
         return appService.deleteById(Payment.class, paymentId);
     }

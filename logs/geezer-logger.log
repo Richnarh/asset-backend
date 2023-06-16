@@ -1,0 +1,57 @@
+2023-06-04 13:14:54,595 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Starting AssetApplication using Java 11.0.9 on Richard-Laptop with PID 12992 (C:\khoders\Java-web\asset\asset-api\target\classes started by Pascal in C:\khoders\Java-web\asset)
+2023-06-04 13:14:54,601 DEBUG org.springframework.boot.StartupInfoLogger [restartedMain] Running with Spring Boot v2.6.6, Spring v5.3.17
+2023-06-04 13:14:54,603 INFO org.springframework.boot.SpringApplication [restartedMain] The following 1 profile is active: "localhost"
+2023-06-04 13:14:55,176 INFO org.springframework.boot.logging.DeferredLog [restartedMain] The Class-Path manifest attribute in C:\Users\Pascal\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.1\jaxb-runtime-2.3.1.jar referenced one or more files that do not exist: file:/C:/Users/Pascal/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/jaxb-api-2.3.1.jar,file:/C:/Users/Pascal/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/txw2-2.3.1.jar,file:/C:/Users/Pascal/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/istack-commons-runtime-3.0.7.jar,file:/C:/Users/Pascal/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/stax-ex-1.8.jar,file:/C:/Users/Pascal/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/FastInfoset-1.2.15.jar,file:/C:/Users/Pascal/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.1/javax.activation-api-1.2.0.jar
+2023-06-04 13:14:55,180 INFO org.springframework.boot.logging.DeferredLog [restartedMain] Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2023-06-04 13:14:55,181 INFO org.springframework.boot.logging.DeferredLog [restartedMain] For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2023-06-04 13:15:15,884 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2023-06-04 13:15:17,511 INFO org.springframework.data.repository.config.RepositoryConfigurationDelegate [restartedMain] Finished Spring Data repository scanning in 1510 ms. Found 3 JPA repository interfaces.
+2023-06-04 13:15:28,204 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat initialized with port(s): 7000 (http)
+2023-06-04 13:15:28,372 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing ProtocolHandler ["http-nio-7000"]
+2023-06-04 13:15:28,374 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting service [Tomcat]
+2023-06-04 13:15:28,377 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting Servlet engine: [Apache Tomcat/9.0.60]
+2023-06-04 13:15:29,669 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Initializing Spring embedded WebApplicationContext
+2023-06-04 13:15:29,671 INFO org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext [restartedMain] Root WebApplicationContext: initialization completed in 34488 ms
+2023-06-04 13:15:30,919 WARN org.springframework.boot.autoconfigure.orm.jpa.JpaBaseConfiguration$JpaWebConfiguration [restartedMain] spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2023-06-04 13:15:32,418 INFO org.hibernate.Version [restartedMain] HHH000412: Hibernate ORM core version 5.6.7.Final
+2023-06-04 13:15:34,871 INFO org.hibernate.annotations.common.reflection.java.JavaReflectionManager [restartedMain] HCANN000001: Hibernate Commons Annotations {5.1.2.Final}
+2023-06-04 13:15:36,042 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Starting...
+2023-06-04 13:15:37,434 INFO com.zaxxer.hikari.HikariDataSource [restartedMain] HikariPool-1 - Start completed.
+2023-06-04 13:15:37,660 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL55Dialect
+2023-06-04 13:15:52,545 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-04 13:15:57,711 INFO org.hibernate.jpa.internal.util.LogHelper [restartedMain] HHH000204: Processing PersistenceUnitInfo [name: default]
+2023-06-04 13:15:58,470 INFO org.hibernate.dialect.Dialect [restartedMain] HHH000400: Using dialect: org.hibernate.dialect.MySQL55Dialect
+2023-06-04 13:15:58,500 INFO org.hibernate.resource.beans.spi.ManagedBeanRegistryInitiator [restartedMain] HHH10005002: No explicit CDI BeanManager reference was passed to Hibernate, but CDI is available on the Hibernate ClassLoader.
+2023-06-04 13:16:12,007 INFO org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator [restartedMain] HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2023-06-04 13:16:12,010 INFO org.springframework.orm.jpa.AbstractEntityManagerFactoryBean [restartedMain] Initialized JPA EntityManagerFactory for persistence unit 'default'
+2023-06-04 13:16:14,765 DEBUG org.springframework.web.filter.GenericFilterBean [restartedMain] Filter 'authTokenFilter' configured for use
+2023-06-04 13:16:17,876 INFO org.springframework.security.web.DefaultSecurityFilterChain [restartedMain] Will not secure any request
+2023-06-04 13:16:34,322 INFO org.springframework.boot.devtools.autoconfigure.OptionalLiveReloadServer [restartedMain] LiveReload server is running on port 35729
+2023-06-04 13:16:34,447 INFO org.apache.juli.logging.DirectJDKLog [restartedMain] Starting ProtocolHandler ["http-nio-7000"]
+2023-06-04 13:16:34,614 INFO org.springframework.boot.web.embedded.tomcat.TomcatWebServer [restartedMain] Tomcat started on port(s): 7000 (http) with context path ''
+2023-06-04 13:16:34,655 INFO org.springframework.boot.StartupInfoLogger [restartedMain] Started AssetApplication in 109.213 seconds (JVM running for 117.402)
+2023-06-04 13:16:41,162 INFO org.apache.juli.logging.DirectJDKLog [http-nio-7000-exec-10] Initializing Spring DispatcherServlet 'dispatcherServlet'
+2023-06-04 13:16:41,164 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-7000-exec-10] Initializing Servlet 'dispatcherServlet'
+2023-06-04 13:16:41,170 INFO org.springframework.web.servlet.FrameworkServlet [http-nio-7000-exec-10] Completed initialization in 5 ms
+2023-06-04 13:17:04,942 INFO org.springdoc.api.AbstractOpenApiResource [http-nio-7000-exec-2] Init duration for springdoc-openapi is: 16919 ms
+2023-06-04 13:19:55,536 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 0  --- Enum: Mr 
+2023-06-04 13:19:55,538 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 1  --- Enum: Mrs 
+2023-06-04 13:19:55,540 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 2  --- Enum: Miss 
+2023-06-04 13:19:55,540 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 3  --- Enum: Madam 
+2023-06-04 13:19:55,541 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 4  --- Enum: Rev 
+2023-06-04 13:19:55,542 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 5  --- Enum: Dr 
+2023-06-04 13:19:55,543 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 6  --- Enum: Sir 
+2023-06-04 13:19:55,544 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-8] Index: 7  --- Enum: Prof 
+2023-06-04 13:30:37,889 WARN org.hibernate.internal.SessionImpl [http-nio-7000-exec-5] HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+2023-06-04 13:31:01,843 WARN org.hibernate.internal.SessionImpl [http-nio-7000-exec-4] HHH90000022: Hibernate's legacy org.hibernate.Criteria API is deprecated; use the JPA javax.persistence.criteria.CriteriaQuery instead
+2023-06-04 13:31:20,652 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-3] Index: 0  --- Enum: Open 
+2023-06-04 13:31:20,654 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-3] Index: 1  --- Enum: Pending 
+2023-06-04 13:31:20,655 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-3] Index: 2  --- Enum: In Progress 
+2023-06-04 13:31:20,656 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-3] Index: 3  --- Enum: Close 
+2023-06-04 13:37:13,145 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-10] Index: 0  --- Enum: Open 
+2023-06-04 13:37:13,146 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-10] Index: 1  --- Enum: Pending 
+2023-06-04 13:37:13,148 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-10] Index: 2  --- Enum: In Progress 
+2023-06-04 13:37:13,149 INFO com.khoders.asset.controller.lookups.LookupSetup [http-nio-7000-exec-10] Index: 3  --- Enum: Close 
+2023-06-04 14:25:53,098 WARN com.zaxxer.hikari.pool.HikariPool$HouseKeeper [HikariPool-1 housekeeper] HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=31m46s493ms280µs901ns).
+2023-06-04 15:09:09,769 INFO com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown initiated...
+2023-06-04 15:09:09,787 INFO com.zaxxer.hikari.HikariDataSource [SpringApplicationShutdownHook] HikariPool-1 - Shutdown completed.
