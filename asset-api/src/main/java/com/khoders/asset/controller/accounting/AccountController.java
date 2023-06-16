@@ -31,13 +31,8 @@ public class AccountController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<AccountDto>> list() {
-        try {
-            return ApiResponse.ok(Msg.RECORD_FOUND, accountService.accountList());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return ApiResponse.notFound(Msg.RECORD_NOT_FOUND, null);
+    public ResponseEntity<List<AccountDto>> list() throws Exception {
+        return ApiResponse.ok(Msg.RECORD_FOUND, accountService.accountList());
     }
 
     @GetMapping("/{accountId}")

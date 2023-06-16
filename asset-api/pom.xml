@@ -6,7 +6,6 @@
         <groupId>com.khoders</groupId>
         <artifactId>asset</artifactId>
         <version>1</version>
-        <!--<relativePath/>-->
     </parent>
     <artifactId>asset-api</artifactId>
     <packaging>war</packaging>
